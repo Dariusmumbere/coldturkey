@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Life Tracker</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4fc3dc;
+            --success: #28a745;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .streak-counter {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--success);
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .finance-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .finance-metric {
+            text-align: center;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .income {
+            background-color: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .expenses {
+            background-color: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .savings {
+            background-color: rgba(79, 195, 220, 0.1);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .recommendations {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .add-transaction {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button, input, select {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .transaction-list {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .transaction-list th, .transaction-list td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .transaction-list th {
+            background-color: var(--light);
+        }
+        
+        .positive {
+            color: var(--success);
+        }
+        
+        .negative {
+            color: var(--danger);
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            border-radius: 5px;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>My Life Tracker</h2>
+            <ul>
+                <li>Dashboard</li>
+                <li>Transactions</li>
+                <li>Budget</li>
+                <li>Sobriety Tracker</li>
+                <li>Reports</li>
+                <li>Settings</li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>Dashboard</h1>
+            
+            <!-- Sobriety Tracker -->
+            <div class="card">
+                <h2>Sobriety Streak</h2>
+                <div class="streak-counter">27 days</div>
+                <p>You've saved approximately $215 by not drinking alcohol.</p>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 75%"></div>
+                </div>
+                <p>75% of your monthly goal (36 days)</p>
+                <button id="resetStreak">Reset Streak</button>
+                <button id="addNote">Add Journal Entry</button>
+            </div>
+            
+            <!-- Financial Summary -->
+            <div class="card">
+                <h2>Financial Summary</h2>
+                <div class="finance-summary">
+                    <div class="finance-metric income">
+                        <div class="metric-label">Income</div>
+                        <div class="metric-value">$4,250</div>
+                        <div class="metric-change">+12% from last month</div>
+                    </div>
+                    <div class="finance-metric expenses">
+                        <div class="metric-label">Expenses</div>
+                        <div class="metric-value">$2,875</div>
+                        <div class="metric-change">-5% from last month</div>
+                    </div>
+                    <div class="finance-metric savings">
+                        <div class="metric-label">Savings</div>
+                        <div class="metric-value">$1,375</div>
+                        <div class="metric-change">32% of income</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommendations -->
+            <div class="card recommendations">
+                <h2>Recommendations</h2>
+                <ul>
+                    <li>You're spending 25% more on dining out than your monthly average.</li>
+                    <li>Consider transferring $200 to your savings account this week.</li>
+                    <li>You've been sober for 27 days! Celebrate with a healthy treat.</li>
+                    <li>Your emergency fund is at 65% of the recommended 3-month expenses.</li>
+                </ul>
+            </div>
+            
+            <!-- Recent Transactions -->
+            <div class="card">
+                <h2>Recent Transactions</h2>
+                <div class="add-transaction">
+                    <input type="date" id="transactionDate">
+                    <input type="text" id="transactionDescription" placeholder="Description">
+                    <select id="transactionCategory">
+                        <option value="food">Food</option>
+                        <option value="transport">Transport</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="income">Income</option>
+                    </select>
+                    <input type="number" id="transactionAmount" placeholder="Amount">
+                    <button id="addTransaction">Add</button>
+                </div>
+                <table class="transaction-list">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2023-05-15</td>
+                            <td>Grocery Store</td>
+                            <td>Food</td>
+                            <td class="negative">-$85.32</td>
+                        </tr>
+                        <tr>
+                            <td>2023-05-14</td>
+                            <td>Paycheck</td>
+                            <td>Income</td>
+                            <td class="positive">$2,150.00</td>
+                        </tr>
+                        <tr>
+                            <td>2023-05-12</td>
+                            <td>Electric Bill</td>
+                            <td>Utilities</td>
+                            <td class="negative">-$120.75</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript functionality will go here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the app
+            updateStreakCounter();
+            loadTransactions();
+            
+            // Event listeners
+            document.getElementById('resetStreak').addEventListener('click', resetStreak);
+            document.getElementById('addTransaction').addEventListener('click', addTransaction);
+        });
+        
+        function updateStreakCounter() {
+            // Calculate days since last drink
+            // This would come from your FastAPI backend
+        }
+        
+        function resetStreak() {
+            // Reset the streak counter
+            // Would send request to FastAPI to update last drink date
+        }
+        
+        function loadTransactions() {
+            // Load transactions from FastAPI backend
+        }
+        
+        function addTransaction() {
+            // Add new transaction via FastAPI
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Life Tracker</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4fc3dc;
+            --success: #28a745;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .streak-counter {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--success);
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .finance-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .finance-metric {
+            text-align: center;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .income {
+            background-color: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .expenses {
+            background-color: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .savings {
+            background-color: rgba(79, 195, 220, 0.1);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .recommendations {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .add-transaction {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button, input, select {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .transaction-list {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .transaction-list th, .transaction-list td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .transaction-list th {
+            background-color: var(--light);
+        }
+        
+        .positive {
+            color: var(--success);
+        }
+        
+        .negative {
+            color: var(--danger);
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            border-radius: 5px;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>My Life Tracker</h2>
+            <ul>
+                <li>Dashboard</li>
+                <li>Transactions</li>
+                <li>Budget</li>
+                <li>Sobriety Tracker</li>
+                <li>Reports</li>
+                <li>Settings</li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>Dashboard</h1>
+            
+            <!-- Sobriety Tracker -->
+            <div class="card">
+                <h2>Sobriety Streak</h2>
+                <div class="streak-counter">27 days</div>
+                <p>You've saved approximately $215 by not drinking alcohol.</p>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 75%"></div>
+                </div>
+                <p>75% of your monthly goal (36 days)</p>
+                <button id="resetStreak">Reset Streak</button>
+                <button id="addNote">Add Journal Entry</button>
+            </div>
+            
+            <!-- Financial Summary -->
+            <div class="card">
+                <h2>Financial Summary</h2>
+                <div class="finance-summary">
+                    <div class="finance-metric income">
+                        <div class="metric-label">Income</div>
+                        <div class="metric-value">$4,250</div>
+                        <div class="metric-change">+12% from last month</div>
+                    </div>
+                    <div class="finance-metric expenses">
+                        <div class="metric-label">Expenses</div>
+                        <div class="metric-value">$2,875</div>
+                        <div class="metric-change">-5% from last month</div>
+                    </div>
+                    <div class="finance-metric savings">
+                        <div class="metric-label">Savings</div>
+                        <div class="metric-value">$1,375</div>
+                        <div class="metric-change">32% of income</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommendations -->
+            <div class="card recommendations">
+                <h2>Recommendations</h2>
+                <ul>
+                    <li>You're spending 25% more on dining out than your monthly average.</li>
+                    <li>Consider transferring $200 to your savings account this week.</li>
+                    <li>You've been sober for 27 days! Celebrate with a healthy treat.</li>
+                    <li>Your emergency fund is at 65% of the recommended 3-month expenses.</li>
+                </ul>
+            </div>
+            
+            <!-- Recent Transactions -->
+            <div class="card">
+                <h2>Recent Transactions</h2>
+                <div class="add-transaction">
+                    <input type="date" id="transactionDate">
+                    <input type="text" id="transactionDescription" placeholder="Description">
+                    <select id="transactionCategory">
+                        <option value="food">Food</option>
+                        <option value="transport">Transport</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="income">Income</option>
+                    </select>
+                    <input type="number" id="transactionAmount" placeholder="Amount">
+                    <button id="addTransaction">Add</button>
+                </div>
+                <table class="transaction-list">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2023-05-15</td>
+                            <td>Grocery Store</td>
+                            <td>Food</td>
+                            <td class="negative">-$85.32</td>
+                        </tr>
+                        <tr>
+                            <td>2023-05-14</td>
+                            <td>Paycheck</td>
+                            <td>Income</td>
+                            <td class="positive">$2,150.00</td>
+                        </tr>
+                        <tr>
+                            <td>2023-05-12</td>
+                            <td>Electric Bill</td>
+                            <td>Utilities</td>
+                            <td class="negative">-$120.75</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript functionality will go here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the app
+            updateStreakCounter();
+            loadTransactions();
+            
+            // Event listeners
+            document.getElementById('resetStreak').addEventListener('click', resetStreak);
+            document.getElementById('addTransaction').addEventListener('click', addTransaction);
+        });
+        
+        function updateStreakCounter() {
+            // Calculate days since last drink
+            // This would come from your FastAPI backend
+        }
+        
+        function resetStreak() {
+            // Reset the streak counter
+            // Would send request to FastAPI to update last drink date
+        }
+        
+        function loadTransactions() {
+            // Load transactions from FastAPI backend
+        }
+        
+        function addTransaction() {
+            // Add new transaction via FastAPI
+        }
+    </script>
+</body>
+</html>
