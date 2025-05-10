@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR Management - RCDNET</title>
+    <title>Wealth Builder Pro | 100M in 19 Months</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --success-color: #2ecc71;
-            --warning-color: #f39c12;
-            --sidebar-width: 250px;
-            --header-height: 70px;
-            --transition-speed: 0.3s;
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #560bad;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -28,1594 +30,1306 @@
 
         body {
             background-color: #f5f7fa;
-            color: #333;
-            overflow-x: hidden;
+            color: var(--dark);
+            line-height: 1.6;
         }
 
         .container {
-            display: flex;
-            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        /* Header Styles */
         header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--header-height);
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            border-radius: var(--radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            animation: shine 8s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(30deg) translate(-30%, -30%); }
+            100% { transform: rotate(30deg) translate(30%, 30%); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             padding: 0 20px;
-            z-index: 100;
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo img {
-            height: 40px;
-        }
-
-        .logo h1 {
-            font-size: 1.2rem;
-            color: var(--dark-color);
+            font-size: 24px;
             font-weight: 700;
-        }
-
-        .user-profile {
             display: flex;
             align-items: center;
-            gap: 10px;
         }
 
-        .user-profile img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
         }
 
-        .user-info {
+        nav ul {
             display: flex;
-            flex-direction: column;
+            list-style: none;
         }
 
-        .user-name {
-            font-weight: 600;
-            font-size: 0.9rem;
+        nav ul li {
+            margin-left: 20px;
         }
 
-        .user-role {
-            font-size: 0.8rem;
-            color: #777;
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 12px;
+            border-radius: 6px;
         }
 
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            margin-left: var(--sidebar-width);
-            margin-top: var(--header-height);
-            padding: 30px;
-            transition: margin-left var(--transition-speed);
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
-        .page-title {
-            font-size: 1.8rem;
-            color: var(--dark-color);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* HR Dashboard Layout */
-        .hr-dashboard {
+        .dashboard {
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
-        /* Employee Form Styles */
-        .employee-form-container {
+        .card {
             background-color: white;
-            border-radius: 10px;
+            border-radius: var(--radius);
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            height: fit-content;
-            position: sticky;
-            top: 100px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--dark-color);
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 10px;
-            cursor: pointer;
+            justify-content: center;
+            background-color: var(--light);
+            color: var(--primary);
+            font-size: 20px;
         }
 
-        .section-title:hover {
-            color: var(--primary-color);
+        .goal-progress {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .amount {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 10px 0;
+            color: var(--dark);
+        }
+
+        .amount span {
+            font-size: 16px;
+            color: #6c757d;
+            font-weight: 400;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        .countdown-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .countdown-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
-        .form-group label {
+        label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        input, select {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #ced4da;
             border-radius: 6px;
-            font-size: 0.95rem;
-            transition: border-color 0.3s;
+            font-size: 16px;
+            transition: var(--transition);
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--primary-color);
+        input:focus, select:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
         }
 
-        .form-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .btn {
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
             padding: 12px 20px;
             border-radius: 6px;
-            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .btn-secondary {
-            background-color: #f0f0f0;
-            color: var(--dark-color);
-        }
-
-        .btn-secondary:hover {
-            background-color: #e0e0e0;
-        }
-
-        /* Employee Table Styles */
-        .employees-table-container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .table-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .table-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .search-box {
-            position: relative;
-            width: 250px;
-        }
-
-        .search-box input {
-            padding-left: 35px;
-            width: 100%;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #777;
-        }
-
-        /* Modern Table Styles */
-        .modern-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .modern-table thead th {
-            background-color: #f8f9fa;
-            color: #555;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.5px;
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 2px solid #eee;
-            position: sticky;
-            top: 0;
-        }
-
-        .modern-table tbody td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 0.9rem;
-        }
-
-        .modern-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .modern-table tbody tr:hover {
-            background-color: rgba(52, 152, 219, 0.05);
-        }
-
-        /* Status badges */
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-block;
-            min-width: 80px;
-            text-align: center;
-            text-transform: capitalize;
-        }
-
-        .status-badge.active {
-            background-color: rgba(46, 204, 113, 0.1);
-            color: #27ae60;
-            border: 1px solid rgba(46, 204, 113, 0.2);
-        }
-
-        .status-badge.inactive {
-            background-color: rgba(149, 165, 166, 0.1);
-            color: #7f8c8d;
-            border: 1px solid rgba(149, 165, 166, 0.2);
-        }
-
-        /* Action buttons */
-        .action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            margin: 0 2px;
-            color: #95a5a6;
-            transition: all 0.2s;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: var(--transition);
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
 
-        .action-btn:hover {
-            background-color: rgba(52, 152, 219, 0.1);
-            color: var(--primary-color);
-        }
-
-        .action-btn.delete-btn:hover {
-            background-color: rgba(231, 76, 60, 0.1);
-            color: var(--accent-color);
-        }
-
-        /* Work Opportunities Section */
-        .work-opportunities {
-            margin-top: 30px;
-            background-color: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .opportunity-card {
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: all 0.3s;
-        }
-
-        .opportunity-card:hover {
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        button:hover {
+            background-color: var(--secondary);
             transform: translateY(-2px);
         }
 
-        .opportunity-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+        button i {
+            margin-right: 8px;
         }
 
-        .opportunity-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--dark-color);
+        .btn-danger {
+            background-color: var(--danger);
         }
 
-        .opportunity-meta {
-            display: flex;
-            gap: 15px;
-            font-size: 0.85rem;
-            color: #777;
+        .btn-danger:hover {
+            background-color: #d1145a;
         }
 
-        .opportunity-meta span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        .btn-success {
+            background-color: var(--success);
         }
 
-        .opportunity-description {
-            margin-bottom: 15px;
-            color: #555;
-            line-height: 1.5;
+        .btn-success:hover {
+            background-color: #3ab0d9;
         }
 
-        .opportunity-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-            margin-top: 15px;
-        }
-
-        .assigned-employees {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.85rem;
-        }
-
-        .employee-avatar {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background-color: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: var(--primary-color);
-        }
-
-        /* Activity Deployment Section */
-        .activity-deployment {
-            margin-top: 30px;
-            background-color: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .deployment-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
+        .table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
         }
 
-        .deployment-form .form-group {
-            margin-bottom: 0;
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
         }
 
-        .deployment-list {
-            margin-top: 30px;
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark);
         }
 
-        .deployment-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
+        .table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-success {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+
+        .badge-danger {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+        }
+
+        .badge-warning {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-primary {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .sobriety-counter {
+            background: linear-gradient(135deg, #4cc9f0, #4895ef);
+            color: white;
+            padding: 25px;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sobriety-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .sobriety-days {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .sobriety-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .sobriety-progress {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .sobriety-progress-fill {
+            height: 100%;
+            background-color: white;
+            border-radius: 4px;
+        }
+
+        .sobriety-date {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .recommendations {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .recommendation-item {
+            padding: 15px 0;
             border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
         }
 
-        .deployment-info {
+        .recommendation-item:last-child {
+            border-bottom: none;
+        }
+
+        .recommendation-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(72, 149, 239, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .recommendation-content {
             flex: 1;
         }
 
-        .deployment-employee {
+        .recommendation-title {
             font-weight: 600;
             margin-bottom: 5px;
         }
 
-        .deployment-activity {
-            font-size: 0.9rem;
-            color: #555;
+        .recommendation-description {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .tabs {
             display: flex;
-            gap: 10px;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 20px;
         }
 
-        .deployment-project {
-            font-size: 0.85rem;
-            color: #777;
-            display: flex;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        /* Collapsible sections */
-        .collapsible-content {
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 1200px) {
-            .hr-dashboard {
-                grid-template-columns: 1fr;
-            }
-            
-            .employee-form-container {
-                position: static;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                margin-left: 0;
-                padding: 20px;
-            }
-            
-            .deployment-form {
-                grid-template-columns: 1fr;
-            }
-            
-            .table-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .search-box {
-                width: 100%;
-            }
-        }
-
-        /* Loading state */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Validation styles */
-        .validation-error {
-            color: var(--accent-color);
-            font-size: 0.8rem;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .form-group input:invalid, 
-        .form-group select:invalid, 
-        .form-group textarea:invalid {
-            border-color: var(--accent-color);
-        }
-
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            overflow: auto;
-        }
-        
-        .modal-content {
-            background-color: #fff;
-            margin: 5% auto;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            width: 50%;
-            max-width: 600px;
-            position: relative;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
+        .tab {
+            padding: 10px 20px;
             cursor: pointer;
-            color: #777;
+            font-weight: 500;
+            color: #6c757d;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
         }
-        
-        .close-btn:hover {
-            color: #333;
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
         }
-        
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         @media (max-width: 768px) {
-            .modal-content {
-                width: 90%;
-                margin: 10% auto;
+            .header-content {
+                flex-direction: column;
+                text-align: center;
             }
+
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .countdown {
+                flex-wrap: wrap;
+            }
+
+            .countdown-item {
+                width: 50%;
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Animation classes */
+        .animate-pop {
+            animation: pop 0.3s ease-out;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(72, 149, 239, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(72, 149, 239, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(72, 149, 239, 0); }
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">
-            <img src="logo.jpg" alt="RCDNET Logo">
-            <h1>HR Management</h1>
-        </div>
-        <div class="user-profile">
-            <div class="user-info">
-                <span class="user-name">HR Manager</span>
-                <span class="user-role">Human Resources</span>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-piggy-bank"></i>
+                Wealth Builder Pro
             </div>
-            <img src="profile.jpg" alt="User Profile">
+            <nav>
+                <ul>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#savings">Savings</a></li>
+                    <li><a href="#expenses">Expenses</a></li>
+                    <li><a href="#sobriety">Sobriety</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
     <div class="container">
-        <main class="main-content">
-            <h1 class="page-title">
-                <i class="fas fa-users-cog"></i>
-                Human Resource Management
-            </h1>
+        <section id="dashboard">
+            <h2 style="margin-bottom: 20px;">Financial Dashboard</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card animate-pop">
+                    <div class="stat-label">Current Savings</div>
+                    <div class="stat-value" id="current-savings">$0</div>
+                    <div class="stat-label">Towards 100M Goal</div>
+                </div>
+                <div class="stat-card animate-pop">
+                    <div class="stat-label">Daily Target</div>
+                    <div class="stat-value" id="daily-target">$0</div>
+                    <div class="stat-label">To Stay On Track</div>
+                </div>
+                <div class="stat-card animate-pop">
+                    <div class="stat-label">Monthly Target</div>
+                    <div class="stat-value" id="monthly-target">$0</div>
+                    <div class="stat-label">To Reach Goal</div>
+                </div>
+                <div class="stat-card animate-pop">
+                    <div class="stat-label">Days Remaining</div>
+                    <div class="stat-value" id="days-remaining">0</div>
+                    <div class="stat-label">To Achieve Goal</div>
+                </div>
+            </div>
 
-            <div class="hr-dashboard">
-                <!-- Employee Registration Form -->
-                <div class="employee-form-container">
-                    <h2 class="section-title">
-                        <i class="fas fa-user-plus"></i>
-                        Register Employee
-                    </h2>
-                    
-                    <form id="employeeForm">
-                        <div class="form-group">
-                            <label for="employeeName">Full Name*</label>
-                            <input type="text" id="employeeName" required>
-                            <div class="validation-error" id="nameError">Please enter employee name</div>
+            <div class="dashboard">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">100M Savings Goal</div>
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="employeeNIN">National ID (NIN)*</label>
-                            <input type="text" id="employeeNIN" required pattern="[A-Z0-9]{14}">
-                            <div class="validation-error" id="ninError">Please enter a valid NIN (14 alphanumeric characters)</div>
+                    </div>
+                    <div class="goal-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="goal-progress-bar" style="width: 0%"></div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="employeeDOB">Date of Birth*</label>
-                            <input type="date" id="employeeDOB" required>
-                            <div class="validation-error" id="dobError">Please select date of birth</div>
+                        <div class="progress-info">
+                            <span>Current: <span id="current-amount">$0</span></span>
+                            <span>Goal: $100,000,000</span>
                         </div>
-                        
+                    </div>
+                    <div class="amount">
+                        <span id="progress-percentage">0%</span>
+                    </div>
+                    <div class="countdown">
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdown-months">19</div>
+                            <div class="countdown-label">Months</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdown-days">0</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdown-hours">0</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdown-minutes">0</div>
+                            <div class="countdown-label">Minutes</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Add Savings</div>
+                        <div class="card-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                    </div>
+                    <form id="savings-form">
                         <div class="form-group">
-                            <label for="employeeQualification">Highest Qualification*</label>
-                            <select id="employeeQualification" required>
-                                <option value="">Select qualification</option>
-                                <option value="primary">Primary Education</option>
-                                <option value="secondary">Secondary Education</option>
-                                <option value="diploma">Diploma</option>
-                                <option value="bachelors">Bachelor's Degree</option>
-                                <option value="masters">Master's Degree</option>
-                                <option value="phd">PhD</option>
-                                <option value="other">Other</option>
+                            <label for="savings-amount">Amount</label>
+                            <input type="number" id="savings-amount" placeholder="Enter amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="savings-date">Date</label>
+                            <input type="date" id="savings-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="savings-source">Source</label>
+                            <input type="text" id="savings-source" placeholder="Where is this from?" required>
+                        </div>
+                        <button type="submit" class="pulse">
+                            <i class="fas fa-save"></i> Add Savings
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="sobriety-counter animate-pop">
+                <div class="sobriety-title">Alcohol-Free Streak</div>
+                <div class="sobriety-days" id="sobriety-days">0</div>
+                <div class="sobriety-text">You're crushing your sobriety goal!</div>
+                <div class="sobriety-progress">
+                    <div class="sobriety-progress-fill" id="sobriety-progress" style="width: 0%"></div>
+                </div>
+                <div class="sobriety-date">Started on <span id="sobriety-start-date">Loading...</span></div>
+            </div>
+        </section>
+
+        <section id="savings" style="margin-top: 50px;">
+            <h2 style="margin-bottom: 20px;">Savings History</h2>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">All Savings Transactions</div>
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                </div>
+                <div class="tabs">
+                    <div class="tab active" data-tab="all">All</div>
+                    <div class="tab" data-tab="this-month">This Month</div>
+                    <div class="tab" data-tab="last-month">Last Month</div>
+                </div>
+                <div class="tab-content active" id="tab-all">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Source</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="savings-table">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-content" id="tab-this-month">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Source</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="savings-table-this-month">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-content" id="tab-last-month">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Source</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="savings-table-last-month">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="expenses" style="margin-top: 50px;">
+            <h2 style="margin-bottom: 20px;">Expense Tracker</h2>
+            <div class="dashboard">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Add Expense</div>
+                        <div class="card-icon">
+                            <i class="fas fa-minus-circle"></i>
+                        </div>
+                    </div>
+                    <form id="expense-form">
+                        <div class="form-group">
+                            <label for="expense-amount">Amount</label>
+                            <input type="number" id="expense-amount" placeholder="Enter amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expense-date">Date</label>
+                            <input type="date" id="expense-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expense-category">Category</label>
+                            <select id="expense-category" required>
+                                <option value="">Select category</option>
+                                <option value="Food">Food</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Housing">Housing</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="Health">Health</option>
+                                <option value="Education">Education</option>
+                                <option value="Other">Other</option>
                             </select>
-                            <div class="validation-error" id="qualificationError">Please select qualification</div>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="employeeEmail">Email</label>
-                            <input type="email" id="employeeEmail">
-                            <div class="validation-error" id="emailError">Please enter a valid email</div>
+                            <label for="expense-description">Description</label>
+                            <input type="text" id="expense-description" placeholder="What was this for?" required>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="employeePhone">Phone Number</label>
-                            <input type="tel" id="employeePhone" pattern="[0-9]{10}">
-                            <div class="validation-error" id="phoneError">Please enter a valid phone number (10 digits)</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="employeeAddress">Profession</label>
-                            <textarea id="text" rows="2"></textarea>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="button" class="btn btn-secondary" id="resetFormBtn">
-                                <i class="fas fa-undo"></i> Reset
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Save Employee
-                            </button>
-                        </div>
+                        <button type="submit">
+                            <i class="fas fa-save"></i> Add Expense
+                        </button>
                     </form>
                 </div>
 
-                <!-- Employee Management Section -->
-                <div class="employees-table-container">
-                    <div class="table-header">
-                        <h2 class="section-title">
-                            <i class="fas fa-users"></i>
-                            Employee Records
-                        </h2>
-                        
-                        <div class="table-actions">
-                            <div class="search-box">
-                                <i class="fas fa-search"></i>
-                                <input type="text" id="employeeSearch" placeholder="Search employees...">
-                            </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Expense Summary</div>
+                        <div class="card-icon">
+                            <i class="fas fa-chart-pie"></i>
                         </div>
                     </div>
-                    
-                    <div class="table-responsive">
-                        <table class="modern-table" id="employeesTable">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>NIN</th>
-                                    <th>Qualification</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="employeesTableBody">
-                                <tr>
-                                    <td colspan="5" class="loading">
-                                        <div class="spinner"></div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="chart-container">
+                        <canvas id="expense-chart"></canvas>
                     </div>
-                    
-                    <!-- Work Opportunities Section -->
-                    <div class="work-opportunities">
-                        <h2 class="section-title" id="opportunitiesHeading">
-                            <i class="fas fa-briefcase"></i>
-                            Work Opportunities
-                        </h2>
-                        
-                        <div class="collapsible-content" id="opportunitiesContent">
-                            <div class="opportunity-card">
-                                <div class="opportunity-header">
-                                    <h3 class="opportunity-title">Field Officer - Agriculture Project</h3>
-                                    <div class="opportunity-meta">
-                                        <span><i class="fas fa-calendar-alt"></i> 15 Oct - 15 Dec 2023</span>
-                                        <span><i class="fas fa-map-marker-alt"></i> Kasese District</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="opportunity-description">
-                                    Coordinate field activities for the agriculture extension project, train farmers, and monitor project implementation.
-                                </div>
-                                
-                                <div class="opportunity-footer">
-                                    <div class="assigned-employees">
-                                        <span>Assigned:</span>
-                                        <div class="employee-avatar">JM</div>
-                                        <div class="employee-avatar">AM</div>
-                                        <div class="employee-avatar">+2</div>
-                                    </div>
-                                    
-                                    <button class="btn btn-primary btn-sm" onclick="openAssignEmployeeModal(1)">
-                                        <i class="fas fa-plus"></i> Assign Employee
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <button class="btn btn-secondary" id="addOpportunityBtn">
-                                <i class="fas fa-plus"></i> Create New Opportunity
-                            </button>
+                    <div class="stats-grid" style="margin-top: 20px;">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Expenses</div>
+                            <div class="stat-value" id="total-expenses">$0</div>
+                            <div class="stat-label">This Month</div>
                         </div>
-                    </div>
-                    
-                    <!-- Activity Deployment Section -->
-                    <div class="activity-deployment">
-                        <h2 class="section-title" id="deploymentsHeading">
-                            <i class="fas fa-tasks"></i>
-                            Activity Deployment
-                        </h2>
-                        
-                        <div class="collapsible-content" id="deploymentsContent">
-                            <div class="deployment-form">
-                                <div class="form-group">
-                                    <label for="deployEmployee">Employee</label>
-                                    <select id="deployEmployee">
-                                        <option value="">Select employee</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="deployActivity">Activity</label>
-                                    <select id="deployActivity">
-                                        <option value="">Select activity</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="deployRole">Role</label>
-                                    <select id="deployRole">
-                                        <option value="team_leader">Team Leader</option>
-                                        <option value="field_officer">Field Officer</option>
-                                        <option value="trainer">Trainer</option>
-                                        <option value="monitor">Monitor</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <button class="btn btn-primary" id="deployBtn">
-                                <i class="fas fa-user-check"></i> Deploy Employee
-                            </button>
-                            
-                            <div class="deployment-list" id="deploymentList">
-                                <h3>Current Deployments</h3>
-                                
-                                <div class="deployment-item">
-                                    <div class="deployment-info">
-                                        <div class="deployment-employee">John Mumbere</div>
-                                        <div class="deployment-activity">
-                                            <span><i class="fas fa-tasks"></i> Farmer Training Workshops</span>
-                                        </div>
-                                        <div class="deployment-project">
-                                            <span><i class="fas fa-project-diagram"></i> Agriculture Extension Project</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="deployment-actions">
-                                        <button class="action-btn edit-btn">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="action-btn delete-btn">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Biggest Expense</div>
+                            <div class="stat-value" id="biggest-expense">$0</div>
+                            <div class="stat-label">This Month</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+
+            <div class="card" style="margin-top: 30px;">
+                <div class="card-header">
+                    <div class="card-title">Expense History</div>
+                    <div class="card-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expense-table">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="recommendations" style="margin-top: 50px;">
+            <h2 style="margin-bottom: 20px;">Financial Recommendations</h2>
+            <div class="recommendations">
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <div class="recommendation-title">Invest in Index Funds</div>
+                        <div class="recommendation-description">
+                            Consider allocating a portion of your savings to low-cost index funds for long-term growth.
+                        </div>
+                    </div>
+                </div>
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <div class="recommendation-title">High-Yield Savings Account</div>
+                        <div class="recommendation-description">
+                            Move your emergency fund to a high-yield savings account to earn more interest.
+                        </div>
+                    </div>
+                </div>
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <div class="recommendation-title">Reduce Dining Out</div>
+                        <div class="recommendation-description">
+                            Your food expenses are high. Try meal prepping to save money.
+                        </div>
+                    </div>
+                </div>
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">
+                        <i class="fas fa-subway"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <div class="recommendation-title">Public Transportation</div>
+                        <div class="recommendation-description">
+                            Consider using public transport more often to reduce your transportation costs.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <!-- Create Opportunity Modal -->
-    <div class="modal" id="createOpportunityModal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2><i class="fas fa-briefcase"></i> Create New Opportunity</h2>
-            <form id="opportunityForm">
-                <div class="form-group">
-                    <label for="opportunityTitle">Title*</label>
-                    <input type="text" id="opportunityTitle" required>
-                    <div class="validation-error" id="opportunityTitleError">Please enter a title</div>
-                </div>
-                <div class="form-group">
-                    <label for="opportunityDescription">Description*</label>
-                    <textarea id="opportunityDescription" rows="4" required></textarea>
-                    <div class="validation-error" id="opportunityDescError">Please enter a description</div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelOpportunityBtn">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Save Opportunity
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Assign Employee Modal -->
-    <div class="modal" id="assignEmployeeModal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2><i class="fas fa-user-plus"></i> Assign Employee</h2>
-            <form id="assignEmployeeForm">
-                <input type="hidden" id="currentOpportunityId">
-                <div class="form-group">
-                    <label for="employeeToAssign">Employee*</label>
-                    <select id="employeeToAssign" required>
-                        <option value="">Select employee</option>
-                    </select>
-                    <div class="validation-error" id="assignEmployeeError">Please select an employee</div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelAssignBtn">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-user-check"></i> Assign
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        // Base URL for API
+        const API_BASE_URL = 'https://man-m681.onrender.com';
+        
+        // DOM Elements
+        const savingsForm = document.getElementById('savings-form');
+        const expenseForm = document.getElementById('expense-form');
+        const savingsTable = document.getElementById('savings-table');
+        const expenseTable = document.getElementById('expense-table');
+        const currentSavingsEl = document.getElementById('current-savings');
+        const dailyTargetEl = document.getElementById('daily-target');
+        const monthlyTargetEl = document.getElementById('monthly-target');
+        const daysRemainingEl = document.getElementById('days-remaining');
+        const goalProgressBar = document.getElementById('goal-progress-bar');
+        const currentAmountEl = document.getElementById('current-amount');
+        const progressPercentageEl = document.getElementById('progress-percentage');
+        const sobrietyDaysEl = document.getElementById('sobriety-days');
+        const sobrietyProgressEl = document.getElementById('sobriety-progress');
+        const sobrietyStartDateEl = document.getElementById('sobriety-start-date');
+        const totalExpensesEl = document.getElementById('total-expenses');
+        const biggestExpenseEl = document.getElementById('biggest-expense');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // Global variables
+        let totalSavings = 0;
+        let totalExpenses = 0;
+        let expenseChart;
+        let sobrietyStartDate = new Date();
+        sobrietyStartDate.setMonth(sobrietyStartDate.getMonth() - 19); // Set to 19 months ago
+        
+        // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
-            // Form validation
-            const employeeForm = document.getElementById('employeeForm');
-            const validationErrors = {
-                name: document.getElementById('nameError'),
-                nin: document.getElementById('ninError'),
-                dob: document.getElementById('dobError'),
-                qualification: document.getElementById('qualificationError'),
-                email: document.getElementById('emailError'),
-                phone: document.getElementById('phoneError')
-            };
-
-            // Show validation errors on form submit
-            employeeForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Reset all error messages
-                Object.values(validationErrors).forEach(error => {
-                    error.style.display = 'none';
-                });
-                
-                // Validate each field
-                let isValid = true;
-                
-                if (!document.getElementById('employeeName').value.trim()) {
-                    validationErrors.name.style.display = 'block';
-                    isValid = false;
-                }
-                
-                if (!document.getElementById('employeeNIN').value.trim()) {
-                    validationErrors.nin.style.display = 'block';
-                    isValid = false;
-                }
-                
-                if (!document.getElementById('employeeDOB').value) {
-                    validationErrors.dob.style.display = 'block';
-                    isValid = false;
-                }
-                
-                if (!document.getElementById('employeeQualification').value) {
-                    validationErrors.qualification.style.display = 'block';
-                    isValid = false;
-                }
-                
-                const email = document.getElementById('employeeEmail').value;
-                if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    validationErrors.email.style.display = 'block';
-                    isValid = false;
-                }
-                
-                const phone = document.getElementById('employeePhone').value;
-                if (phone && !/^\d{10}$/.test(phone)) {
-                    validationErrors.phone.style.display = 'block';
-                    isValid = false;
-                }
-                
-                if (isValid) {
-                    saveEmployee();
-                }
-            });
-
-            // Reset form
-            document.getElementById('resetFormBtn').addEventListener('click', function() {
-                employeeForm.reset();
-                Object.values(validationErrors).forEach(error => {
-                    error.style.display = 'none';
-                });
-            });
-
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('savings-date').value = today;
+            document.getElementById('expense-date').value = today;
+            
+            // Initialize sobriety counter
+            updateSobrietyCounter();
+            
             // Load initial data
-            loadEmployees();
-            loadActivitiesForDeployment();
+            loadSavings();
+            loadExpenses();
             
-            // Collapsible sections
-            const opportunitiesHeading = document.getElementById('opportunitiesHeading');
-            const opportunitiesContent = document.getElementById('opportunitiesContent');
-            const deploymentsHeading = document.getElementById('deploymentsHeading');
-            const deploymentsContent = document.getElementById('deploymentsContent');
+            // Set up countdown timer
+            updateCountdown();
+            setInterval(updateCountdown, 60000); // Update every minute
             
-            // Set initial state (collapsed)
-            opportunitiesContent.style.maxHeight = '0';
-            deploymentsContent.style.maxHeight = '0';
-            
-            // Toggle opportunities section
-            opportunitiesHeading.addEventListener('click', function() {
-                if (opportunitiesContent.style.maxHeight === '0px') {
-                    opportunitiesContent.style.maxHeight = opportunitiesContent.scrollHeight + 'px';
-                    loadWorkOpportunities();
-                } else {
-                    opportunitiesContent.style.maxHeight = '0';
-                }
+            // Set up tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(`tab-${tabId}`).classList.add('active');
+                    
+                    // Refresh data for the active tab
+                    if (tabId === 'all') loadSavings();
+                    if (tabId === 'this-month') loadSavingsThisMonth();
+                    if (tabId === 'last-month') loadSavingsLastMonth();
+                });
             });
+        });
+        
+        // Savings form submission
+        savingsForm.addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // Toggle deployments section
-            deploymentsHeading.addEventListener('click', function() {
-                if (deploymentsContent.style.maxHeight === '0px') {
-                    deploymentsContent.style.maxHeight = deploymentsContent.scrollHeight + 'px';
-                    loadDeployments();
-                } else {
-                    deploymentsContent.style.maxHeight = '0';
-                }
-            });
+            const amount = parseFloat(document.getElementById('savings-amount').value);
+            const date = document.getElementById('savings-date').value;
+            const source = document.getElementById('savings-source').value;
             
-            // Function to save employee
-            async function saveEmployee() {
-                const employeeData = {
-                    name: document.getElementById('employeeName').value.trim(),
-                    nin: document.getElementById('employeeNIN').value.trim(),
-                    dob: document.getElementById('employeeDOB').value,
-                    qualification: document.getElementById('employeeQualification').value,
-                    email: document.getElementById('employeeEmail').value.trim(),
-                    phone: document.getElementById('employeePhone').value.trim(),
-                    profession: document.getElementById('text').value.trim(),
-                    status: 'active'
-                };
-                
-                const submitBtn = employeeForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-                
-                try {
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-                    submitBtn.disabled = true;
-                    
-                    console.log('Sending employee data:', employeeData);
-                    
-                    const response = await fetch('https://man-m681.onrender.com/employees/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(employeeData)
-                    });
-                    
-                    console.log('Response status:', response.status);
-                    
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        console.error('Error response:', errorData);
-                        throw new Error(errorData.detail || 'Failed to save employee');
-                    }
-                    
-                    const data = await response.json();
-                    console.log('Success response:', data);
-                    
-                    alert('Employee saved successfully!');
-                    employeeForm.reset();
-                    loadEmployees();
-                } catch (error) {
-                    console.error('Error saving employee:', error);
-                    alert(`Error: ${error.message}`);
-                } finally {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }
+            if (!amount || !date || !source) {
+                alert('Please fill all fields');
+                return;
             }
-
-            // Function to load employees
-            async function loadEmployees() {
-                try {
-                    const tbody = document.getElementById('employeesTableBody');
-                    tbody.innerHTML = '<tr><td colspan="5" class="loading"><div class="spinner"></div></td></tr>';
+            
+            const transaction = {
+                date: date,
+                type: 'deposit',
+                amount: amount,
+                purpose: `Savings from ${source}`
+            };
+            
+            axios.post(`${API_BASE_URL}/transactions/`, transaction)
+                .then(response => {
+                    alert('Savings added successfully!');
+                    savingsForm.reset();
+                    document.getElementById('savings-date').value = new Date().toISOString().split('T')[0];
+                    loadSavings();
+                })
+                .catch(error => {
+                    console.error('Error adding savings:', error);
+                    alert('Failed to add savings. Please try again.');
+                });
+        });
+        
+        // Expense form submission
+        expenseForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const amount = parseFloat(document.getElementById('expense-amount').value);
+            const date = document.getElementById('expense-date').value;
+            const category = document.getElementById('expense-category').value;
+            const description = document.getElementById('expense-description').value;
+            
+            if (!amount || !date || !category || !description) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            const expense = {
+                date: date,
+                person: 'You',
+                description: `${category}: ${description}`,
+                cost: amount,
+                quantity: 1
+            };
+            
+            axios.post(`${API_BASE_URL}/expenses/`, expense)
+                .then(response => {
+                    alert('Expense added successfully!');
+                    expenseForm.reset();
+                    document.getElementById('expense-date').value = new Date().toISOString().split('T')[0];
+                    loadExpenses();
+                })
+                .catch(error => {
+                    console.error('Error adding expense:', error);
+                    alert('Failed to add expense. Please try again.');
+                });
+        });
+        
+        // Load savings data
+        function loadSavings() {
+            axios.get(`${API_BASE_URL}/transactions/`)
+                .then(response => {
+                    const transactions = response.data.transactions || [];
+                    const savingsTransactions = transactions.filter(t => t.type === 'deposit');
                     
-                    const response = await fetch('https://man-m681.onrender.com/employees/');
+                    // Calculate total savings
+                    totalSavings = savingsTransactions.reduce((sum, t) => sum + t.amount, 0);
                     
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch employees');
-                    }
+                    // Update UI
+                    currentSavingsEl.textContent = `$${totalSavings.toLocaleString()}`;
+                    currentAmountEl.textContent = `$${totalSavings.toLocaleString()}`;
                     
-                    const data = await response.json();
-                    tbody.innerHTML = '';
+                    // Calculate progress
+                    const progressPercentage = (totalSavings / 100000000) * 100;
+                    goalProgressBar.style.width = `${progressPercentage}%`;
+                    progressPercentageEl.textContent = `${progressPercentage.toFixed(6)}%`;
                     
-                    if (data.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No employees found</td></tr>';
-                        return;
-                    }
+                    // Calculate targets
+                    const daysLeft = calculateDaysRemaining();
+                    const dailyTarget = (100000000 - totalSavings) / daysLeft;
+                    const monthlyTarget = dailyTarget * 30;
                     
-                    data.forEach(employee => {
+                    dailyTargetEl.textContent = `$${dailyTarget.toLocaleString(undefined, {maximumFractionDigits: 2})}`;
+                    monthlyTargetEl.textContent = `$${monthlyTarget.toLocaleString(undefined, {maximumFractionDigits: 2})}`;
+                    
+                    // Populate savings table
+                    savingsTable.innerHTML = '';
+                    savingsTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    
+                    savingsTransactions.forEach(transaction => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${employee.name}</td>
-                            <td>${employee.nin}</td>
-                            <td>${formatQualification(employee.qualification)}</td>
-                            <td><span class="status-badge ${employee.status === 'active' ? 'active' : 'inactive'}">${employee.status}</span></td>
+                            <td>${formatDate(transaction.date)}</td>
+                            <td>$${transaction.amount.toLocaleString()}</td>
+                            <td>${transaction.purpose.replace('Savings from ', '')}</td>
                             <td>
-                                <button class="action-btn edit-btn" onclick="editEmployee(${employee.id})">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn delete-btn" onclick="deleteEmployee(${employee.id})">
-                                    <i class="fas fa-trash"></i>
+                                <button class="btn-danger" onclick="deleteTransaction(${transaction.id}, 'savings')">
+                                    <i class="fas fa-trash"></i> Delete
                                 </button>
                             </td>
                         `;
-                        tbody.appendChild(row);
+                        savingsTable.appendChild(row);
                     });
-                    
-                    // Populate employee dropdown for deployment
-                    populateEmployeeDropdown(data);
-                } catch (error) {
-                    console.error('Error loading employees:', error);
-                    document.getElementById('employeesTableBody').innerHTML = 
-                        '<tr><td colspan="5" style="text-align: center; color: red;">Failed to load employees</td></tr>';
-                }
-            }
-
-            // Helper function to format qualification
-            function formatQualification(qualification) {
-                const qualifications = {
-                    'primary': 'Primary',
-                    'secondary': 'Secondary',
-                    'diploma': 'Diploma',
-                    'bachelors': "Bachelor's",
-                    'masters': "Master's",
-                    'phd': 'PhD',
-                    'other': 'Other'
-                };
-                return qualifications[qualification] || qualification;
-            }
-
-            // Function to populate employee dropdown
-            function populateEmployeeDropdown(employees) {
-                const dropdown = document.getElementById('deployEmployee');
-                dropdown.innerHTML = '<option value="">Select employee</option>';
-                
-                employees.forEach(employee => {
-                    const option = document.createElement('option');
-                    option.value = employee.id;
-                    option.textContent = employee.name;
-                    dropdown.appendChild(option);
+                })
+                .catch(error => {
+                    console.error('Error loading savings:', error);
                 });
-            }
-
-            // Function to load activities for deployment
-            async function loadActivitiesForDeployment() {
-                try {
-                    const response = await fetch('https://man-m681.onrender.com/activities/');
+        }
+        
+        // Load savings for this month
+        function loadSavingsThisMonth() {
+            const now = new Date();
+            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+            const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
+            
+            axios.get(`${API_BASE_URL}/transactions/`)
+                .then(response => {
+                    const transactions = response.data.transactions || [];
+                    const savingsTransactions = transactions.filter(t => 
+                        t.type === 'deposit' && 
+                        t.date >= firstDay && 
+                        t.date <= lastDay
+                    );
                     
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch activities');
-                    }
+                    // Populate savings table
+                    const table = document.getElementById('savings-table-this-month');
+                    table.innerHTML = '';
                     
-                    const data = await response.json();
-                    const dropdown = document.getElementById('deployActivity');
-                    dropdown.innerHTML = '<option value="">Select activity</option>';
+                    savingsTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
                     
-                    // Handle both array response and object with activities property
-                    const activities = Array.isArray(data) ? data : (data.activities || []);
-                    
-                    activities.forEach(activity => {
-                        const option = document.createElement('option');
-                        option.value = activity.id;
-                        option.textContent = `${activity.name} (${activity.project_name})`;
-                        dropdown.appendChild(option);
-                    });
-                } catch (error) {
-                    console.error('Error loading activities:', error);
-                }
-            }
-
-            // Function to deploy employee to activity
-            document.getElementById('deployBtn').addEventListener('click', async function() {
-                const employeeId = document.getElementById('deployEmployee').value;
-                const activityId = document.getElementById('deployActivity').value;
-                const role = document.getElementById('deployRole').value;
-                
-                if (!employeeId || !activityId) {
-                    alert('Please select both employee and activity');
-                    return;
-                }
-                
-                try {
-                    const btn = document.getElementById('deployBtn');
-                    const originalText = btn.innerHTML;
-                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deploying...';
-                    btn.disabled = true;
-                    
-                    const response = await fetch('https://man-m681.onrender.com/deployments/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            employee_id: employeeId,
-                            activity_id: activityId,
-                            role: role
-                        })
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to create deployment');
-                    }
-                    
-                    const data = await response.json();
-                    alert('Employee deployed successfully!');
-                    loadDeployments();
-                } catch (error) {
-                    console.error('Error deploying employee:', error);
-                    alert('Failed to deploy employee. Please try again.');
-                } finally {
-                    const btn = document.getElementById('deployBtn');
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                }
-            });
-
-            // Function to load deployments
-            async function loadDeployments() {
-                try {
-                    const response = await fetch('https://man-m681.onrender.com/deployments/');
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch deployments');
-                    }
-                    
-                    const data = await response.json();
-                    const deploymentList = document.getElementById('deploymentList');
-                    
-                    // Clear existing content except the heading
-                    deploymentList.innerHTML = '<h3>Current Deployments</h3>';
-                    
-                    if (data.length === 0) {
-                        deploymentList.innerHTML += '<p>No current deployments</p>';
-                        return;
-                    }
-                    
-                    data.forEach(deployment => {
-                        const deploymentItem = document.createElement('div');
-                        deploymentItem.className = 'deployment-item';
-                        deploymentItem.innerHTML = `
-                            <div class="deployment-info">
-                                <div class="deployment-employee">${deployment.employee_name}</div>
-                                <div class="deployment-activity">
-                                    <span><i class="fas fa-tasks"></i> ${deployment.activity_name}</span>
-                                </div>
-                                <div class="deployment-project">
-                                    <span><i class="fas fa-project-diagram"></i> ${deployment.project_name}</span>
-                                    <span><i class="fas fa-user-tag"></i> ${formatRole(deployment.role)}</span>
-                                </div>
-                            </div>
-                            
-                            <div class="deployment-actions">
-                                <button class="action-btn edit-btn" onclick="editDeployment(${deployment.id})">
-                                    <i class="fas fa-edit"></i>
+                    savingsTransactions.forEach(transaction => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${formatDate(transaction.date)}</td>
+                            <td>$${transaction.amount.toLocaleString()}</td>
+                            <td>${transaction.purpose.replace('Savings from ', '')}</td>
+                            <td>
+                                <button class="btn-danger" onclick="deleteTransaction(${transaction.id}, 'savings')">
+                                    <i class="fas fa-trash"></i> Delete
                                 </button>
-                                <button class="action-btn delete-btn" onclick="deleteDeployment(${deployment.id})">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
+                            </td>
                         `;
-                        deploymentList.appendChild(deploymentItem);
+                        table.appendChild(row);
                     });
-                } catch (error) {
-                    console.error('Error loading deployments:', error);
-                    document.getElementById('deploymentList').innerHTML = 
-                        '<h3>Current Deployments</h3><p style="color: red;">Failed to load deployments</p>';
-                }
-            }
-
-            // Helper function to format role
-            function formatRole(role) {
-                const roles = {
-                    'team_leader': 'Team Leader',
-                    'field_officer': 'Field Officer',
-                    'trainer': 'Trainer',
-                    'monitor': 'Monitor',
-                    'other': 'Other'
-                };
-                return roles[role] || role;
-            }
-
-            // Initialize with loading deployments
-            loadDeployments();
-
-            // Create Opportunity Modal
-            const createOpportunityModal = document.getElementById('createOpportunityModal');
-            const createOpportunityBtn = document.getElementById('addOpportunityBtn');
-            const cancelOpportunityBtn = document.getElementById('cancelOpportunityBtn');
-            const opportunityForm = document.getElementById('opportunityForm');
+                })
+                .catch(error => {
+                    console.error('Error loading savings:', error);
+                });
+        }
+        
+        // Load savings for last month
+        function loadSavingsLastMonth() {
+            const now = new Date();
+            const firstDay = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().split('T')[0];
+            const lastDay = new Date(now.getFullYear(), now.getMonth(), 0).toISOString().split('T')[0];
             
-            createOpportunityBtn.addEventListener('click', function() {
-                createOpportunityModal.style.display = 'block';
-            });
-            
-            cancelOpportunityBtn.addEventListener('click', function() {
-                createOpportunityModal.style.display = 'none';
-                opportunityForm.reset();
-            });
-            
-            opportunityForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const title = document.getElementById('opportunityTitle').value.trim();
-                const description = document.getElementById('opportunityDescription').value.trim();
-                
-                // Reset errors
-                document.getElementById('opportunityTitleError').style.display = 'none';
-                document.getElementById('opportunityDescError').style.display = 'none';
-                
-                let isValid = true;
-                
-                if (!title) {
-                    document.getElementById('opportunityTitleError').style.display = 'block';
-                    isValid = false;
-                }
-                
-                if (!description) {
-                    document.getElementById('opportunityDescError').style.display = 'block';
-                    isValid = false;
-                }
-                
-                if (isValid) {
-                    const submitBtn = opportunityForm.querySelector('button[type="submit"]');
-                    const originalText = submitBtn.innerHTML;
+            axios.get(`${API_BASE_URL}/transactions/`)
+                .then(response => {
+                    const transactions = response.data.transactions || [];
+                    const savingsTransactions = transactions.filter(t => 
+                        t.type === 'deposit' && 
+                        t.date >= firstDay && 
+                        t.date <= lastDay
+                    );
                     
-                    try {
-                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-                        submitBtn.disabled = true;
+                    // Populate savings table
+                    const table = document.getElementById('savings-table-last-month');
+                    table.innerHTML = '';
+                    
+                    savingsTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    
+                    savingsTransactions.forEach(transaction => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${formatDate(transaction.date)}</td>
+                            <td>$${transaction.amount.toLocaleString()}</td>
+                            <td>${transaction.purpose.replace('Savings from ', '')}</td>
+                            <td>
+                                <button class="btn-danger" onclick="deleteTransaction(${transaction.id}, 'savings')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        `;
+                        table.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading savings:', error);
+                });
+        }
+        
+        // Load expenses data
+        function loadExpenses() {
+            axios.get(`${API_BASE_URL}/expenses/`)
+                .then(response => {
+                    const expenses = response.data.expenses || [];
+                    totalExpenses = expenses.reduce((sum, e) => sum + e.cost, 0);
+                    
+                    // Update UI
+                    totalExpensesEl.textContent = `$${totalExpenses.toLocaleString()}`;
+                    
+                    // Find biggest expense this month
+                    const now = new Date();
+                    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+                    const thisMonthExpenses = expenses.filter(e => e.date >= firstDay);
+                    
+                    if (thisMonthExpenses.length > 0) {
+                        const biggest = Math.max(...thisMonthExpenses.map(e => e.cost));
+                        biggestExpenseEl.textContent = `$${biggest.toLocaleString()}`;
+                    }
+                    
+                    // Group expenses by category for chart
+                    const categories = {};
+                    expenses.forEach(expense => {
+                        // Extract category from description (format: "Category: description")
+                        const categoryMatch = expense.description.match(/^([^:]+):/);
+                        const category = categoryMatch ? categoryMatch[1].trim() : 'Other';
                         
-                        const response = await fetch('https://man-m681.onrender.com/work-opportunities/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                title: title,
-                                description: description
-                            })
-                        });
-                        
-                        if (!response.ok) {
-                            throw new Error('Failed to create opportunity');
+                        if (!categories[category]) {
+                            categories[category] = 0;
                         }
-                        
-                        const data = await response.json();
-                        alert('Opportunity created successfully!');
-                        opportunityForm.reset();
-                        createOpportunityModal.style.display = 'none';
-                        loadWorkOpportunities();
-                    } catch (error) {
-                        console.error('Error creating opportunity:', error);
-                        alert('Failed to create opportunity. Please try again.');
-                    } finally {
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                    }
-                }
-            });
-            
-            // Assign Employee Modal
-            const assignEmployeeModal = document.getElementById('assignEmployeeModal');
-            const assignEmployeeForm = document.getElementById('assignEmployeeForm');
-            const cancelAssignBtn = document.getElementById('cancelAssignBtn');
-            
-            // This will be called when "Assign Employee" button is clicked
-            window.openAssignEmployeeModal = function(opportunityId) {
-                document.getElementById('currentOpportunityId').value = opportunityId;
-                assignEmployeeModal.style.display = 'block';
-            };
-            
-            cancelAssignBtn.addEventListener('click', function() {
-                assignEmployeeModal.style.display = 'none';
-                assignEmployeeForm.reset();
-            });
-            
-            assignEmployeeForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const employeeId = document.getElementById('employeeToAssign').value;
-                const opportunityId = document.getElementById('currentOpportunityId').value;
-                
-                // Reset error
-                document.getElementById('assignEmployeeError').style.display = 'none';
-                
-                if (!employeeId) {
-                    document.getElementById('assignEmployeeError').style.display = 'block';
-                    return;
-                }
-                
-                const submitBtn = assignEmployeeForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-                
-                try {
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Assigning...';
-                    submitBtn.disabled = true;
-                    
-                    const response = await fetch('https://man-m681.onrender.com/opportunity-assignments/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            opportunity_id: opportunityId,
-                            employee_id: employeeId
-                        })
+                        categories[category] += expense.cost;
                     });
                     
-                    if (!response.ok) {
-                        throw new Error('Failed to assign employee');
+                    // Prepare chart data
+                    const chartLabels = Object.keys(categories);
+                    const chartData = Object.values(categories);
+                    
+                    // Create or update chart
+                    const ctx = document.getElementById('expense-chart').getContext('2d');
+                    
+                    if (expenseChart) {
+                        expenseChart.data.labels = chartLabels;
+                        expenseChart.data.datasets[0].data = chartData;
+                        expenseChart.update();
+                    } else {
+                        expenseChart = new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: chartLabels,
+                                datasets: [{
+                                    data: chartData,
+                                    backgroundColor: [
+                                        '#4361ee',
+                                        '#3f37c9',
+                                        '#4895ef',
+                                        '#4cc9f0',
+                                        '#560bad',
+                                        '#b5179e',
+                                        '#f72585'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'right'
+                                    }
+                                }
+                            }
+                        });
                     }
                     
-                    const data = await response.json();
-                    alert('Employee assigned successfully!');
-                    assignEmployeeForm.reset();
-                    assignEmployeeModal.style.display = 'none';
-                    loadWorkOpportunities();
-                } catch (error) {
-                    console.error('Error assigning employee:', error);
-                    alert('Failed to assign employee. Please try again.');
-                } finally {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }
-            });
-            
-            // Close modals when clicking outside
-            window.addEventListener('click', function(event) {
-                if (event.target === createOpportunityModal) {
-                    createOpportunityModal.style.display = 'none';
-                    opportunityForm.reset();
-                }
-                if (event.target === assignEmployeeModal) {
-                    assignEmployeeModal.style.display = 'none';
-                    assignEmployeeForm.reset();
-                }
-            });
-            
-            // Close modals with X button
-            document.querySelectorAll('.close-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    createOpportunityModal.style.display = 'none';
-                    assignEmployeeModal.style.display = 'none';
-                    opportunityForm.reset();
-                    assignEmployeeForm.reset();
-                });
-            });
-            
-            // Load work opportunities when page loads
-            loadWorkOpportunities();
-            
-            // Expose functions to global scope
-            window.editEmployee = editEmployee;
-            window.deleteEmployee = deleteEmployee;
-            window.editDeployment = editDeployment;
-            window.deleteDeployment = deleteDeployment;
-        });
-
-        // Edit employee function
-        async function editEmployee(employeeId) {
-            try {
-                const response = await fetch(`https://man-m681.onrender.com/employees/${employeeId}`);
-                
-                if (!response.ok) {
-                    throw new Error('Failed to fetch employee');
-                }
-                
-                const employee = await response.json();
-                
-                // Populate form
-                document.getElementById('employeeName').value = employee.name;
-                document.getElementById('employeeNIN').value = employee.nin;
-                document.getElementById('employeeDOB').value = employee.dob;
-                document.getElementById('employeeQualification').value = employee.qualification;
-                document.getElementById('employeeEmail').value = employee.email || '';
-                document.getElementById('employeePhone').value = employee.phone || '';
-                document.getElementById('text').value = employee.profession || '';
-                
-                // Change form title and button
-                document.querySelector('.employee-form-container .section-title').textContent = 'Edit Employee';
-                document.getElementById('employeeForm').querySelector('button[type="submit"]').textContent = 'Update Employee';
-                
-                // Scroll to form
-                document.querySelector('.employee-form-container').scrollIntoView({ behavior: 'smooth' });
-            } catch (error) {
-                console.error('Error editing employee:', error);
-                alert('Failed to load employee for editing');
-            }
-        }
-
-        // Delete employee function
-        async function deleteEmployee(employeeId) {
-            if (!confirm('Are you sure you want to delete this employee?')) {
-                return;
-            }
-            
-            try {
-                const response = await fetch(`https://man-m681.onrender.com/employees/${employeeId}`, {
-                    method: 'DELETE'
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Failed to delete employee');
-                }
-                
-                alert('Employee deleted successfully');
-                document.querySelector(`#employeesTable tbody tr[data-id="${employeeId}"]`)?.remove();
-            } catch (error) {
-                console.error('Error deleting employee:', error);
-                alert('Failed to delete employee');
-            }
-        }
-
-        // Edit deployment function
-        async function editDeployment(deploymentId) {
-            alert(`Edit deployment ${deploymentId} functionality will be implemented`);
-        }
-
-        // Delete deployment function
-        async function deleteDeployment(deploymentId) {
-            if (!confirm('Are you sure you want to remove this deployment?')) {
-                return;
-            }
-            
-            try {
-                const response = await fetch(`https://man-m681.onrender.com/deployments/${deploymentId}`, {
-                    method: 'DELETE'
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Failed to delete deployment');
-                }
-                
-                alert('Deployment removed successfully');
-                document.querySelector(`.deployment-item[data-id="${deploymentId}"]`)?.remove();
-            } catch (error) {
-                console.error('Error deleting deployment:', error);
-                alert('Failed to delete deployment');
-            }
-        }
-
-        // Function to load work opportunities
-        async function loadWorkOpportunities() {
-            try {
-                const response = await fetch('https://man-m681.onrender.com/work-opportunities/');
-                
-                if (!response.ok) {
-                    throw new Error('Failed to fetch work opportunities');
-                }
-                
-                const opportunities = await response.json();
-                const opportunitiesContainer = document.querySelector('.work-opportunities');
-                
-                // Clear existing cards except the header and button
-                const existingCards = document.querySelectorAll('.opportunity-card');
-                existingCards.forEach(card => card.remove());
-                
-                if (opportunities.length === 0) {
-                    const noOpportunities = document.createElement('p');
-                    noOpportunities.textContent = 'No work opportunities found';
-                    opportunitiesContainer.insertBefore(noOpportunities, document.getElementById('addOpportunityBtn'));
-                    return;
-                }
-                
-                // Load employees for dropdown
-                const employeesResponse = await fetch('https://man-m681.onrender.com/employees/');
-                if (!employeesResponse.ok) throw new Error('Failed to fetch employees');
-                const employees = await employeesResponse.json();
-                
-                // Populate assign employee dropdown
-                const assignDropdown = document.getElementById('employeeToAssign');
-                assignDropdown.innerHTML = '<option value="">Select employee</option>';
-                employees.forEach(employee => {
-                    const option = document.createElement('option');
-                    option.value = employee.id;
-                    option.textContent = employee.name;
-                    assignDropdown.appendChild(option);
-                });
-                
-                // Create cards for each opportunity
-                for (const opportunity of opportunities) {
-                    // Get assignments for this opportunity
-                    const assignmentsResponse = await fetch(`https://man-m681.onrender.com/opportunity-assignments/${opportunity.id}`);
-                    const assignments = assignmentsResponse.ok ? await assignmentsResponse.json() : [];
+                    // Populate expense table
+                    expenseTable.innerHTML = '';
+                    expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
                     
-                    const opportunityCard = document.createElement('div');
-                    opportunityCard.className = 'opportunity-card';
-                    opportunityCard.innerHTML = `
-                        <div class="opportunity-header">
-                            <h3 class="opportunity-title">${opportunity.title}</h3>
-                            <div class="opportunity-meta">
-                                <span><i class="fas fa-calendar-alt"></i> ${new Date(opportunity.created_at).toLocaleDateString()}</span>
-                                <span><i class="fas fa-circle" style="color: ${opportunity.status === 'open' ? '#2ecc71' : '#e74c3c'}"></i> ${opportunity.status}</span>
-                            </div>
-                        </div>
+                    expenses.forEach(expense => {
+                        const categoryMatch = expense.description.match(/^([^:]+):/);
+                        const category = categoryMatch ? categoryMatch[1].trim() : 'Other';
+                        const description = categoryMatch ? expense.description.replace(/^[^:]+:\s*/, '') : expense.description;
                         
-                        <div class="opportunity-description">
-                            ${opportunity.description}
-                        </div>
-                        
-                        <div class="opportunity-footer">
-                            <div class="assigned-employees">
-                                <span>Assigned:</span>
-                                ${assignments.slice(0, 3).map(assignment => `
-                                    <div class="employee-avatar" title="${assignment.employee_name}">
-                                        ${getInitials(assignment.employee_name)}
-                                    </div>
-                                `).join('')}
-                                ${assignments.length > 3 ? `<div class="employee-avatar">+${assignments.length - 3}</div>` : ''}
-                                ${assignments.length === 0 ? '<span>None</span>' : ''}
-                            </div>
-                            
-                            <button class="btn btn-primary btn-sm" onclick="openAssignEmployeeModal(${opportunity.id})">
-                                <i class="fas fa-plus"></i> Assign Employee
-                            </button>
-                        </div>
-                    `;
-                    
-                    // Insert before the "Create New Opportunity" button
-                    opportunitiesContainer.insertBefore(opportunityCard, document.getElementById('addOpportunityBtn'));
-                }
-            } catch (error) {
-                console.error('Error loading work opportunities:', error);
-                const opportunitiesContainer = document.querySelector('.work-opportunities');
-                const errorElement = document.createElement('p');
-                errorElement.style.color = 'red';
-                errorElement.textContent = 'Failed to load work opportunities';
-                opportunitiesContainer.insertBefore(errorElement, document.getElementById('addOpportunityBtn'));
-            }
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${formatDate(expense.date)}</td>
+                            <td>$${expense.cost.toLocaleString()}</td>
+                            <td>${category}</td>
+                            <td>${description}</td>
+                            <td>
+                                <button class="btn-danger" onclick="deleteExpense(${expense.id})">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        `;
+                        expenseTable.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading expenses:', error);
+                });
         }
-
-        // Helper function to get initials from name
-        function getInitials(name) {
-            return name.split(' ').map(part => part[0]).join('').toUpperCase().substring(0, 2);
+        
+        // Delete a transaction
+        function deleteTransaction(id, type) {
+            if (!confirm('Are you sure you want to delete this transaction?')) return;
+            
+            axios.delete(`${API_BASE_URL}/transactions/${id}`)
+                .then(response => {
+                    alert('Transaction deleted successfully!');
+                    if (type === 'savings') {
+                        loadSavings();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting transaction:', error);
+                    alert('Failed to delete transaction. Please try again.');
+                });
         }
+        
+        // Delete an expense
+        function deleteExpense(id) {
+            if (!confirm('Are you sure you want to delete this expense?')) return;
+            
+            axios.delete(`${API_BASE_URL}/expenses/${id}`)
+                .then(response => {
+                    alert('Expense deleted successfully!');
+                    loadExpenses();
+                })
+                .catch(error => {
+                    console.error('Error deleting expense:', error);
+                    alert('Failed to delete expense. Please try again.');
+                });
+        }
+        
+        // Update countdown timer
+        function updateCountdown() {
+            const daysRemaining = calculateDaysRemaining();
+            daysRemainingEl.textContent = daysRemaining;
+            
+            // Calculate months, days, hours, minutes remaining
+            const now = new Date();
+            const goalDate = new Date(now);
+            goalDate.setMonth(now.getMonth() + 19);
+            
+            const diff = goalDate - now;
+            const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+            const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('countdown-months').textContent = months;
+            document.getElementById('countdown-days').textContent = days;
+            document.getElementById('countdown-hours').textContent = hours;
+            document.getElementById('countdown-minutes').textContent = minutes;
+        }
+        
+        // Calculate days remaining until goal date (19 months from now)
+        function calculateDaysRemaining() {
+            const now = new Date();
+            const goalDate = new Date(now);
+            goalDate.setMonth(now.getMonth() + 19);
+            
+            const diff = goalDate - now;
+            return Math.floor(diff / (1000 * 60 * 60 * 24));
+        }
+        
+        // Update sobriety counter
+        function updateSobrietyCounter() {
+            const now = new Date();
+            const diff = now - sobrietyStartDate;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            sobrietyDaysEl.textContent = days;
+            sobrietyStartDateEl.textContent = formatDate(sobrietyStartDate.toISOString().split('T')[0]);
+            
+            // Calculate progress (19 months = ~578 days)
+            const progress = (days / 578) * 100;
+            sobrietyProgressEl.style.width = `${Math.min(progress, 100)}%`;
+        }
+        
+        // Format date as MM/DD/YYYY
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+        
+        // Make functions available globally
+        window.deleteTransaction = deleteTransaction;
+        window.deleteExpense = deleteExpense;
     </script>
 </body>
 </html>
