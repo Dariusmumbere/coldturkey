@@ -616,4 +616,493 @@
             const startDate = new Date(abstinenceTracker.start_date);
             const endDate = new Date(abstinenceTracker.end_date);
             
-            const formattedStartDate = startDate.toLocale
+            const formattedStartDate = startDate.toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+            
+            const formattedEndDate = endDate.toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+            
+            document.getElementById('abstinence-tracker-container').innerHTML = `
+                <p>Goal: Stay alcohol-free from ${formattedStartDate} to ${formattedEndDate}</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <h3>Current Streak</h3>
+                        <p>${abstinenceTracker.current_streak} days</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Longest Streak</h3>
+                        <p>${abstinenceTracker.longest_streak} days</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Total Days</h3>
+                        <p>${abstinenceTracker.total_days} days</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Load abstinence progress data
+        async function loadAbstinenceProgress() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/abstinence/progress/`);
+                if (!response.ok) throw new Error('Failed to fetch abstinence progress');
+                
+                const progress = await response.json();
+                renderAbstinenceProgress(progress);
+            } catch (error) {
+                console.error('Error loading abstinence progress:', error);
+                document.getElementById('abstinence-progress-container').innerHTML = `
+                    <p class="danger-text">Failed to load abstinence progress. ${error.message}</p>
+                `;
+            }
+        }
+        
+        // Render abstinence progress
+        function renderAbstinenceProgress(progress) {
+            const successRate = progress.days_completed > 0 ? 
+                (progress.total_days / progress.days_completed * 100).toFixed(2) : 0;
+            
+            document.getElementById('abstinence-progress-container').innerHTML = `
+                <div class="progress-container">
+                    <p>${progress.days_completed} of ${progress.total_days_planned} days completed (${successRate}% success rate)</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${(progress.days_completed / progress.total_days_planned) * 100}%"></div>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <h3>Days Left</h3>
+                            <p>${progress.days_remaining}</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>Success Rate</h3>
+                            <p>${successRate}%</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Update monthly stats
+            updateMonthlyStats();
+        }
+        
+        // Update monthly stats and chart
+        function updateMonthlyStats() {
+            // This is a simplified version - in a real app, you'd get this data from the backend
+            const monthlyData = generateMonthlyData();
+            
+            document.getElementById('monthly-stats').innerHTML = `
+                <div class="stat-item">
+                    <h3>Current Month Savings</h3>
+                    <p>${formatCurrency(monthlyData.currentMonth.savings)} UGX</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Current Month Abstinence</h3>
+                    <p>${monthlyData.currentMonth.abstinenceDays} / ${monthlyData.currentMonth.totalDays} days</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Overall Progress</h3>
+                    <p>${Math.round((monthlyData.overall.savings / savingsGoal.target_amount) * 100)}%</p>
+                </div>
+            `;
+            
+            renderProgressChart(monthlyData);
+        }
+        
+        // Generate sample monthly data (in a real app, this would come from the backend)
+        function generateMonthlyData() {
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+            
+            // Calculate days in current month
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const daysSoFar = now.getDate();
+            
+            // Calculate savings progress (simplified)
+            const monthlySavingsTarget = savingsGoal ? savingsGoal.monthly_savings : 0;
+            const currentSavings = savingsGoal ? savingsGoal.current_amount : 0;
+            
+            // Calculate abstinence days (simplified)
+            const abstinenceDays = abstinenceTracker ? 
+                Math.min(Math.floor(abstinenceTracker.total_days * (daysSoFar / daysInMonth)), daysSoFar) : 0;
+            
+            // Generate data for chart
+            const months = [];
+            const savingsData = [];
+            const abstinenceData = [];
+            
+            const startDate = abstinenceTracker ? new Date(abstinenceTracker.start_date) : new Date();
+            const endDate = abstinenceTracker ? new Date(abstinenceTracker.end_date) : new Date();
+            
+            let currentDate = new Date(startDate);
+            let cumulativeSavings = 0;
+            
+            while (currentDate <= endDate) {
+                const monthYear = currentDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+                months.push(monthYear);
+                
+                // Simplified calculation - in reality, you'd get this from actual transactions
+                const monthlyAmount = savingsGoal ? savingsGoal.monthly_savings : 0;
+                cumulativeSavings += monthlyAmount;
+                savingsData.push(cumulativeSavings);
+                
+                // Simplified abstinence days - assuming 90% success rate
+                const daysInThisMonth = new Date(
+                    currentDate.getFullYear(), 
+                    currentDate.getMonth() + 1, 
+                    0
+                ).getDate();
+                
+                abstinenceData.push(Math.floor(daysInThisMonth * 0.9));
+                
+                // Move to next month
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            }
+            
+            return {
+                currentMonth: {
+                    savings: monthlySavingsTarget * (daysSoFar / daysInMonth),
+                    abstinenceDays: abstinenceDays,
+                    totalDays: daysSoFar
+                },
+                overall: {
+                    savings: currentSavings,
+                    abstinenceDays: abstinenceTracker ? abstinenceTracker.total_days : 0
+                },
+                chartData: {
+                    months: months,
+                    savings: savingsData,
+                    abstinence: abstinenceData
+                }
+            };
+        }
+        
+        // Render progress chart
+        function renderProgressChart(data) {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            
+            // Destroy previous chart if it exists
+            if (progressChart) {
+                progressChart.destroy();
+            }
+            
+            progressChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.chartData.months,
+                    datasets: [
+                        {
+                            label: 'Savings (UGX)',
+                            data: data.chartData.savings,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Abstinence Days',
+                            data: data.chartData.abstinence,
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            type: 'line',
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Savings (UGX)'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Abstinence Days'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Load transactions
+        async function loadTransactions() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/savings/transactions/`);
+                if (!response.ok) throw new Error('Failed to fetch transactions');
+                
+                const transactions = await response.json();
+                renderTransactions(transactions);
+            } catch (error) {
+                console.error('Error loading transactions:', error);
+                document.querySelector('#transactions-table tbody').innerHTML = `
+                    <tr>
+                        <td colspan="4" class="danger-text">Failed to load transactions. ${error.message}</td>
+                    </tr>
+                `;
+            }
+        }
+        
+        // Render transactions
+        function renderTransactions(transactions) {
+            const tbody = document.querySelector('#transactions-table tbody');
+            tbody.innerHTML = '';
+            
+            if (transactions.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4">No transactions yet</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            transactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                
+                const date = new Date(transaction.date);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'short', day: 'numeric'
+                });
+                
+                const amountClass = transaction.type === 'deposit' ? 'success-text' : 'danger-text';
+                const amountSign = transaction.type === 'deposit' ? '+' : '-';
+                
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td class="${amountClass}">${amountSign}${formatCurrency(transaction.amount)} UGX</td>
+                    <td>${transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1)}</td>
+                    <td>${transaction.description || '-'}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Load check-ins
+        async function loadCheckins() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/abstinence/checkins/`);
+                if (!response.ok) throw new Error('Failed to fetch check-ins');
+                
+                const checkins = await response.json();
+                renderCheckins(checkins);
+            } catch (error) {
+                console.error('Error loading check-ins:', error);
+                document.querySelector('#checkins-table tbody').innerHTML = `
+                    <tr>
+                        <td colspan="3" class="danger-text">Failed to load check-ins. ${error.message}</td>
+                    </tr>
+                `;
+            }
+        }
+        
+        // Render check-ins
+        function renderCheckins(checkins) {
+            const tbody = document.querySelector('#checkins-table tbody');
+            tbody.innerHTML = '';
+            
+            if (checkins.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="3">No check-ins yet</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            checkins.forEach(checkin => {
+                const row = document.createElement('tr');
+                
+                const date = new Date(checkin.date);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'short', day: 'numeric'
+                });
+                
+                const statusClass = checkin.success ? 'success-text' : 'danger-text';
+                const statusText = checkin.success ? 'Success' : 'Failed';
+                
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td class="${statusClass}">${statusText}</td>
+                    <td>${checkin.notes || '-'}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Render abstinence calendar
+        async function renderAbstinenceCalendar() {
+            if (!abstinenceTracker) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/abstinence/checkins/`);
+                if (!response.ok) throw new Error('Failed to fetch check-ins');
+                
+                const checkins = await response.json();
+                const checkinMap = {};
+                
+                checkins.forEach(checkin => {
+                    checkinMap[checkin.date] = checkin.success;
+                });
+                
+                const today = new Date();
+                const currentMonth = today.getMonth();
+                const currentYear = today.getFullYear();
+                
+                // Get first day of month and total days in month
+                const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                
+                // Create calendar header
+                const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                let calendarHTML = '<div class="calendar">';
+                
+                // Add day headers
+                daysOfWeek.forEach(day => {
+                    calendarHTML += `<div class="calendar-header">${day}</div>`;
+                });
+                
+                // Add empty cells for days before the first day of the month
+                for (let i = 0; i < firstDay; i++) {
+                    calendarHTML += '<div class="calendar-day empty"></div>';
+                }
+                
+                // Add days of the month
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+                    
+                    let dayClass = 'calendar-day';
+                    if (checkinMap[dateStr] !== undefined) {
+                        dayClass += checkinMap[dateStr] ? ' success' : ' failure';
+                    }
+                    if (isToday) {
+                        dayClass += ' today';
+                    }
+                    
+                    calendarHTML += `<div class="${dayClass}">${day}</div>`;
+                }
+                
+                calendarHTML += '</div>';
+                document.getElementById('abstinence-calendar').innerHTML = calendarHTML;
+            } catch (error) {
+                console.error('Error rendering calendar:', error);
+                document.getElementById('abstinence-calendar').innerHTML = `
+                    <p class="danger-text">Failed to load calendar. ${error.message}</p>
+                `;
+            }
+        }
+        
+        // Handle transaction form submission
+        async function handleTransactionSubmit(e) {
+            e.preventDefault();
+            
+            const amount = parseFloat(document.getElementById('transaction-amount').value);
+            const type = document.getElementById('transaction-type').value;
+            const date = document.getElementById('transaction-date').value;
+            const description = document.getElementById('transaction-description').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/savings/transaction/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: amount,
+                        type: type,
+                        date: date,
+                        description: description
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to record transaction');
+                }
+                
+                // Refresh data
+                await loadSavingsGoal();
+                await loadTransactions();
+                
+                // Reset form
+                document.getElementById('transaction-amount').value = '';
+                document.getElementById('transaction-description').value = '';
+                
+                alert('Transaction recorded successfully!');
+            } catch (error) {
+                console.error('Error recording transaction:', error);
+                alert(`Error: ${error.message}`);
+            }
+        }
+        
+        // Handle check-in form submission
+        async function handleCheckinSubmit(e) {
+            e.preventDefault();
+            
+            const date = document.getElementById('checkin-date').value;
+            const success = document.querySelector('input[name="checkin-success"]:checked').value === 'true';
+            const notes = document.getElementById('checkin-notes').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/abstinence/checkin/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        date: date,
+                        success: success,
+                        notes: notes
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to record check-in');
+                }
+                
+                // Refresh data
+                await loadAbstinenceTracker();
+                await loadCheckins();
+                await renderAbstinenceCalendar();
+                
+                // Reset form
+                document.getElementById('checkin-notes').value = '';
+                
+                alert('Check-in recorded successfully!');
+            } catch (error) {
+                console.error('Error recording check-in:', error);
+                alert(`Error: ${error.message}`);
+            }
+        }
+        
+        // Helper function to format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US').format(amount);
+        }
+    </script>
+</body>
+</html>
