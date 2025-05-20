@@ -1143,4 +1143,151 @@
                 tableBody.innerHTML = '';
                 
                 transactions.forEach(transaction => {
-                    const row =
+                    const row = document.createElement('tr');
+                    
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = formatDate(transaction.date);
+                    
+                    const amountCell = document.createElement('td');
+                    amountCell.textContent = formatCurrency(transaction.amount);
+                    
+                    const typeCell = document.createElement('td');
+                    const typeBadge = document.createElement('span');
+                    typeBadge.className = `badge ${transaction.type === 'deposit' ? 'badge-success' : 'badge-danger'}`;
+                    typeBadge.textContent = transaction.type === 'deposit' ? 'Deposit' : 'Withdrawal';
+                    typeCell.appendChild(typeBadge);
+                    
+                    const descCell = document.createElement('td');
+                    descCell.textContent = transaction.description || 'No description';
+                    
+                    row.appendChild(dateCell);
+                    row.appendChild(amountCell);
+                    row.appendChild(typeCell);
+                    row.appendChild(descCell);
+                    
+                    tableBody.appendChild(row);
+                });
+                
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+        
+        async function loadAbstinenceData() {
+            try {
+                // Load tracker data
+                const trackerResponse = await fetch('/abstinence/tracker/');
+                if (!trackerResponse.ok) throw new Error('Failed to load abstinence tracker');
+                
+                const tracker = await trackerResponse.json();
+                
+                document.getElementById('current-streak').textContent = `${tracker.current_streak} days`;
+                document.getElementById('longest-streak').textContent = `${tracker.longest_streak} days`;
+                document.getElementById('total-days').textContent = `${tracker.total_days} days`;
+                document.getElementById('abstinence-days').textContent = tracker.total_days;
+                
+                // Load progress data
+                const progressResponse = await fetch('/abstinence/progress/');
+                if (!progressResponse.ok) throw new Error('Failed to load abstinence progress');
+                
+                const progress = await progressResponse.json();
+                // Could use this data for additional visualizations
+                
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+        
+        async function loadCheckins(year, month) {
+            try {
+                const response = await fetch(`/abstinence/calendar/?year=${year}&month=${month + 1}`);
+                if (!response.ok) throw new Error('Failed to load check-in data');
+                
+                return await response.json();
+            } catch (error) {
+                showToast(error.message, 'error');
+                return { checkins: {} };
+            }
+        }
+        
+        // Calendar Rendering
+        async function renderCalendar() {
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            calendarMonth.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            // Get first day of month and total days in month
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Get check-in data for this month
+            const calendarData = await loadCheckins(currentYear, currentMonth);
+            const checkins = calendarData.checkins || {};
+            
+            // Clear previous calendar
+            calendarDays.innerHTML = '';
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendarDays.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            const today = new Date();
+            const isCurrentMonth = today.getFullYear() === currentYear && today.getMonth() === currentMonth;
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                const checkin = checkins[dateStr];
+                
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                // Highlight today
+                if (isCurrentMonth && day === today.getDate()) {
+                    dayElement.classList.add('today');
+                }
+                
+                // Add check-in status if available
+                if (checkin !== undefined) {
+                    dayElement.classList.add(checkin ? 'success' : 'failure');
+                }
+                
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'calendar-day-number';
+                dayNumber.textContent = day;
+                dayElement.appendChild(dayNumber);
+                
+                if (checkin !== undefined) {
+                    const dayStatus = document.createElement('div');
+                    dayStatus.className = 'calendar-day-status';
+                    dayStatus.textContent = checkin ? '✓' : '✗';
+                    dayElement.appendChild(dayStatus);
+                }
+                
+                calendarDays.appendChild(dayElement);
+            }
+        }
+        
+        // Initialize the app
+        async function initApp() {
+            await loadSavingsData();
+            await loadTransactions();
+            await loadAbstinenceData();
+            renderCalendar();
+            
+            // Set today's date in forms
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('target-date-input').value = today;
+            document.getElementById('transaction-date').value = today;
+            document.getElementById('checkin-date').value = today;
+        }
+        
+        // Start the application
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
