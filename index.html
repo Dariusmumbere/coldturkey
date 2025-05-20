@@ -985,7 +985,7 @@
             };
             
             try {
-                const response = await fetch('/savings/goal/', {
+                const response = await fetch('https://man-m681.onrender.com/savings/goal/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1043,7 +1043,7 @@
             };
             
             try {
-                const response = await fetch('/abstinence/checkin/', {
+                const response = await fetch('https://man-m681.onrender.com/abstinence/checkin/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1096,7 +1096,7 @@
         async function loadSavingsData() {
             try {
                 // Load savings goal
-                const goalResponse = await fetch('/savings/goal/');
+                const goalResponse = await fetch('https://man-m681.onrender.com/savings/goal/');
                 if (!goalResponse.ok) throw new Error('Failed to load savings goal');
                 
                 const goal = await goalResponse.json();
@@ -1122,7 +1122,7 @@
                 document.getElementById('goal-description-input').value = goal.description || '';
                 
                 // Load progress stats
-                const progressResponse = await fetch('/savings/progress/');
+                const progressResponse = await fetch('https://man-m681.onrender.com/savings/progress/');
                 if (!progressResponse.ok) throw new Error('Failed to load progress stats');
                 
                 const progress = await progressResponse.json();
@@ -1135,7 +1135,7 @@
         
         async function loadTransactions() {
             try {
-                const response = await fetch('/savings/transactions/');
+                const response = await fetch('https://man-m681.onrender.com/savings/transactions/');
                 if (!response.ok) throw new Error('Failed to load transactions');
                 
                 const transactions = await response.json();
@@ -1176,7 +1176,7 @@
         async function loadAbstinenceData() {
             try {
                 // Load tracker data
-                const trackerResponse = await fetch('/abstinence/tracker/');
+                const trackerResponse = await fetch('https://man-m681.onrender.com/abstinence/tracker/');
                 if (!trackerResponse.ok) throw new Error('Failed to load abstinence tracker');
                 
                 const tracker = await trackerResponse.json();
@@ -1187,7 +1187,7 @@
                 document.getElementById('abstinence-days').textContent = tracker.total_days;
                 
                 // Load progress data
-                const progressResponse = await fetch('/abstinence/progress/');
+                const progressResponse = await fetch('https://man-m681.onrender.com/abstinence/progress/');
                 if (!progressResponse.ok) throw new Error('Failed to load abstinence progress');
                 
                 const progress = await progressResponse.json();
@@ -1200,7 +1200,7 @@
         
         async function loadCheckins(year, month) {
             try {
-                const response = await fetch(`/abstinence/calendar/?year=${year}&month=${month + 1}`);
+                const response = await fetch(`https://man-m681.onrender.com/abstinence/calendar/?year=${year}&month=${month + 1}`);
                 if (!response.ok) throw new Error('Failed to load check-in data');
                 
                 return await response.json();
