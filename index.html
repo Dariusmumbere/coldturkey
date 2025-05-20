@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Savings & Abstinence Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --primary: #4a6fa5;
-            --secondary: #166088;
-            --accent: #4fc3f7;
-            --success: #4caf50;
-            --warning: #ff9800;
-            --danger: #f44336;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background-color: #f5f7fa;
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
             color: var(--dark);
             line-height: 1.6;
         }
@@ -33,233 +35,381 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
         
         header {
-            background-color: var(--primary);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1, h2, h3 {
-            margin-bottom: 15px;
-        }
-        
-        .card {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .progress-container {
-            margin-bottom: 20px;
-        }
-        
-        .progress-bar {
-            height: 20px;
-            background-color: #e9ecef;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background-color: var(--success);
-            transition: width 0.3s ease;
-        }
-        
-        .stats {
+        .navbar {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
+            align-items: center;
+            padding: 20px 0;
         }
         
-        .stat-item {
-            text-align: center;
-            padding: 15px;
-            background-color: var(--light);
-            border-radius: 8px;
-            flex: 1;
-            margin: 0 5px;
-        }
-        
-        .stat-item h3 {
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
             color: var(--primary);
-            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .stat-item p {
-            font-size: 1.5rem;
-            font-weight: bold;
+        .logo i {
+            font-size: 28px;
         }
         
-        form {
-            display: grid;
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
             gap: 15px;
         }
         
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        
-        button {
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             background-color: var(--primary);
             color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 600;
-            transition: background-color 0.3s;
+            cursor: pointer;
         }
         
-        button:hover {
-            background-color: var(--secondary);
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+            margin-top: 30px;
         }
         
-        .btn-success {
-            background-color: var(--success);
+        .sidebar {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            height: fit-content;
         }
         
-        .btn-success:hover {
-            background-color: #3d8b40;
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
         
-        .btn-danger {
-            background-color: var(--danger);
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: all 0.3s;
         }
         
-        .btn-danger:hover {
-            background-color: #d32f2f;
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: #f1f5f9;
+            color: var(--primary);
         }
         
-        .btn-warning {
-            background-color: var(--warning);
+        .sidebar-menu a i {
+            font-size: 18px;
         }
         
-        .btn-warning:hover {
-            background-color: #e68a00;
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .welcome-text h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-text p {
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card h3 {
+            font-size: 16px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card .progress {
+            height: 6px;
+            background-color: var(--light-gray);
+            border-radius: 3px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+        
+        .stat-card .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .savings-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--light-gray);
+            color: var(--gray);
+        }
+        
+        .btn-outline:hover {
+            background-color: #f8fafc;
+        }
+        
+        .savings-goal {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .goal-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .goal-label {
+            color: var(--gray);
+        }
+        
+        .goal-value {
+            font-weight: 600;
+        }
+        
+        .savings-transactions {
+            margin-top: 30px;
+        }
+        
+        .transactions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
         }
         
         th, td {
             padding: 12px 15px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--light-gray);
         }
         
         th {
-            background-color: var(--light);
-            font-weight: 600;
+            font-weight: 500;
+            color: var(--gray);
+            font-size: 14px;
         }
         
-        tr:hover {
-            background-color: rgba(0, 0, 0, 0.02);
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
         }
         
-        .success-text {
+        .badge-success {
+            background-color: #ecfdf5;
             color: var(--success);
         }
         
-        .danger-text {
+        .badge-danger {
+            background-color: #fef2f2;
             color: var(--danger);
         }
         
-        .warning-text {
-            color: var(--warning);
+        .abstinence-tracker {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
-        .tabs {
+        .streak-display {
             display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
+            justify-content: space-between;
+            margin-bottom: 30px;
         }
         
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
+        .streak-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8fafc;
+            flex: 1;
+            margin: 0 10px;
         }
         
-        .tab.active {
-            border-bottom-color: var(--primary);
-            font-weight: 600;
+        .streak-card:first-child {
+            margin-left: 0;
         }
         
-        .tab-content {
-            display: none;
+        .streak-card:last-child {
+            margin-right: 0;
         }
         
-        .tab-content.active {
-            display: block;
+        .streak-card h3 {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        .streak-card .value {
+            font-size: 28px;
+            font-weight: 700;
         }
         
         .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            margin-bottom: 20px;
+            margin-top: 30px;
         }
         
         .calendar-header {
-            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .calendar-nav button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray);
+            font-size: 18px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        
+        .calendar-day-header {
             text-align: center;
+            font-size: 14px;
+            color: var(--gray);
             padding: 10px;
-            background-color: var(--light);
         }
         
         .calendar-day {
             aspect-ratio: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
+            border-radius: 8px;
             cursor: pointer;
-        }
-        
-        .calendar-day.success {
-            background-color: rgba(76, 175, 80, 0.2);
-            color: var(--success);
-        }
-        
-        .calendar-day.failure {
-            background-color: rgba(244, 67, 54, 0.2);
-            color: var(--danger);
+            transition: all 0.3s;
         }
         
         .calendar-day.empty {
@@ -267,842 +417,730 @@
         }
         
         .calendar-day.today {
-            border: 2px solid var(--primary);
+            background-color: var(--primary);
+            color: white;
         }
         
-        @media (max-width: 768px) {
-            .grid {
+        .calendar-day.success {
+            background-color: #ecfdf5;
+            color: var(--success);
+        }
+        
+        .calendar-day.failure {
+            background-color: #fef2f2;
+            color: var(--danger);
+        }
+        
+        .calendar-day-number {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .calendar-day-status {
+            font-size: 12px;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--dark);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(30px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .toast.success {
+            background-color: var(--success);
+        }
+        
+        .toast.error {
+            background-color: var(--danger);
+        }
+        
+        @media (max-width: 992px) {
+            .dashboard {
                 grid-template-columns: 1fr;
             }
             
-            .stats {
-                flex-direction: column;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .stat-item {
-                margin: 5px 0;
+            .sidebar {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .streak-display {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .streak-card {
+                margin: 0;
             }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-piggy-bank"></i>
+                    <span>SavingsTracker</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="active">Dashboard</a>
+                    <a href="#">Savings</a>
+                    <a href="#">Abstinence</a>
+                    <a href="#">Reports</a>
+                </div>
+                <div class="user-menu">
+                    <div class="user-avatar">JD</div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
     <div class="container">
-        <header>
-            <h1>Savings & Abstinence Tracker</h1>
-            <p>Reach your 100M UGX goal in 19 months while staying alcohol-free</p>
-        </header>
-        
-        <div class="tabs">
-            <div class="tab active" data-tab="dashboard">Dashboard</div>
-            <div class="tab" data-tab="savings">Savings</div>
-            <div class="tab" data-tab="abstinence">Abstinence</div>
-            <div class="tab" data-tab="transactions">Transactions</div>
-            <div class="tab" data-tab="checkins">Check-ins</div>
-        </div>
-        
-        <div class="tab-content active" id="dashboard">
-            <h2>Your Progress Overview</h2>
+        <div class="dashboard">
+            <aside class="sidebar">
+                <div class="sidebar-menu">
+                    <a href="#" class="active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-bullseye"></i>
+                        <span>Savings Goals</span>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Abstinence Tracker</span>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Transactions</span>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Progress</span>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </aside>
             
-            <div class="grid">
-                <div class="card">
-                    <h3>Savings Goal Progress</h3>
-                    <div id="savings-progress-container">
-                        <p>Loading savings progress...</p>
+            <main class="main-content">
+                <div class="welcome-banner">
+                    <div class="welcome-text">
+                        <h1>Welcome back, John!</h1>
+                        <p>Track your savings and abstinence progress</p>
+                    </div>
+                    <div class="welcome-image">
+                        <i class="fas fa-piggy-bank" style="font-size: 60px; opacity: 0.8;"></i>
                     </div>
                 </div>
                 
-                <div class="card">
-                    <h3>Abstinence Progress</h3>
-                    <div id="abstinence-progress-container">
-                        <p>Loading abstinence progress...</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Savings Goal</h3>
+                        <div class="value" id="goal-amount">$0</div>
+                        <div class="progress">
+                            <div class="progress-bar" id="goal-progress" style="width: 0%"></div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3>Monthly Progress</h3>
-                <div class="stats" id="monthly-stats">
-                    <!-- Stats will be loaded here -->
-                </div>
-                <canvas id="progressChart" height="300"></canvas>
-            </div>
-        </div>
-        
-        <div class="tab-content" id="savings">
-            <div class="card">
-                <h2>Savings Goal</h2>
-                <div id="savings-goal-container">
-                    <p>Loading savings goal...</p>
+                    <div class="stat-card">
+                        <h3>Monthly Savings</h3>
+                        <div class="value" id="monthly-savings">$0</div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 100%; background-color: var(--secondary)"></div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Days Abstinent</h3>
+                        <div class="value" id="abstinence-days">0</div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 100%; background-color: var(--success)"></div>
+                        </div>
+                    </div>
                 </div>
                 
-                <h3 style="margin-top: 30px;">Update Savings</h3>
-                <form id="savings-transaction-form">
-                    <div class="form-group">
-                        <label for="transaction-amount">Amount (UGX)</label>
-                        <input type="number" id="transaction-amount" required>
+                <div class="savings-card">
+                    <div class="card-header">
+                        <h2>Savings Goal</h2>
+                        <button class="btn btn-primary" id="edit-goal-btn">
+                            <i class="fas fa-edit"></i>
+                            Edit Goal
+                        </button>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="transaction-type">Type</label>
-                        <select id="transaction-type" required>
-                            <option value="deposit">Deposit</option>
-                            <option value="withdrawal">Withdrawal</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="transaction-date">Date</label>
-                        <input type="date" id="transaction-date" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="transaction-description">Description</label>
-                        <input type="text" id="transaction-description">
-                    </div>
-                    
-                    <button type="submit" class="btn-success">Record Transaction</button>
-                </form>
-            </div>
-        </div>
-        
-        <div class="tab-content" id="abstinence">
-            <div class="card">
-                <h2>Alcohol Abstinence Tracker</h2>
-                <div id="abstinence-tracker-container">
-                    <p>Loading abstinence tracker...</p>
-                </div>
-                
-                <h3 style="margin-top: 30px;">Daily Check-in</h3>
-                <form id="abstinence-checkin-form">
-                    <div class="form-group">
-                        <label for="checkin-date">Date</label>
-                        <input type="date" id="checkin-date" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Did you stay alcohol-free today?</label>
-                        <div style="display: flex; gap: 15px; margin-top: 10px;">
-                            <label style="display: flex; align-items: center;">
-                                <input type="radio" name="checkin-success" value="true" checked style="width: auto; margin-right: 5px;">
-                                Yes
-                            </label>
-                            <label style="display: flex; align-items: center;">
-                                <input type="radio" name="checkin-success" value="false" style="width: auto; margin-right: 5px;">
-                                No
-                            </label>
+                    <div class="savings-goal">
+                        <div class="goal-row">
+                            <span class="goal-label">Target Amount:</span>
+                            <span class="goal-value" id="target-amount">$0</span>
+                        </div>
+                        <div class="goal-row">
+                            <span class="goal-label">Current Amount:</span>
+                            <span class="goal-value" id="current-amount">$0</span>
+                        </div>
+                        <div class="goal-row">
+                            <span class="goal-label">Monthly Savings:</span>
+                            <span class="goal-value" id="monthly-savings-value">$0</span>
+                        </div>
+                        <div class="goal-row">
+                            <span class="goal-label">Target Date:</span>
+                            <span class="goal-value" id="target-date">Not set</span>
+                        </div>
+                        <div class="goal-row">
+                            <span class="goal-label">Description:</span>
+                            <span class="goal-value" id="goal-description">No description</span>
                         </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="checkin-notes">Notes (optional)</label>
-                        <textarea id="checkin-notes" rows="3"></textarea>
+                    <div class="transactions-header">
+                        <h2>Recent Transactions</h2>
+                        <button class="btn btn-primary" id="add-transaction-btn">
+                            <i class="fas fa-plus"></i>
+                            Add Transaction
+                        </button>
                     </div>
                     
-                    <button type="submit" class="btn-success">Submit Check-in</button>
-                </form>
-            </div>
-            
-            <div class="card">
-                <h3>Monthly Calendar</h3>
-                <div id="abstinence-calendar">
-                    <!-- Calendar will be loaded here -->
+                    <div class="savings-transactions">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactions-table">
+                                <!-- Transactions will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="tab-content" id="transactions">
-            <div class="card">
-                <h2>Savings Transactions</h2>
-                <table id="transactions-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Transactions will be loaded here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <div class="tab-content" id="checkins">
-            <div class="card">
-                <h2>Abstinence Check-ins</h2>
-                <table id="checkins-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Check-ins will be loaded here -->
-                    </tbody>
-                </table>
-            </div>
+                
+                <div class="abstinence-tracker">
+                    <div class="card-header">
+                        <h2>Abstinence Tracker</h2>
+                        <button class="btn btn-primary" id="checkin-btn">
+                            <i class="fas fa-check"></i>
+                            Daily Check-in
+                        </button>
+                    </div>
+                    
+                    <div class="streak-display">
+                        <div class="streak-card">
+                            <h3>Current Streak</h3>
+                            <div class="value" id="current-streak">0 days</div>
+                        </div>
+                        <div class="streak-card">
+                            <h3>Longest Streak</h3>
+                            <div class="value" id="longest-streak">0 days</div>
+                        </div>
+                        <div class="streak-card">
+                            <h3>Total Days</h3>
+                            <div class="value" id="total-days">0 days</div>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar">
+                        <div class="calendar-header">
+                            <h2 id="calendar-month">Month Year</h2>
+                            <div class="calendar-nav">
+                                <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                                <button id="next-month"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendar-days-header">
+                            <div class="calendar-day-header">Sun</div>
+                            <div class="calendar-day-header">Mon</div>
+                            <div class="calendar-day-header">Tue</div>
+                            <div class="calendar-day-header">Wed</div>
+                            <div class="calendar-day-header">Thu</div>
+                            <div class="calendar-day-header">Fri</div>
+                            <div class="calendar-day-header">Sat</div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendar-days">
+                            <!-- Calendar days will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Edit Goal Modal -->
+    <div class="modal" id="goal-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Savings Goal</h2>
+                <button class="close-btn" id="close-goal-modal">&times;</button>
+            </div>
+            <form id="goal-form">
+                <div class="form-group">
+                    <label for="target-amount-input">Target Amount ($)</label>
+                    <input type="number" class="form-control" id="target-amount-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="current-amount-input">Current Amount ($)</label>
+                    <input type="number" class="form-control" id="current-amount-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="monthly-savings-input">Monthly Savings ($)</label>
+                    <input type="number" class="form-control" id="monthly-savings-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="target-date-input">Target Date</label>
+                    <input type="date" class="form-control" id="target-date-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="goal-description-input">Description</label>
+                    <textarea class="form-control" id="goal-description-input" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="cancel-goal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add Transaction Modal -->
+    <div class="modal" id="transaction-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Transaction</h2>
+                <button class="close-btn" id="close-transaction-modal">&times;</button>
+            </div>
+            <form id="transaction-form">
+                <div class="form-group">
+                    <label for="transaction-amount">Amount ($)</label>
+                    <input type="number" class="form-control" id="transaction-amount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="transaction-type">Type</label>
+                    <select class="form-control" id="transaction-type" required>
+                        <option value="deposit">Deposit</option>
+                        <option value="withdrawal">Withdrawal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="transaction-date">Date</label>
+                    <input type="date" class="form-control" id="transaction-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="transaction-description">Description</label>
+                    <textarea class="form-control" id="transaction-description" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="cancel-transaction-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Check-in Modal -->
+    <div class="modal" id="checkin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Daily Check-in</h2>
+                <button class="close-btn" id="close-checkin-modal">&times;</button>
+            </div>
+            <form id="checkin-form">
+                <div class="form-group">
+                    <label for="checkin-date">Date</label>
+                    <input type="date" class="form-control" id="checkin-date" required>
+                </div>
+                <div class="form-group">
+                    <label>Were you successful today?</label>
+                    <div style="display: flex; gap: 15px; margin-top: 10px;">
+                        <label style="display: flex; align-items: center; gap: 5px;">
+                            <input type="radio" name="checkin-success" value="true" required> 
+                            <span>Yes</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 5px;">
+                            <input type="radio" name="checkin-success" value="false"> 
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="checkin-notes">Notes</label>
+                    <textarea class="form-control" id="checkin-notes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="cancel-checkin-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Check-in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Operation successful</span>
+    </div>
+    
     <script>
-        // Base API URL - replace with your actual backend URL
-        const API_BASE_URL = 'https://man-m681.onrender.com';
+        // DOM Elements
+        const goalModal = document.getElementById('goal-modal');
+        const transactionModal = document.getElementById('transaction-modal');
+        const checkinModal = document.getElementById('checkin-modal');
+        const toast = document.getElementById('toast');
         
-        // Global variables
-        let savingsGoal = null;
-        let abstinenceTracker = null;
-        let progressChart = null;
+        // Buttons
+        const editGoalBtn = document.getElementById('edit-goal-btn');
+        const closeGoalModal = document.getElementById('close-goal-modal');
+        const cancelGoalBtn = document.getElementById('cancel-goal-btn');
+        const addTransactionBtn = document.getElementById('add-transaction-btn');
+        const closeTransactionModal = document.getElementById('close-transaction-modal');
+        const cancelTransactionBtn = document.getElementById('cancel-transaction-btn');
+        const checkinBtn = document.getElementById('checkin-btn');
+        const closeCheckinModal = document.getElementById('close-checkin-modal');
+        const cancelCheckinBtn = document.getElementById('cancel-checkin-btn');
         
-        // DOM elements
-        const tabElements = document.querySelectorAll('.tab');
-        const tabContentElements = document.querySelectorAll('.tab-content');
+        // Forms
+        const goalForm = document.getElementById('goal-form');
+        const transactionForm = document.getElementById('transaction-form');
+        const checkinForm = document.getElementById('checkin-form');
         
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set up tab switching
-            tabElements.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    
-                    // Update active tab
-                    tabElements.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update active content
-                    tabContentElements.forEach(content => {
-                        content.classList.remove('active');
-                        if (content.id === tabId) {
-                            content.classList.add('active');
-                        }
-                    });
-                });
-            });
-            
-            // Set today's date as default for forms
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('transaction-date').value = today;
-            document.getElementById('checkin-date').value = today;
-            
-            // Load initial data
-            loadSavingsGoal();
-            loadAbstinenceTracker();
-            loadTransactions();
-            loadCheckins();
-            
-            // Set up form submissions
-            document.getElementById('savings-transaction-form').addEventListener('submit', handleTransactionSubmit);
-            document.getElementById('abstinence-checkin-form').addEventListener('submit', handleCheckinSubmit);
+        // Calendar navigation
+        const prevMonthBtn = document.getElementById('prev-month');
+        const nextMonthBtn = document.getElementById('next-month');
+        const calendarMonth = document.getElementById('calendar-month');
+        const calendarDays = document.getElementById('calendar-days');
+        
+        // Current date for calendar
+        let currentDate = new Date();
+        let currentYear = currentDate.getFullYear();
+        let currentMonth = currentDate.getMonth();
+        
+        // Event Listeners
+        editGoalBtn.addEventListener('click', () => goalModal.classList.add('active'));
+        closeGoalModal.addEventListener('click', () => goalModal.classList.remove('active'));
+        cancelGoalBtn.addEventListener('click', () => goalModal.classList.remove('active'));
+        
+        addTransactionBtn.addEventListener('click', () => {
+            document.getElementById('transaction-date').valueAsDate = new Date();
+            transactionModal.classList.add('active');
+        });
+        closeTransactionModal.addEventListener('click', () => transactionModal.classList.remove('active'));
+        cancelTransactionBtn.addEventListener('click', () => transactionModal.classList.remove('active'));
+        
+        checkinBtn.addEventListener('click', () => {
+            document.getElementById('checkin-date').valueAsDate = new Date();
+            checkinModal.classList.add('active');
+        });
+        closeCheckinModal.addEventListener('click', () => checkinModal.classList.remove('active'));
+        cancelCheckinBtn.addEventListener('click', () => checkinModal.classList.remove('active'));
+        
+        prevMonthBtn.addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
         });
         
-        // Load savings goal data
-        async function loadSavingsGoal() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/savings/goal/`);
-                if (!response.ok) throw new Error('Failed to fetch savings goal');
-                
-                savingsGoal = await response.json();
-                renderSavingsGoal();
-                loadSavingsProgress();
-            } catch (error) {
-                console.error('Error loading savings goal:', error);
-                document.getElementById('savings-goal-container').innerHTML = `
-                    <p class="danger-text">Failed to load savings goal. ${error.message}</p>
-                `;
+        nextMonthBtn.addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
             }
-        }
+            renderCalendar();
+        });
         
-        // Render savings goal
-        function renderSavingsGoal() {
-            if (!savingsGoal) return;
+        // Form Submissions
+        goalForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            const targetDate = new Date(savingsGoal.target_date);
-            const formattedDate = targetDate.toLocaleDateString('en-US', {
-                year: 'numeric', month: 'long', day: 'numeric'
-            });
-            
-            const progressPercent = (savingsGoal.current_amount / savingsGoal.target_amount) * 100;
-            
-            document.getElementById('savings-goal-container').innerHTML = `
-                <div class="progress-container">
-                    <p>Target: ${formatCurrency(savingsGoal.target_amount)} UGX by ${formattedDate}</p>
-                    <p>Current: ${formatCurrency(savingsGoal.current_amount)} UGX</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${Math.min(progressPercent, 100)}%"></div>
-                    </div>
-                    <p>${progressPercent.toFixed(2)}% of goal achieved</p>
-                </div>
-                <div class="stats">
-                    <div class="stat-item">
-                        <h3>Monthly Target</h3>
-                        <p>${formatCurrency(savingsGoal.monthly_savings)} UGX</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>Remaining</h3>
-                        <p>${formatCurrency(savingsGoal.target_amount - savingsGoal.current_amount)} UGX</p>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Load savings progress data
-        async function loadSavingsProgress() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/savings/progress/`);
-                if (!response.ok) throw new Error('Failed to fetch savings progress');
-                
-                const progress = await response.json();
-                renderSavingsProgress(progress);
-            } catch (error) {
-                console.error('Error loading savings progress:', error);
-                document.getElementById('savings-progress-container').innerHTML = `
-                    <p class="danger-text">Failed to load savings progress. ${error.message}</p>
-                `;
-            }
-        }
-        
-        // Render savings progress
-        function renderSavingsProgress(progress) {
-            const onTrackStatus = progress.on_track ? 
-                '<span class="success-text">On Track</span>' : 
-                '<span class="danger-text">Behind Schedule</span>';
-            
-            document.getElementById('savings-progress-container').innerHTML = `
-                <div class="progress-container">
-                    <p>${progress.progress_percent}% of goal achieved (${onTrackStatus})</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${Math.min(progress.progress_percent, 100)}%"></div>
-                    </div>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <h3>Months Left</h3>
-                            <p>${progress.months_remaining}</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3>Monthly Savings</h3>
-                            <p>${formatCurrency(progress.monthly_savings)} UGX</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Load abstinence tracker data
-        async function loadAbstinenceTracker() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/abstinence/tracker/`);
-                if (!response.ok) throw new Error('Failed to fetch abstinence tracker');
-                
-                abstinenceTracker = await response.json();
-                renderAbstinenceTracker();
-                loadAbstinenceProgress();
-                renderAbstinenceCalendar();
-            } catch (error) {
-                console.error('Error loading abstinence tracker:', error);
-                document.getElementById('abstinence-tracker-container').innerHTML = `
-                    <p class="danger-text">Failed to load abstinence tracker. ${error.message}</p>
-                `;
-            }
-        }
-        
-        // Render abstinence tracker
-        function renderAbstinenceTracker() {
-            if (!abstinenceTracker) return;
-            
-            const startDate = new Date(abstinenceTracker.start_date);
-            const endDate = new Date(abstinenceTracker.end_date);
-            
-            const formattedStartDate = startDate.toLocaleDateString('en-US', {
-                year: 'numeric', month: 'long', day: 'numeric'
-            });
-            
-            const formattedEndDate = endDate.toLocaleDateString('en-US', {
-                year: 'numeric', month: 'long', day: 'numeric'
-            });
-            
-            document.getElementById('abstinence-tracker-container').innerHTML = `
-                <p>Goal: Stay alcohol-free from ${formattedStartDate} to ${formattedEndDate}</p>
-                <div class="stats">
-                    <div class="stat-item">
-                        <h3>Current Streak</h3>
-                        <p>${abstinenceTracker.current_streak} days</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>Longest Streak</h3>
-                        <p>${abstinenceTracker.longest_streak} days</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>Total Days</h3>
-                        <p>${abstinenceTracker.total_days} days</p>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Load abstinence progress data
-        async function loadAbstinenceProgress() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/abstinence/progress/`);
-                if (!response.ok) throw new Error('Failed to fetch abstinence progress');
-                
-                const progress = await response.json();
-                renderAbstinenceProgress(progress);
-            } catch (error) {
-                console.error('Error loading abstinence progress:', error);
-                document.getElementById('abstinence-progress-container').innerHTML = `
-                    <p class="danger-text">Failed to load abstinence progress. ${error.message}</p>
-                `;
-            }
-        }
-        
-        // Render abstinence progress
-        function renderAbstinenceProgress(progress) {
-            const successRate = progress.days_completed > 0 ? 
-                (progress.total_days / progress.days_completed * 100).toFixed(2) : 0;
-            
-            document.getElementById('abstinence-progress-container').innerHTML = `
-                <div class="progress-container">
-                    <p>${progress.days_completed} of ${progress.total_days_planned} days completed (${successRate}% success rate)</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${(progress.days_completed / progress.total_days_planned) * 100}%"></div>
-                    </div>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <h3>Days Left</h3>
-                            <p>${progress.days_remaining}</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3>Success Rate</h3>
-                            <p>${successRate}%</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Update monthly stats
-            updateMonthlyStats();
-        }
-        
-        // Update monthly stats and chart
-        function updateMonthlyStats() {
-            // This is a simplified version - in a real app, you'd get this data from the backend
-            const monthlyData = generateMonthlyData();
-            
-            document.getElementById('monthly-stats').innerHTML = `
-                <div class="stat-item">
-                    <h3>Current Month Savings</h3>
-                    <p>${formatCurrency(monthlyData.currentMonth.savings)} UGX</p>
-                </div>
-                <div class="stat-item">
-                    <h3>Current Month Abstinence</h3>
-                    <p>${monthlyData.currentMonth.abstinenceDays} / ${monthlyData.currentMonth.totalDays} days</p>
-                </div>
-                <div class="stat-item">
-                    <h3>Overall Progress</h3>
-                    <p>${Math.round((monthlyData.overall.savings / savingsGoal.target_amount) * 100)}%</p>
-                </div>
-            `;
-            
-            renderProgressChart(monthlyData);
-        }
-        
-        // Generate sample monthly data (in a real app, this would come from the backend)
-        function generateMonthlyData() {
-            const now = new Date();
-            const currentMonth = now.getMonth();
-            const currentYear = now.getFullYear();
-            
-            // Calculate days in current month
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            const daysSoFar = now.getDate();
-            
-            // Calculate savings progress (simplified)
-            const monthlySavingsTarget = savingsGoal ? savingsGoal.monthly_savings : 0;
-            const currentSavings = savingsGoal ? savingsGoal.current_amount : 0;
-            
-            // Calculate abstinence days (simplified)
-            const abstinenceDays = abstinenceTracker ? 
-                Math.min(Math.floor(abstinenceTracker.total_days * (daysSoFar / daysInMonth)), daysSoFar) : 0;
-            
-            // Generate data for chart
-            const months = [];
-            const savingsData = [];
-            const abstinenceData = [];
-            
-            const startDate = abstinenceTracker ? new Date(abstinenceTracker.start_date) : new Date();
-            const endDate = abstinenceTracker ? new Date(abstinenceTracker.end_date) : new Date();
-            
-            let currentDate = new Date(startDate);
-            let cumulativeSavings = 0;
-            
-            while (currentDate <= endDate) {
-                const monthYear = currentDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-                months.push(monthYear);
-                
-                // Simplified calculation - in reality, you'd get this from actual transactions
-                const monthlyAmount = savingsGoal ? savingsGoal.monthly_savings : 0;
-                cumulativeSavings += monthlyAmount;
-                savingsData.push(cumulativeSavings);
-                
-                // Simplified abstinence days - assuming 90% success rate
-                const daysInThisMonth = new Date(
-                    currentDate.getFullYear(), 
-                    currentDate.getMonth() + 1, 
-                    0
-                ).getDate();
-                
-                abstinenceData.push(Math.floor(daysInThisMonth * 0.9));
-                
-                // Move to next month
-                currentDate.setMonth(currentDate.getMonth() + 1);
-            }
-            
-            return {
-                currentMonth: {
-                    savings: monthlySavingsTarget * (daysSoFar / daysInMonth),
-                    abstinenceDays: abstinenceDays,
-                    totalDays: daysSoFar
-                },
-                overall: {
-                    savings: currentSavings,
-                    abstinenceDays: abstinenceTracker ? abstinenceTracker.total_days : 0
-                },
-                chartData: {
-                    months: months,
-                    savings: savingsData,
-                    abstinence: abstinenceData
-                }
+            const goal = {
+                target_amount: parseFloat(document.getElementById('target-amount-input').value),
+                current_amount: parseFloat(document.getElementById('current-amount-input').value),
+                monthly_savings: parseFloat(document.getElementById('monthly-savings-input').value),
+                target_date: document.getElementById('target-date-input').value,
+                description: document.getElementById('goal-description-input').value
             };
+            
+            try {
+                const response = await fetch('/savings/goal/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(goal)
+                });
+                
+                if (!response.ok) throw new Error('Failed to save goal');
+                
+                showToast('Savings goal updated successfully', 'success');
+                goalModal.classList.remove('active');
+                loadSavingsData();
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        });
+        
+        transactionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const transaction = {
+                amount: parseFloat(document.getElementById('transaction-amount').value),
+                type: document.getElementById('transaction-type').value,
+                date: document.getElementById('transaction-date').value,
+                description: document.getElementById('transaction-description').value
+            };
+            
+            try {
+                const response = await fetch('/savings/transaction/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(transaction)
+                });
+                
+                if (!response.ok) throw new Error('Failed to add transaction');
+                
+                showToast('Transaction added successfully', 'success');
+                transactionModal.classList.remove('active');
+                loadTransactions();
+                loadSavingsData();
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        });
+        
+        checkinForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const checkin = {
+                date: document.getElementById('checkin-date').value,
+                success: document.querySelector('input[name="checkin-success"]:checked').value === 'true',
+                notes: document.getElementById('checkin-notes').value
+            };
+            
+            try {
+                const response = await fetch('/abstinence/checkin/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(checkin)
+                });
+                
+                if (!response.ok) throw new Error('Failed to submit check-in');
+                
+                showToast('Check-in submitted successfully', 'success');
+                checkinModal.classList.remove('active');
+                loadAbstinenceData();
+                renderCalendar();
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        });
+        
+        // Helper Functions
+        function showToast(message, type = 'success') {
+            const toastMessage = document.getElementById('toast-message');
+            toastMessage.textContent = message;
+            
+            toast.className = 'toast';
+            toast.classList.add(type);
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
         
-        // Render progress chart
-        function renderProgressChart(data) {
-            const ctx = document.getElementById('progressChart').getContext('2d');
-            
-            // Destroy previous chart if it exists
-            if (progressChart) {
-                progressChart.destroy();
-            }
-            
-            progressChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: data.chartData.months,
-                    datasets: [
-                        {
-                            label: 'Savings (UGX)',
-                            data: data.chartData.savings,
-                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1,
-                            yAxisID: 'y'
-                        },
-                        {
-                            label: 'Abstinence Days',
-                            data: data.chartData.abstinence,
-                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1,
-                            type: 'line',
-                            yAxisID: 'y1'
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    scales: {
-                        y: {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            title: {
-                                display: true,
-                                text: 'Savings (UGX)'
-                            }
-                        },
-                        y1: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            title: {
-                                display: true,
-                                text: 'Abstinence Days'
-                            },
-                            grid: {
-                                drawOnChartArea: false
-                            }
-                        }
-                    }
-                }
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount);
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
             });
         }
         
-        // Load transactions
+        // Data Loading Functions
+        async function loadSavingsData() {
+            try {
+                // Load savings goal
+                const goalResponse = await fetch('/savings/goal/');
+                if (!goalResponse.ok) throw new Error('Failed to load savings goal');
+                
+                const goal = await goalResponse.json();
+                
+                document.getElementById('goal-amount').textContent = formatCurrency(goal.target_amount);
+                document.getElementById('target-amount').textContent = formatCurrency(goal.target_amount);
+                document.getElementById('current-amount').textContent = formatCurrency(goal.current_amount);
+                document.getElementById('monthly-savings').textContent = formatCurrency(goal.monthly_savings);
+                document.getElementById('monthly-savings-value').textContent = formatCurrency(goal.monthly_savings);
+                document.getElementById('target-date').textContent = goal.target_date ? formatDate(goal.target_date) : 'Not set';
+                document.getElementById('goal-description').textContent = goal.description || 'No description';
+                
+                // Calculate progress percentage
+                const progressPercent = goal.target_amount > 0 ? 
+                    Math.min(100, (goal.current_amount / goal.target_amount) * 100) : 0;
+                document.getElementById('goal-progress').style.width = `${progressPercent}%`;
+                
+                // Populate form fields
+                document.getElementById('target-amount-input').value = goal.target_amount;
+                document.getElementById('current-amount-input').value = goal.current_amount;
+                document.getElementById('monthly-savings-input').value = goal.monthly_savings;
+                document.getElementById('target-date-input').value = goal.target_date || '';
+                document.getElementById('goal-description-input').value = goal.description || '';
+                
+                // Load progress stats
+                const progressResponse = await fetch('/savings/progress/');
+                if (!progressResponse.ok) throw new Error('Failed to load progress stats');
+                
+                const progress = await progressResponse.json();
+                document.getElementById('goal-progress').style.width = `${progress.progress_percent}%`;
+                
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+        
         async function loadTransactions() {
             try {
-                const response = await fetch(`${API_BASE_URL}/savings/transactions/`);
-                if (!response.ok) throw new Error('Failed to fetch transactions');
+                const response = await fetch('/savings/transactions/');
+                if (!response.ok) throw new Error('Failed to load transactions');
                 
                 const transactions = await response.json();
-                renderTransactions(transactions);
-            } catch (error) {
-                console.error('Error loading transactions:', error);
-                document.querySelector('#transactions-table tbody').innerHTML = `
-                    <tr>
-                        <td colspan="4" class="danger-text">Failed to load transactions. ${error.message}</td>
-                    </tr>
-                `;
-            }
-        }
-        
-        // Render transactions
-        function renderTransactions(transactions) {
-            const tbody = document.querySelector('#transactions-table tbody');
-            tbody.innerHTML = '';
-            
-            if (transactions.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="4">No transactions yet</td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            transactions.forEach(transaction => {
-                const row = document.createElement('tr');
+                const tableBody = document.getElementById('transactions-table');
+                tableBody.innerHTML = '';
                 
-                const date = new Date(transaction.date);
-                const formattedDate = date.toLocaleDateString('en-US', {
-                    year: 'numeric', month: 'short', day: 'numeric'
-                });
-                
-                const amountClass = transaction.type === 'deposit' ? 'success-text' : 'danger-text';
-                const amountSign = transaction.type === 'deposit' ? '+' : '-';
-                
-                row.innerHTML = `
-                    <td>${formattedDate}</td>
-                    <td class="${amountClass}">${amountSign}${formatCurrency(transaction.amount)} UGX</td>
-                    <td>${transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1)}</td>
-                    <td>${transaction.description || '-'}</td>
-                `;
-                
-                tbody.appendChild(row);
-            });
-        }
-        
-        // Load check-ins
-        async function loadCheckins() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/abstinence/checkins/`);
-                if (!response.ok) throw new Error('Failed to fetch check-ins');
-                
-                const checkins = await response.json();
-                renderCheckins(checkins);
-            } catch (error) {
-                console.error('Error loading check-ins:', error);
-                document.querySelector('#checkins-table tbody').innerHTML = `
-                    <tr>
-                        <td colspan="3" class="danger-text">Failed to load check-ins. ${error.message}</td>
-                    </tr>
-                `;
-            }
-        }
-        
-        // Render check-ins
-        function renderCheckins(checkins) {
-            const tbody = document.querySelector('#checkins-table tbody');
-            tbody.innerHTML = '';
-            
-            if (checkins.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="3">No check-ins yet</td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            checkins.forEach(checkin => {
-                const row = document.createElement('tr');
-                
-                const date = new Date(checkin.date);
-                const formattedDate = date.toLocaleDateString('en-US', {
-                    year: 'numeric', month: 'short', day: 'numeric'
-                });
-                
-                const statusClass = checkin.success ? 'success-text' : 'danger-text';
-                const statusText = checkin.success ? 'Success' : 'Failed';
-                
-                row.innerHTML = `
-                    <td>${formattedDate}</td>
-                    <td class="${statusClass}">${statusText}</td>
-                    <td>${checkin.notes || '-'}</td>
-                `;
-                
-                tbody.appendChild(row);
-            });
-        }
-        
-        // Render abstinence calendar
-        async function renderAbstinenceCalendar() {
-            if (!abstinenceTracker) return;
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/abstinence/checkins/`);
-                if (!response.ok) throw new Error('Failed to fetch check-ins');
-                
-                const checkins = await response.json();
-                const checkinMap = {};
-                
-                checkins.forEach(checkin => {
-                    checkinMap[checkin.date] = checkin.success;
-                });
-                
-                const today = new Date();
-                const currentMonth = today.getMonth();
-                const currentYear = today.getFullYear();
-                
-                // Get first day of month and total days in month
-                const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-                
-                // Create calendar header
-                const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                let calendarHTML = '<div class="calendar">';
-                
-                // Add day headers
-                daysOfWeek.forEach(day => {
-                    calendarHTML += `<div class="calendar-header">${day}</div>`;
-                });
-                
-                // Add empty cells for days before the first day of the month
-                for (let i = 0; i < firstDay; i++) {
-                    calendarHTML += '<div class="calendar-day empty"></div>';
-                }
-                
-                // Add days of the month
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                    const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
-                    
-                    let dayClass = 'calendar-day';
-                    if (checkinMap[dateStr] !== undefined) {
-                        dayClass += checkinMap[dateStr] ? ' success' : ' failure';
-                    }
-                    if (isToday) {
-                        dayClass += ' today';
-                    }
-                    
-                    calendarHTML += `<div class="${dayClass}">${day}</div>`;
-                }
-                
-                calendarHTML += '</div>';
-                document.getElementById('abstinence-calendar').innerHTML = calendarHTML;
-            } catch (error) {
-                console.error('Error rendering calendar:', error);
-                document.getElementById('abstinence-calendar').innerHTML = `
-                    <p class="danger-text">Failed to load calendar. ${error.message}</p>
-                `;
-            }
-        }
-        
-        // Handle transaction form submission
-        async function handleTransactionSubmit(e) {
-            e.preventDefault();
-            
-            const amount = parseFloat(document.getElementById('transaction-amount').value);
-            const type = document.getElementById('transaction-type').value;
-            const date = document.getElementById('transaction-date').value;
-            const description = document.getElementById('transaction-description').value;
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/savings/transaction/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        amount: amount,
-                        type: type,
-                        date: date,
-                        description: description
-                    })
-                });
-                
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.detail || 'Failed to record transaction');
-                }
-                
-                // Refresh data
-                await loadSavingsGoal();
-                await loadTransactions();
-                
-                // Reset form
-                document.getElementById('transaction-amount').value = '';
-                document.getElementById('transaction-description').value = '';
-                
-                alert('Transaction recorded successfully!');
-            } catch (error) {
-                console.error('Error recording transaction:', error);
-                alert(`Error: ${error.message}`);
-            }
-        }
-        
-        // Handle check-in form submission
-        async function handleCheckinSubmit(e) {
-            e.preventDefault();
-            
-            const date = document.getElementById('checkin-date').value;
-            const success = document.querySelector('input[name="checkin-success"]:checked').value === 'true';
-            const notes = document.getElementById('checkin-notes').value;
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/abstinence/checkin/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        date: date,
-                        success: success,
-                        notes: notes
-                    })
-                });
-                
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.detail || 'Failed to record check-in');
-                }
-                
-                // Refresh data
-                await loadAbstinenceTracker();
-                await loadCheckins();
-                await renderAbstinenceCalendar();
-                
-                // Reset form
-                document.getElementById('checkin-notes').value = '';
-                
-                alert('Check-in recorded successfully!');
-            } catch (error) {
-                console.error('Error recording check-in:', error);
-                alert(`Error: ${error.message}`);
-            }
-        }
-        
-        // Helper function to format currency
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('en-US').format(amount);
-        }
-    </script>
-</body>
-</html>
+                transactions.forEach(transaction => {
+                    const row =
