@@ -3,91 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Savings & Abstinence Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>FinTrack - Personal Finance Manager</title>
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #f59e0b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --light: #f8fafc;
-            --dark: #1e293b;
-            --gray: #64748b;
-            --light-gray: #e2e8f0;
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4fc3f7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9;
+            background-color: #f5f7fa;
             color: var(--dark);
             line-height: 1.6;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        header {
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .navbar {
+
+        #app {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
+            min-height: 100vh;
         }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: var(--box-shadow);
+            padding: 20px 0;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h2 {
             color: var(--primary);
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
-        .logo i {
-            font-size: 28px;
+
+        .sidebar-header h2 i {
+            font-size: 1.5rem;
         }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
+
+        .nav-menu {
+            list-style: none;
         }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--gray);
-            font-weight: 500;
-            transition: color 0.3s;
+
+        .nav-item {
+            margin-bottom: 5px;
         }
-        
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--primary);
-        }
-        
-        .user-menu {
+
+        .nav-link {
             display: flex;
             align-items: center;
-            gap: 15px;
+            padding: 12px 20px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+            gap: 10px;
         }
-        
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(74, 111, 165, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-link i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .user-avatar {
             width: 40px;
             height: 40px;
@@ -97,1197 +129,2393 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            cursor: pointer;
+            font-weight: bold;
         }
-        
-        .dashboard {
+
+        /* Dashboard Cards */
+        .dashboard-cards {
             display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 30px;
-            margin-top: 30px;
-        }
-        
-        .sidebar {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            height: fit-content;
-        }
-        
-        .sidebar-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: var(--gray);
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-            background-color: #f1f5f9;
-            color: var(--primary);
-        }
-        
-        .sidebar-menu a i {
-            font-size: 18px;
-        }
-        
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        
-        .welcome-banner {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 30px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .welcome-text h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .welcome-text p {
-            opacity: 0.9;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
+            margin-bottom: 30px;
         }
-        
-        .stat-card {
-            background-color: white;
-            border-radius: 10px;
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
             padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
         }
-        
-        .stat-card h3 {
-            font-size: 16px;
-            color: var(--gray);
-            margin-bottom: 10px;
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
-        .stat-card .value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .stat-card .progress {
-            height: 6px;
-            background-color: var(--light-gray);
-            border-radius: 3px;
-            margin-top: 15px;
-            overflow: hidden;
-        }
-        
-        .stat-card .progress-bar {
-            height: 100%;
-            background-color: var(--primary);
-            border-radius: 3px;
-        }
-        
-        .savings-card {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        
+
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
-        
-        .card-header h2 {
-            font-size: 20px;
+
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--secondary);
             font-weight: 600;
         }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
             align-items: center;
-            gap: 8px;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
+            justify-content: center;
             color: white;
         }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
+
+        .card-icon.primary {
+            background-color: var(--primary);
         }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--light-gray);
-            color: var(--gray);
+
+        .card-icon.success {
+            background-color: var(--success);
         }
-        
-        .btn-outline:hover {
-            background-color: #f8fafc;
+
+        .card-icon.warning {
+            background-color: var(--warning);
         }
-        
-        .savings-goal {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+
+        .card-icon.danger {
+            background-color: var(--danger);
+        }
+
+        .card-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .card-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
             margin-bottom: 30px;
+            overflow-x: auto;
         }
-        
-        .goal-row {
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .goal-label {
-            color: var(--gray);
-        }
-        
-        .goal-value {
-            font-weight: 600;
-        }
-        
-        .savings-transactions {
-            margin-top: 30px;
-        }
-        
-        .transactions-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        
+
         th, td {
             padding: 12px 15px;
             text-align: left;
-            border-bottom: 1px solid var(--light-gray);
+            border-bottom: 1px solid #eee;
         }
-        
+
         th {
-            font-weight: 500;
-            color: var(--gray);
-            font-size: 14px;
+            font-weight: 600;
+            color: var(--secondary);
+            background-color: rgba(74, 111, 165, 0.05);
         }
-        
+
+        tr:hover {
+            background-color: rgba(74, 111, 165, 0.03);
+        }
+
         .badge {
+            display: inline-block;
             padding: 5px 10px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
-        
+
         .badge-success {
-            background-color: #ecfdf5;
+            background-color: rgba(40, 167, 69, 0.1);
             color: var(--success);
         }
-        
+
+        .badge-warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
         .badge-danger {
-            background-color: #fef2f2;
+            background-color: rgba(220, 53, 69, 0.1);
             color: var(--danger);
         }
-        
-        .abstinence-tracker {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        /* Forms */
+        .form-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        
-        .streak-display {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
-        
-        .streak-card {
-            text-align: center;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #f8fafc;
-            flex: 1;
-            margin: 0 10px;
-        }
-        
-        .streak-card:first-child {
-            margin-left: 0;
-        }
-        
-        .streak-card:last-child {
-            margin-right: 0;
-        }
-        
-        .streak-card h3 {
-            font-size: 14px;
-            color: var(--gray);
-            margin-bottom: 10px;
-        }
-        
-        .streak-card .value {
-            font-size: 28px;
-            font-weight: 700;
-        }
-        
-        .calendar {
-            margin-top: 30px;
-        }
-        
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        .form-group {
             margin-bottom: 20px;
         }
-        
-        .calendar-nav {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
         }
-        
-        .calendar-nav button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--gray);
-            font-size: 18px;
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
         }
-        
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
         }
-        
-        .calendar-day-header {
-            text-align: center;
-            font-size: 14px;
-            color: var(--gray);
-            padding: 10px;
-        }
-        
-        .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .calendar-day.empty {
-            visibility: hidden;
-        }
-        
-        .calendar-day.today {
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
             background-color: var(--primary);
             color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
         }
-        
-        .calendar-day.success {
-            background-color: #ecfdf5;
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            #app {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cold Turkey Specific Styles */
+        .cold-turkey-progress {
+            margin-top: 20px;
+        }
+
+        .progress-container {
+            background-color: #e9ecef;
+            border-radius: 20px;
+            height: 20px;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 20px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .milestone {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .milestone-check {
+            margin-right: 10px;
             color: var(--success);
         }
-        
-        .calendar-day.failure {
-            background-color: #fef2f2;
-            color: var(--danger);
+
+        .milestone-date {
+            margin-left: auto;
+            color: #6c757d;
+            font-size: 0.9rem;
         }
-        
-        .calendar-day-number {
-            font-weight: 600;
-            margin-bottom: 5px;
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
         }
-        
-        .calendar-day-status {
-            font-size: 12px;
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-        
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.error {
+            background-color: var(--danger);
+        }
+
+        .toast.warning {
+            background-color: var(--warning);
+        }
+
+        /* Modal */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            bottom: 0;
             background-color: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
         }
-        
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
+
         .modal-content {
-            background-color: white;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 500px;
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transform: translateY(20px);
-            transition: all 0.3s;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
         }
-        
-        .modal.active .modal-content {
-            transform: translateY(0);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .modal-header h2 {
-            font-size: 20px;
-            font-weight: 600;
-        }
-        
+
         .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 1.5rem;
             cursor: pointer;
-            color: var(--gray);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--light-gray);
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: var(--dark);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateY(30px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-        
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .toast.success {
-            background-color: var(--success);
-        }
-        
-        .toast.error {
-            background-color: var(--danger);
-        }
-        
-        @media (max-width: 992px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .sidebar {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .streak-display {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .streak-card {
-                margin: 0;
-            }
+            color: #6c757d;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo">
-                    <i class="fas fa-piggy-bank"></i>
-                    <span>SavingsTracker</span>
-                </div>
-                <div class="nav-links">
-                    <a href="#" class="active">Dashboard</a>
-                    <a href="#">Savings</a>
-                    <a href="#">Abstinence</a>
-                    <a href="#">Reports</a>
-                </div>
-                <div class="user-menu">
-                    <div class="user-avatar">JD</div>
-                </div>
-            </nav>
-        </div>
-    </header>
-    
-    <div class="container">
-        <div class="dashboard">
-            <aside class="sidebar">
-                <div class="sidebar-menu">
-                    <a href="#" class="active">
-                        <i class="fas fa-home"></i>
+    <div id="app">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-wallet"></i> FinTrack</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
                         <span>Dashboard</span>
                     </a>
-                    <a href="#">
-                        <i class="fas fa-bullseye"></i>
-                        <span>Savings Goals</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="savings">
+                        <i class="fas fa-piggy-bank"></i>
+                        <span>Savings</span>
                     </a>
-                    <a href="#">
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="expenses">
+                        <i class="fas fa-receipt"></i>
+                        <span>Expenses</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="cold-turkey">
                         <i class="fas fa-calendar-check"></i>
-                        <span>Abstinence Tracker</span>
+                        <span>Cold Turkey</span>
                     </a>
-                    <a href="#">
-                        <i class="fas fa-exchange-alt"></i>
-                        <span>Transactions</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="reports">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reports</span>
                     </a>
-                    <a href="#">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Progress</span>
-                    </a>
-                    <a href="#">
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="settings">
                         <i class="fas fa-cog"></i>
                         <span>Settings</span>
                     </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="user-profile">
+                    <div class="user-avatar">JD</div>
+                    <span>John Doe</span>
                 </div>
-            </aside>
-            
-            <main class="main-content">
-                <div class="welcome-banner">
-                    <div class="welcome-text">
-                        <h1>Welcome back, John!</h1>
-                        <p>Track your savings and abstinence progress</p>
+            </div>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Total Savings</h3>
+                            <div class="card-icon primary">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                        </div>
+                        <div class="card-value" id="total-savings">$0</div>
+                        <div class="card-description">Across all accounts</div>
                     </div>
-                    <div class="welcome-image">
-                        <i class="fas fa-piggy-bank" style="font-size: 60px; opacity: 0.8;"></i>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Monthly Expenses</h3>
+                            <div class="card-icon danger">
+                                <i class="fas fa-receipt"></i>
+                            </div>
+                        </div>
+                        <div class="card-value" id="monthly-expenses">$0</div>
+                        <div class="card-description">This month</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Cold Turkey</h3>
+                            <div class="card-icon success">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                        </div>
+                        <div class="card-value" id="cold-turkey-days">0 days</div>
+                        <div class="card-description">Current streak</div>
                     </div>
                 </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3>Savings Goal</h3>
-                        <div class="value" id="goal-amount">$0</div>
-                        <div class="progress">
-                            <div class="progress-bar" id="goal-progress" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Monthly Savings</h3>
-                        <div class="value" id="monthly-savings">$0</div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 100%; background-color: var(--secondary)"></div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Days Abstinent</h3>
-                        <div class="value" id="abstinence-days">0</div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 100%; background-color: var(--success)"></div>
-                        </div>
+
+                <div class="table-container">
+                    <h2>Recent Transactions</h2>
+                    <table id="recent-transactions">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Transactions will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Savings Section -->
+            <section id="savings-section" class="content-section">
+                <div class="header-actions">
+                    <button class="btn" id="add-savings-btn">
+                        <i class="fas fa-plus"></i> Add Savings Account
+                    </button>
+                    <button class="btn" id="add-savings-transaction-btn">
+                        <i class="fas fa-plus"></i> Add Transaction
+                    </button>
+                </div>
+
+                <div class="dashboard-cards" id="savings-accounts-cards">
+                    <!-- Savings accounts will be loaded here -->
+                </div>
+
+                <div class="table-container">
+                    <h2>Savings Transactions</h2>
+                    <table id="savings-transactions">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Account</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Transactions will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add Savings Account Modal -->
+                <div id="add-savings-account-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <button class="close-btn" id="close-savings-account-modal">&times;</button>
+                        <h2>Add Savings Account</h2>
+                        <form id="savings-account-form">
+                            <div class="form-group">
+                                <label class="form-label">Account Name</label>
+                                <input type="text" class="form-control" id="savings-account-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Target Amount (optional)</label>
+                                <input type="number" class="form-control" id="savings-account-target" step="0.01" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description (optional)</label>
+                                <textarea class="form-control" id="savings-account-description"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-block">Create Account</button>
+                        </form>
                     </div>
                 </div>
-                
-                <div class="savings-card">
-                    <div class="card-header">
-                        <h2>Savings Goal</h2>
-                        <button class="btn btn-primary" id="edit-goal-btn">
-                            <i class="fas fa-edit"></i>
-                            Edit Goal
-                        </button>
+
+                <!-- Add Savings Transaction Modal -->
+                <div id="add-savings-transaction-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <button class="close-btn" id="close-savings-transaction-modal">&times;</button>
+                        <h2>Add Savings Transaction</h2>
+                        <form id="savings-transaction-form">
+                            <div class="form-group">
+                                <label class="form-label">Account</label>
+                                <select class="form-control" id="savings-transaction-account" required>
+                                    <option value="">Select account</option>
+                                    <!-- Accounts will be loaded here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Transaction Type</label>
+                                <select class="form-control" id="savings-transaction-type" required>
+                                    <option value="deposit">Deposit</option>
+                                    <option value="withdrawal">Withdrawal</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Amount</label>
+                                <input type="number" class="form-control" id="savings-transaction-amount" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date</label>
+                                <input type="date" class="form-control" id="savings-transaction-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description (optional)</label>
+                                <input type="text" class="form-control" id="savings-transaction-description">
+                            </div>
+                            <button type="submit" class="btn btn-block">Save Transaction</button>
+                        </form>
                     </div>
-                    
-                    <div class="savings-goal">
-                        <div class="goal-row">
-                            <span class="goal-label">Target Amount:</span>
-                            <span class="goal-value" id="target-amount">$0</span>
-                        </div>
-                        <div class="goal-row">
-                            <span class="goal-label">Current Amount:</span>
-                            <span class="goal-value" id="current-amount">$0</span>
-                        </div>
-                        <div class="goal-row">
-                            <span class="goal-label">Monthly Savings:</span>
-                            <span class="goal-value" id="monthly-savings-value">$0</span>
-                        </div>
-                        <div class="goal-row">
-                            <span class="goal-label">Target Date:</span>
-                            <span class="goal-value" id="target-date">Not set</span>
-                        </div>
-                        <div class="goal-row">
-                            <span class="goal-label">Description:</span>
-                            <span class="goal-value" id="goal-description">No description</span>
-                        </div>
-                    </div>
-                    
-                    <div class="transactions-header">
-                        <h2>Recent Transactions</h2>
-                        <button class="btn btn-primary" id="add-transaction-btn">
-                            <i class="fas fa-plus"></i>
-                            Add Transaction
-                        </button>
-                    </div>
-                    
-                    <div class="savings-transactions">
-                        <table>
+                </div>
+            </section>
+
+            <!-- Expenses Section -->
+            <section id="expenses-section" class="content-section">
+                <div class="header-actions">
+                    <button class="btn" id="add-expense-btn">
+                        <i class="fas fa-plus"></i> Add Expense
+                    </button>
+                    <button class="btn" id="add-expense-category-btn">
+                        <i class="fas fa-plus"></i> Add Category
+                    </button>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" data-tab="all">All Expenses</div>
+                    <div class="tab" data-tab="categories">By Category</div>
+                    <div class="tab" data-tab="monthly">Monthly View</div>
+                </div>
+
+                <div class="tab-content active" id="all-expenses-tab">
+                    <div class="table-container">
+                        <table id="expenses-table">
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Amount</th>
-                                    <th>Type</th>
                                     <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th>Payment Method</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="transactions-table">
-                                <!-- Transactions will be loaded here -->
+                            <tbody>
+                                <!-- Expenses will be loaded here -->
                             </tbody>
                         </table>
                     </div>
                 </div>
-                
-                <div class="abstinence-tracker">
-                    <div class="card-header">
-                        <h2>Abstinence Tracker</h2>
-                        <button class="btn btn-primary" id="checkin-btn">
-                            <i class="fas fa-check"></i>
-                            Daily Check-in
-                        </button>
+
+                <div class="tab-content" id="categories-expenses-tab">
+                    <div class="dashboard-cards" id="expense-categories">
+                        <!-- Category cards will be loaded here -->
                     </div>
-                    
-                    <div class="streak-display">
-                        <div class="streak-card">
-                            <h3>Current Streak</h3>
-                            <div class="value" id="current-streak">0 days</div>
-                        </div>
-                        <div class="streak-card">
-                            <h3>Longest Streak</h3>
-                            <div class="value" id="longest-streak">0 days</div>
-                        </div>
-                        <div class="streak-card">
-                            <h3>Total Days</h3>
-                            <div class="value" id="total-days">0 days</div>
-                        </div>
+                </div>
+
+                <div class="tab-content" id="monthly-expenses-tab">
+                    <div class="table-container">
+                        <table id="monthly-expenses-table">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Total Expenses</th>
+                                    <th>Average Daily</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Monthly expenses will be loaded here -->
+                            </tbody>
+                        </table>
                     </div>
-                    
-                    <div class="calendar">
-                        <div class="calendar-header">
-                            <h2 id="calendar-month">Month Year</h2>
-                            <div class="calendar-nav">
-                                <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
-                                <button id="next-month"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <!-- Add Expense Modal -->
+                <div id="add-expense-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <button class="close-btn" id="close-expense-modal">&times;</button>
+                        <h2>Add Expense</h2>
+                        <form id="expense-form">
+                            <div class="form-group">
+                                <label class="form-label">Amount</label>
+                                <input type="number" class="form-control" id="expense-amount" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select class="form-control" id="expense-category" required>
+                                    <option value="">Select category</option>
+                                    <!-- Categories will be loaded here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Payment Method</label>
+                                <select class="form-control" id="expense-payment-method" required>
+                                    <option value="cash">Cash</option>
+                                    <option value="credit_card">Credit Card</option>
+                                    <option value="debit_card">Debit Card</option>
+                                    <option value="bank_transfer">Bank Transfer</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date</label>
+                                <input type="date" class="form-control" id="expense-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <input type="text" class="form-control" id="expense-description">
+                            </div>
+                            <button type="submit" class="btn btn-block">Save Expense</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Add Expense Category Modal -->
+                <div id="add-expense-category-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <button class="close-btn" id="close-expense-category-modal">&times;</button>
+                        <h2>Add Expense Category</h2>
+                        <form id="expense-category-form">
+                            <div class="form-group">
+                                <label class="form-label">Category Name</label>
+                                <input type="text" class="form-control" id="expense-category-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Monthly Budget (optional)</label>
+                                <input type="number" class="form-control" id="expense-category-budget" step="0.01" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description (optional)</label>
+                                <textarea class="form-control" id="expense-category-description"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-block">Create Category</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cold Turkey Section -->
+            <section id="cold-turkey-section" class="content-section">
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Current Streak</h3>
+                            <div class="card-icon success">
+                                <i class="fas fa-fire"></i>
                             </div>
                         </div>
-                        
-                        <div class="calendar-grid" id="calendar-days-header">
-                            <div class="calendar-day-header">Sun</div>
-                            <div class="calendar-day-header">Mon</div>
-                            <div class="calendar-day-header">Tue</div>
-                            <div class="calendar-day-header">Wed</div>
-                            <div class="calendar-day-header">Thu</div>
-                            <div class="calendar-day-header">Fri</div>
-                            <div class="calendar-day-header">Sat</div>
+                        <div class="card-value" id="current-streak">0 days</div>
+                        <div class="card-description">Without spending on target</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Money Saved</h3>
+                            <div class="card-icon primary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
                         </div>
-                        
-                        <div class="calendar-grid" id="calendar-days">
-                            <!-- Calendar days will be loaded here -->
+                        <div class="card-value" id="money-saved">$0</div>
+                        <div class="card-description">Estimated savings</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Target</h3>
+                            <div class="card-icon warning">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
                         </div>
+                        <div class="card-value" id="target-days">30 days</div>
+                        <div class="card-description">Current goal</div>
                     </div>
                 </div>
-            </main>
-        </div>
-    </div>
-    
-    <!-- Edit Goal Modal -->
-    <div class="modal" id="goal-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Edit Savings Goal</h2>
-                <button class="close-btn" id="close-goal-modal">&times;</button>
-            </div>
-            <form id="goal-form">
-                <div class="form-group">
-                    <label for="target-amount-input">Target Amount ($)</label>
-                    <input type="number" class="form-control" id="target-amount-input" required>
+
+                <div class="cold-turkey-progress">
+                    <h2>Progress</h2>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="streak-progress" style="width: 0%">0%</div>
+                    </div>
+                    <p id="streak-message">You haven't started your cold turkey challenge yet.</p>
                 </div>
-                <div class="form-group">
-                    <label for="current-amount-input">Current Amount ($)</label>
-                    <input type="number" class="form-control" id="current-amount-input" required>
-                </div>
-                <div class="form-group">
-                    <label for="monthly-savings-input">Monthly Savings ($)</label>
-                    <input type="number" class="form-control" id="monthly-savings-input" required>
-                </div>
-                <div class="form-group">
-                    <label for="target-date-input">Target Date</label>
-                    <input type="date" class="form-control" id="target-date-input" required>
-                </div>
-                <div class="form-group">
-                    <label for="goal-description-input">Description</label>
-                    <textarea class="form-control" id="goal-description-input" rows="3"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" id="cancel-goal-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Add Transaction Modal -->
-    <div class="modal" id="transaction-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Add Transaction</h2>
-                <button class="close-btn" id="close-transaction-modal">&times;</button>
-            </div>
-            <form id="transaction-form">
-                <div class="form-group">
-                    <label for="transaction-amount">Amount ($)</label>
-                    <input type="number" class="form-control" id="transaction-amount" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label for="transaction-type">Type</label>
-                    <select class="form-control" id="transaction-type" required>
-                        <option value="deposit">Deposit</option>
-                        <option value="withdrawal">Withdrawal</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="transaction-date">Date</label>
-                    <input type="date" class="form-control" id="transaction-date" required>
-                </div>
-                <div class="form-group">
-                    <label for="transaction-description">Description</label>
-                    <textarea class="form-control" id="transaction-description" rows="3"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" id="cancel-transaction-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Transaction</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Check-in Modal -->
-    <div class="modal" id="checkin-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Daily Check-in</h2>
-                <button class="close-btn" id="close-checkin-modal">&times;</button>
-            </div>
-            <form id="checkin-form">
-                <div class="form-group">
-                    <label for="checkin-date">Date</label>
-                    <input type="date" class="form-control" id="checkin-date" required>
-                </div>
-                <div class="form-group">
-                    <label>Were you successful today?</label>
-                    <div style="display: flex; gap: 15px; margin-top: 10px;">
-                        <label style="display: flex; align-items: center; gap: 5px;">
-                            <input type="radio" name="checkin-success" value="true" required> 
-                            <span>Yes</span>
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 5px;">
-                            <input type="radio" name="checkin-success" value="false"> 
-                            <span>No</span>
-                        </label>
+
+                <div class="table-container">
+                    <h2>Milestones</h2>
+                    <div id="milestones-list">
+                        <!-- Milestones will be loaded here -->
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="checkin-notes">Notes</label>
-                    <textarea class="form-control" id="checkin-notes" rows="3"></textarea>
+
+                <div class="form-container">
+                    <h2>Start New Challenge</h2>
+                    <form id="cold-turkey-form">
+                        <div class="form-group">
+                            <label class="form-label">Target Duration (days)</label>
+                            <input type="number" class="form-control" id="target-duration" min="7" value="30" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Target Category</label>
+                            <select class="form-control" id="target-category" required>
+                                <option value="">Select category</option>
+                                <!-- Expense categories will be loaded here -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="start-date" required>
+                        </div>
+                        <button type="submit" class="btn btn-block">Start Challenge</button>
+                    </form>
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" id="cancel-checkin-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Submit Check-in</button>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports-section" class="content-section">
+                <div class="tabs">
+                    <div class="tab active" data-tab="savings">Savings</div>
+                    <div class="tab" data-tab="expenses">Expenses</div>
+                    <div class="tab" data-tab="cold-turkey">Cold Turkey</div>
                 </div>
-            </form>
-        </div>
+
+                <div class="tab-content active" id="savings-reports-tab">
+                    <div class="form-container">
+                        <h2>Generate Savings Report</h2>
+                        <form id="savings-report-form">
+                            <div class="form-group">
+                                <label class="form-label">Time Period</label>
+                                <select class="form-control" id="savings-period">
+                                    <option value="week">Last Week</option>
+                                    <option value="month" selected>Last Month</option>
+                                    <option value="quarter">Last Quarter</option>
+                                    <option value="year">Last Year</option>
+                                    <option value="custom">Custom Range</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="savings-custom-range" style="display: none;">
+                                <label class="form-label">Custom Range</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="date" class="form-control" id="savings-start-date">
+                                    <input type="date" class="form-control" id="savings-end-date">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Account</label>
+                                <select class="form-control" id="savings-report-account">
+                                    <option value="all">All Accounts</option>
+                                    <!-- Savings accounts will be loaded here -->
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-block">Generate Report</button>
+                        </form>
+                    </div>
+
+                    <div class="table-container" id="savings-report-results" style="display: none;">
+                        <h2>Savings Report</h2>
+                        <div id="savings-chart" style="height: 300px; margin-bottom: 20px;"></div>
+                        <table id="savings-report-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Account</th>
+                                    <th>Amount</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Report results will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="expenses-reports-tab">
+                    <div class="form-container">
+                        <h2>Generate Expenses Report</h2>
+                        <form id="expenses-report-form">
+                            <div class="form-group">
+                                <label class="form-label">Time Period</label>
+                                <select class="form-control" id="expenses-period">
+                                    <option value="week">Last Week</option>
+                                    <option value="month" selected>Last Month</option>
+                                    <option value="quarter">Last Quarter</option>
+                                    <option value="year">Last Year</option>
+                                    <option value="custom">Custom Range</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="expenses-custom-range" style="display: none;">
+                                <label class="form-label">Custom Range</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="date" class="form-control" id="expenses-start-date">
+                                    <input type="date" class="form-control" id="expenses-end-date">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select class="form-control" id="expenses-report-category">
+                                    <option value="all">All Categories</option>
+                                    <!-- Expense categories will be loaded here -->
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-block">Generate Report</button>
+                        </form>
+                    </div>
+
+                    <div class="table-container" id="expenses-report-results" style="display: none;">
+                        <h2>Expenses Report</h2>
+                        <div id="expenses-chart" style="height: 300px; margin-bottom: 20px;"></div>
+                        <table id="expenses-report-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Report results will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="cold-turkey-reports-tab">
+                    <div class="form-container">
+                        <h2>Generate Cold Turkey Report</h2>
+                        <form id="cold-turkey-report-form">
+                            <div class="form-group">
+                                <label class="form-label">Time Period</label>
+                                <select class="form-control" id="cold-turkey-period">
+                                    <option value="all">All Time</option>
+                                    <option value="year">Last Year</option>
+                                    <option value="month" selected>Last Month</option>
+                                    <option value="custom">Custom Range</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="cold-turkey-custom-range" style="display: none;">
+                                <label class="form-label">Custom Range</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="date" class="form-control" id="cold-turkey-start-date">
+                                    <input type="date" class="form-control" id="cold-turkey-end-date">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block">Generate Report</button>
+                        </form>
+                    </div>
+
+                    <div class="table-container" id="cold-turkey-report-results" style="display: none;">
+                        <h2>Cold Turkey Report</h2>
+                        <div id="cold-turkey-chart" style="height: 300px; margin-bottom: 20px;"></div>
+                        <table id="cold-turkey-report-table">
+                            <thead>
+                                <tr>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Duration</th>
+                                    <th>Target</th>
+                                    <th>Status</th>
+                                    <th>Money Saved</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Report results will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section">
+                <div class="form-container">
+                    <h2>Account Settings</h2>
+                    <form id="account-settings-form">
+                        <div class="form-group">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" id="user-name" value="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="user-email" value="john.doe@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Currency</label>
+                            <select class="form-control" id="user-currency">
+                                <option value="USD" selected>US Dollar ($)</option>
+                                <option value="EUR">Euro (€)</option>
+                                <option value="GBP">British Pound (£)</option>
+                                <option value="JPY">Japanese Yen (¥)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Notifications</label>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <label style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="savings-notifications" checked>
+                                    <span>Savings goals notifications</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="expense-alerts" checked>
+                                    <span>Expense alerts</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Theme</label>
+                            <div style="display: flex; gap: 10px;">
+                                <label style="display: flex; align-items: center; gap: 5px;">
+                                    <input type="radio" name="theme" value="light" checked>
+                                    <span>Light</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px;">
+                                    <input type="radio" name="theme" value="dark">
+                                    <span>Dark</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-block">Save Changes</button>
+                    </form>
+                </div>
+
+                <div class="form-container">
+                    <h2>Savings Accounts</h2>
+                    <table id="savings-accounts-table">
+                        <thead>
+                            <tr>
+                                <th>Account Name</th>
+                                <th>Balance</th>
+                                <th>Target</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Savings accounts will be loaded here -->
+                        </tbody>
+                    </table>
+                    <button class="btn" id="add-account-btn" style="margin-top: 15px;">
+                        <i class="fas fa-plus"></i> Add Account
+                    </button>
+                </div>
+
+                <div class="form-container">
+                    <h2>Expense Categories</h2>
+                    <table id="expense-categories-table">
+                        <thead>
+                            <tr>
+                                <th>Category Name</th>
+                                <th>Monthly Budget</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Expense categories will be loaded here -->
+                        </tbody>
+                    </table>
+                    <button class="btn" id="add-category-btn" style="margin-top: 15px;">
+                        <i class="fas fa-plus"></i> Add Category
+                    </button>
+                </div>
+            </section>
+        </main>
     </div>
-    
+
     <!-- Toast Notification -->
-    <div class="toast" id="toast">
+    <div id="toast" class="toast">
         <i class="fas fa-check-circle"></i>
-        <span id="toast-message">Operation successful</span>
+        <span id="toast-message">Success!</span>
     </div>
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Base URL for API
+        const BASE_URL = 'https://backend-jz65.onrender.com'; // Change this to your backend URL
+
         // DOM Elements
-        const goalModal = document.getElementById('goal-modal');
-        const transactionModal = document.getElementById('transaction-modal');
-        const checkinModal = document.getElementById('checkin-modal');
-        const toast = document.getElementById('toast');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentSections = document.querySelectorAll('.content-section');
+        const pageTitle = document.getElementById('page-title');
         
-        // Buttons
-        const editGoalBtn = document.getElementById('edit-goal-btn');
-        const closeGoalModal = document.getElementById('close-goal-modal');
-        const cancelGoalBtn = document.getElementById('cancel-goal-btn');
-        const addTransactionBtn = document.getElementById('add-transaction-btn');
-        const closeTransactionModal = document.getElementById('close-transaction-modal');
-        const cancelTransactionBtn = document.getElementById('cancel-transaction-btn');
-        const checkinBtn = document.getElementById('checkin-btn');
-        const closeCheckinModal = document.getElementById('close-checkin-modal');
-        const cancelCheckinBtn = document.getElementById('cancel-checkin-btn');
+        // Current user ID (in a real app, this would come from authentication)
+        const CURRENT_USER_ID = 1;
         
-        // Forms
-        const goalForm = document.getElementById('goal-form');
-        const transactionForm = document.getElementById('transaction-form');
-        const checkinForm = document.getElementById('checkin-form');
-        
-        // Calendar navigation
-        const prevMonthBtn = document.getElementById('prev-month');
-        const nextMonthBtn = document.getElementById('next-month');
-        const calendarMonth = document.getElementById('calendar-month');
-        const calendarDays = document.getElementById('calendar-days');
-        
-        // Current date for calendar
-        let currentDate = new Date();
-        let currentYear = currentDate.getFullYear();
-        let currentMonth = currentDate.getMonth();
-        
-        // Event Listeners
-        editGoalBtn.addEventListener('click', () => goalModal.classList.add('active'));
-        closeGoalModal.addEventListener('click', () => goalModal.classList.remove('active'));
-        cancelGoalBtn.addEventListener('click', () => goalModal.classList.remove('active'));
-        
-        addTransactionBtn.addEventListener('click', () => {
-            document.getElementById('transaction-date').valueAsDate = new Date();
-            transactionModal.classList.add('active');
-        });
-        closeTransactionModal.addEventListener('click', () => transactionModal.classList.remove('active'));
-        cancelTransactionBtn.addEventListener('click', () => transactionModal.classList.remove('active'));
-        
-        checkinBtn.addEventListener('click', () => {
-            document.getElementById('checkin-date').valueAsDate = new Date();
-            checkinModal.classList.add('active');
-        });
-        closeCheckinModal.addEventListener('click', () => checkinModal.classList.remove('active'));
-        cancelCheckinBtn.addEventListener('click', () => checkinModal.classList.remove('active'));
-        
-        prevMonthBtn.addEventListener('click', () => {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            renderCalendar();
-        });
-        
-        nextMonthBtn.addEventListener('click', () => {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            renderCalendar();
-        });
-        
-        // Form Submissions
-        goalForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation
+            setupNavigation();
             
-            const goal = {
-                target_amount: parseFloat(document.getElementById('target-amount-input').value),
-                current_amount: parseFloat(document.getElementById('current-amount-input').value),
-                monthly_savings: parseFloat(document.getElementById('monthly-savings-input').value),
-                target_date: document.getElementById('target-date-input').value,
-                description: document.getElementById('goal-description-input').value
-            };
+            // Load initial data
+            loadDashboardData();
+            loadSavingsData();
+            loadExpensesData();
+            loadColdTurkeyData();
+            loadUserSettings();
             
-            try {
-                const response = await fetch('https://man-m681.onrender.com/savings/goal/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(goal)
+            // Set current date in forms
+            setCurrentDateInForms();
+            
+            // Setup event listeners
+            setupEventListeners();
+        });
+
+        // Navigation
+        function setupNavigation() {
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active nav link
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update page title
+                    const sectionName = this.getAttribute('data-section');
+                    pageTitle.textContent = sectionName.charAt(0).toUpperCase() + sectionName.slice(1).replace('-', ' ');
+                    
+                    // Show corresponding section
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === `${sectionName}-section`) {
+                            section.classList.add('active');
+                        }
+                    });
                 });
-                
-                if (!response.ok) throw new Error('Failed to save goal');
-                
-                showToast('Savings goal updated successfully', 'success');
-                goalModal.classList.remove('active');
-                loadSavingsData();
-            } catch (error) {
-                showToast(error.message, 'error');
-            }
-        });
-        
-        transactionForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+            });
+        }
+
+        // Set current date in form inputs
+        function setCurrentDateInForms() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('savings-transaction-date').value = today;
+            document.getElementById('expense-date').value = today;
+            document.getElementById('start-date').value = today;
+        }
+
+        // Setup event listeners for forms and buttons
+        function setupEventListeners() {
+            // Savings
+            document.getElementById('add-savings-btn').addEventListener('click', showAddSavingsAccountModal);
+            document.getElementById('add-savings-transaction-btn').addEventListener('click', showAddSavingsTransactionModal);
+            document.getElementById('add-account-btn').addEventListener('click', showAddSavingsAccountModal);
+            document.getElementById('savings-account-form').addEventListener('submit', handleAddSavingsAccount);
+            document.getElementById('savings-transaction-form').addEventListener('submit', handleAddSavingsTransaction);
+            document.getElementById('close-savings-account-modal').addEventListener('click', () => {
+                document.getElementById('add-savings-account-modal').style.display = 'none';
+            });
+            document.getElementById('close-savings-transaction-modal').addEventListener('click', () => {
+                document.getElementById('add-savings-transaction-modal').style.display = 'none';
+            });
             
-            const transaction = {
-                amount: parseFloat(document.getElementById('transaction-amount').value),
-                type: document.getElementById('transaction-type').value,
-                date: document.getElementById('transaction-date').value,
-                description: document.getElementById('transaction-description').value
-            };
+            // Expenses
+            document.getElementById('add-expense-btn').addEventListener('click', showAddExpenseModal);
+            document.getElementById('add-expense-category-btn').addEventListener('click', showAddExpenseCategoryModal);
+            document.getElementById('add-category-btn').addEventListener('click', showAddExpenseCategoryModal);
+            document.getElementById('expense-form').addEventListener('submit', handleAddExpense);
+            document.getElementById('expense-category-form').addEventListener('submit', handleAddExpenseCategory);
+            document.getElementById('close-expense-modal').addEventListener('click', () => {
+                document.getElementById('add-expense-modal').style.display = 'none';
+            });
+            document.getElementById('close-expense-category-modal').addEventListener('click', () => {
+                document.getElementById('add-expense-category-modal').style.display = 'none';
+            });
             
-            try {
-                const response = await fetch('/savings/transaction/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(transaction)
+            // Tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    const parentSection = this.closest('.content-section').id;
+                    
+                    // Update active tab
+                    this.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    document.querySelectorAll(`#${parentSection} .tab-content`).forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `${tabId}-${parentSection.split('-')[0]}-tab`) {
+                            content.classList.add('active');
+                        }
+                    });
                 });
-                
-                if (!response.ok) throw new Error('Failed to add transaction');
-                
-                showToast('Transaction added successfully', 'success');
-                transactionModal.classList.remove('active');
-                loadTransactions();
-                loadSavingsData();
-            } catch (error) {
-                showToast(error.message, 'error');
-            }
-        });
-        
-        checkinForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+            });
             
-            const checkin = {
-                date: document.getElementById('checkin-date').value,
-                success: document.querySelector('input[name="checkin-success"]:checked').value === 'true',
-                notes: document.getElementById('checkin-notes').value
-            };
+            // Reports
+            document.getElementById('savings-report-form').addEventListener('submit', generateSavingsReport);
+            document.getElementById('expenses-report-form').addEventListener('submit', generateExpensesReport);
+            document.getElementById('cold-turkey-report-form').addEventListener('submit', generateColdTurkeyReport);
             
-            try {
-                const response = await fetch('https://man-m681.onrender.com/abstinence/checkin/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(checkin)
-                });
-                
-                if (!response.ok) throw new Error('Failed to submit check-in');
-                
-                showToast('Check-in submitted successfully', 'success');
-                checkinModal.classList.remove('active');
-                loadAbstinenceData();
-                renderCalendar();
-            } catch (error) {
-                showToast(error.message, 'error');
-            }
-        });
-        
-        // Helper Functions
+            // Settings
+            document.getElementById('account-settings-form').addEventListener('submit', saveAccountSettings);
+            
+            // Cold Turkey
+            document.getElementById('cold-turkey-form').addEventListener('submit', handleStartChallenge);
+            
+            // Custom date range toggles
+            document.getElementById('savings-period').addEventListener('change', function() {
+                document.getElementById('savings-custom-range').style.display = 
+                    this.value === 'custom' ? 'block' : 'none';
+            });
+            document.getElementById('expenses-period').addEventListener('change', function() {
+                document.getElementById('expenses-custom-range').style.display = 
+                    this.value === 'custom' ? 'block' : 'none';
+            });
+            document.getElementById('cold-turkey-period').addEventListener('change', function() {
+                document.getElementById('cold-turkey-custom-range').style.display = 
+                    this.value === 'custom' ? 'block' : 'none';
+            });
+        }
+
+        // Show toast notification
         function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');
-            toastMessage.textContent = message;
             
-            toast.className = 'toast';
-            toast.classList.add(type);
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
             toast.classList.add('show');
             
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
         }
-        
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD'
-            }).format(amount);
-        }
-        
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-        }
-        
-        // Data Loading Functions
-        async function loadSavingsData() {
+
+        // API Helper Functions
+        async function fetchData(endpoint, method = 'GET', body = null) {
             try {
-                // Load savings goal
-                const goalResponse = await fetch('https://man-m681.onrender.com/savings/goal/');
-                if (!goalResponse.ok) throw new Error('Failed to load savings goal');
+                const options = {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
                 
-                const goal = await goalResponse.json();
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
                 
-                document.getElementById('goal-amount').textContent = formatCurrency(goal.target_amount);
-                document.getElementById('target-amount').textContent = formatCurrency(goal.target_amount);
-                document.getElementById('current-amount').textContent = formatCurrency(goal.current_amount);
-                document.getElementById('monthly-savings').textContent = formatCurrency(goal.monthly_savings);
-                document.getElementById('monthly-savings-value').textContent = formatCurrency(goal.monthly_savings);
-                document.getElementById('target-date').textContent = goal.target_date ? formatDate(goal.target_date) : 'Not set';
-                document.getElementById('goal-description').textContent = goal.description || 'No description';
+                const response = await fetch(`${BASE_URL}${endpoint}`, options);
                 
-                // Calculate progress percentage
-                const progressPercent = goal.target_amount > 0 ? 
-                    Math.min(100, (goal.current_amount / goal.target_amount) * 100) : 0;
-                document.getElementById('goal-progress').style.width = `${progressPercent}%`;
-                
-                // Populate form fields
-                document.getElementById('target-amount-input').value = goal.target_amount;
-                document.getElementById('current-amount-input').value = goal.current_amount;
-                document.getElementById('monthly-savings-input').value = goal.monthly_savings;
-                document.getElementById('target-date-input').value = goal.target_date || '';
-                document.getElementById('goal-description-input').value = goal.description || '';
-                
-                // Load progress stats
-                const progressResponse = await fetch('https://man-m681.onrender.com/savings/progress/');
-                if (!progressResponse.ok) throw new Error('Failed to load progress stats');
-                
-                const progress = await progressResponse.json();
-                document.getElementById('goal-progress').style.width = `${progress.progress_percent}%`;
-                
-            } catch (error) {
-                showToast(error.message, 'error');
-            }
-        }
-        
-        async function loadTransactions() {
-            try {
-                const response = await fetch('https://man-m681.onrender.com/savings/transactions/');
-                if (!response.ok) throw new Error('Failed to load transactions');
-                
-                const transactions = await response.json();
-                const tableBody = document.getElementById('transactions-table');
-                tableBody.innerHTML = '';
-                
-                transactions.forEach(transaction => {
-                    const row = document.createElement('tr');
-                    
-                    const dateCell = document.createElement('td');
-                    dateCell.textContent = formatDate(transaction.date);
-                    
-                    const amountCell = document.createElement('td');
-                    amountCell.textContent = formatCurrency(transaction.amount);
-                    
-                    const typeCell = document.createElement('td');
-                    const typeBadge = document.createElement('span');
-                    typeBadge.className = `badge ${transaction.type === 'deposit' ? 'badge-success' : 'badge-danger'}`;
-                    typeBadge.textContent = transaction.type === 'deposit' ? 'Deposit' : 'Withdrawal';
-                    typeCell.appendChild(typeBadge);
-                    
-                    const descCell = document.createElement('td');
-                    descCell.textContent = transaction.description || 'No description';
-                    
-                    row.appendChild(dateCell);
-                    row.appendChild(amountCell);
-                    row.appendChild(typeCell);
-                    row.appendChild(descCell);
-                    
-                    tableBody.appendChild(row);
-                });
-                
-            } catch (error) {
-                showToast(error.message, 'error');
-            }
-        }
-        
-        async function loadAbstinenceData() {
-            try {
-                // Load tracker data
-                const trackerResponse = await fetch('https://man-m681.onrender.com/abstinence/tracker/');
-                if (!trackerResponse.ok) throw new Error('Failed to load abstinence tracker');
-                
-                const tracker = await trackerResponse.json();
-                
-                document.getElementById('current-streak').textContent = `${tracker.current_streak} days`;
-                document.getElementById('longest-streak').textContent = `${tracker.longest_streak} days`;
-                document.getElementById('total-days').textContent = `${tracker.total_days} days`;
-                document.getElementById('abstinence-days').textContent = tracker.total_days;
-                
-                // Load progress data
-                const progressResponse = await fetch('https://man-m681.onrender.com/abstinence/progress/');
-                if (!progressResponse.ok) throw new Error('Failed to load abstinence progress');
-                
-                const progress = await progressResponse.json();
-                // Could use this data for additional visualizations
-                
-            } catch (error) {
-                showToast(error.message, 'error');
-            }
-        }
-        
-        async function loadCheckins(year, month) {
-            try {
-                const response = await fetch(`https://man-m681.onrender.com/abstinence/calendar/?year=${year}&month=${month + 1}`);
-                if (!response.ok) throw new Error('Failed to load check-in data');
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+                }
                 
                 return await response.json();
             } catch (error) {
+                console.error('Error fetching data:', error);
                 showToast(error.message, 'error');
-                return { checkins: {} };
+                throw error;
             }
         }
-        
-        // Calendar Rendering
-        async function renderCalendar() {
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-                               'July', 'August', 'September', 'October', 'November', 'December'];
-            
-            calendarMonth.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-            
-            // Get first day of month and total days in month
-            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            
-            // Get check-in data for this month
-            const calendarData = await loadCheckins(currentYear, currentMonth);
-            const checkins = calendarData.checkins || {};
-            
-            // Clear previous calendar
-            calendarDays.innerHTML = '';
-            
-            // Add empty cells for days before the first day of the month
-            for (let i = 0; i < firstDay; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.className = 'calendar-day empty';
-                calendarDays.appendChild(emptyDay);
-            }
-            
-            // Add days of the month
-            const today = new Date();
-            const isCurrentMonth = today.getFullYear() === currentYear && today.getMonth() === currentMonth;
-            
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateStr = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                const checkin = checkins[dateStr];
+
+        // Dashboard Functions
+        async function loadDashboardData() {
+            try {
+                // Fetch summary data
+                const summary = await fetchData(`https://backend-jz65.onrender.com/fintrack/dashboard-summary/?user_id=${CURRENT_USER_ID}`);
                 
-                const dayElement = document.createElement('div');
-                dayElement.className = 'calendar-day';
+                // Update dashboard cards
+                document.getElementById('total-savings').textContent = formatCurrency(summary.total_savings);
+                document.getElementById('monthly-expenses').textContent = formatCurrency(summary.monthly_expenses);
+                document.getElementById('cold-turkey-days').textContent = `${summary.cold_turkey_days} days`;
                 
-                // Highlight today
-                if (isCurrentMonth && day === today.getDate()) {
-                    dayElement.classList.add('today');
-                }
+                // Update recent transactions
+                const transactionsTable = document.querySelector('#recent-transactions tbody');
+                transactionsTable.innerHTML = '';
                 
-                // Add check-in status if available
-                if (checkin !== undefined) {
-                    dayElement.classList.add(checkin ? 'success' : 'failure');
-                }
-                
-                const dayNumber = document.createElement('div');
-                dayNumber.className = 'calendar-day-number';
-                dayNumber.textContent = day;
-                dayElement.appendChild(dayNumber);
-                
-                if (checkin !== undefined) {
-                    const dayStatus = document.createElement('div');
-                    dayStatus.className = 'calendar-day-status';
-                    dayStatus.textContent = checkin ? '✓' : '✗';
-                    dayElement.appendChild(dayStatus);
-                }
-                
-                calendarDays.appendChild(dayElement);
+                summary.recent_transactions.forEach(transaction => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${formatDate(transaction.date)}</td>
+                        <td>${transaction.description || 'No description'}</td>
+                        <td>${transaction.category || 'General'}</td>
+                        <td>${formatCurrency(transaction.amount)}</td>
+                        <td>
+                            <span class="badge ${transaction.type === 'expense' ? 'badge-danger' : 'badge-success'}">
+                                ${transaction.type === 'expense' ? 'Expense' : 'Savings'}
+                            </span>
+                        </td>
+                    `;
+                    transactionsTable.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
             }
         }
-        
-        // Initialize the app
-        async function initApp() {
-            await loadSavingsData();
-            await loadTransactions();
-            await loadAbstinenceData();
-            renderCalendar();
-            
-            // Set today's date in forms
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('target-date-input').value = today;
-            document.getElementById('transaction-date').value = today;
-            document.getElementById('checkin-date').value = today;
+
+        // Savings Functions
+        async function loadSavingsData() {
+            try {
+                // Fetch savings accounts
+                const accounts = await fetchData('https://backend-jz65.onrender.com/savings/accounts/');
+                
+                // Update account cards
+                const accountsContainer = document.getElementById('savings-accounts-cards');
+                accountsContainer.innerHTML = '';
+                
+                accounts.forEach(account => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <h3 class="card-title">${account.name}</h3>
+                            <div class="card-icon primary">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">${formatCurrency(account.balance)}</div>
+                        <div class="card-description">
+                            ${account.target ? `Target: ${formatCurrency(account.target)}` : 'No target set'}
+                        </div>
+                    `;
+                    accountsContainer.appendChild(card);
+                });
+                
+                // Fetch savings transactions
+                const transactions = await fetchData('https://backend-jz65.onrender.com/savings/transactions/');
+                const transactionsTable = document.querySelector('#savings-transactions tbody');
+                transactionsTable.innerHTML = '';
+                
+                transactions.forEach(transaction => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${formatDate(transaction.date)}</td>
+                        <td>${getAccountName(transaction.account_id, accounts)}</td>
+                        <td>${formatCurrency(transaction.amount)}</td>
+                        <td>
+                            <span class="badge ${transaction.transaction_type === 'deposit' ? 'badge-success' : 'badge-danger'}">
+                                ${transaction.transaction_type === 'deposit' ? 'Deposit' : 'Withdrawal'}
+                            </span>
+                        </td>
+                        <td>${transaction.description || 'No description'}</td>
+                        <td>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem; background-color: var(--danger);">Delete</button>
+                        </td>
+                    `;
+                    transactionsTable.appendChild(row);
+                });
+                
+                // Update savings accounts table in settings
+                const accountsTable = document.querySelector('#savings-accounts-table tbody');
+                accountsTable.innerHTML = '';
+                
+                accounts.forEach(account => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${account.name}</td>
+                        <td>${formatCurrency(account.balance)}</td>
+                        <td>${account.target ? formatCurrency(account.target) : 'None'}</td>
+                        <td>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem; background-color: var(--danger);">Delete</button>
+                        </td>
+                    `;
+                    accountsTable.appendChild(row);
+                });
+                
+                // Update dropdowns that need savings accounts
+                updateSavingsAccountDropdowns(accounts);
+                
+                return accounts;
+            } catch (error) {
+                console.error('Error loading savings data:', error);
+                return [];
+            }
         }
-        
-        // Start the application
-        document.addEventListener('DOMContentLoaded', initApp);
+
+        function getAccountName(accountId, accounts) {
+            const account = accounts.find(a => a.id === accountId);
+            return account ? account.name : 'Unknown Account';
+        }
+
+        function updateSavingsAccountDropdowns(accounts) {
+            const dropdowns = [
+                document.getElementById('savings-transaction-account'),
+                document.getElementById('savings-report-account')
+            ];
+            
+            dropdowns.forEach(dropdown => {
+                if (dropdown) {
+                    // Save the current value
+                    const currentValue = dropdown.value;
+                    
+                    // Clear and repopulate options
+                    dropdown.innerHTML = '';
+                    
+                    // Add default option
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = dropdown.id.includes('report') ? 'All Accounts' : 'Select account';
+                    dropdown.appendChild(defaultOption);
+                    
+                    // Add account options
+                    accounts.forEach(account => {
+                        const option = document.createElement('option');
+                        option.value = account.id;
+                        option.textContent = account.name;
+                        dropdown.appendChild(option);
+                    });
+                    
+                    // Restore the previous value if it still exists
+                    if (currentValue && accounts.some(a => a.id.toString() === currentValue)) {
+                        dropdown.value = currentValue;
+                    }
+                }
+            });
+        }
+
+        function showAddSavingsAccountModal() {
+            document.getElementById('add-savings-account-modal').style.display = 'flex';
+            document.getElementById('savings-account-name').focus();
+        }
+
+        async function handleAddSavingsAccount(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const name = form.querySelector('#savings-account-name').value;
+            const target = form.querySelector('#savings-account-target').value;
+            const description = form.querySelector('#savings-account-description').value;
+            
+            try {
+                // Create form data
+                const formData = new FormData();
+                formData.append('name', name);
+                if (target) formData.append('target', target);
+                if (description) formData.append('description', description);
+                
+                // Create new savings account
+                const response = await fetch(`${BASE_URL}/savings/accounts/`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to create savings account');
+                }
+                
+                const newAccount = await response.json();
+                
+                showToast('Savings account created successfully!');
+                form.reset();
+                document.getElementById('add-savings-account-modal').style.display = 'none';
+                
+                // Refresh data
+                await loadSavingsData();
+                await loadDashboardData();
+            } catch (error) {
+                console.error('Error adding savings account:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        function showAddSavingsTransactionModal() {
+            document.getElementById('add-savings-transaction-modal').style.display = 'flex';
+            document.getElementById('savings-transaction-amount').focus();
+        }
+
+        async function handleAddSavingsTransaction(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const accountId = form.querySelector('#savings-transaction-account').value;
+            const transactionType = form.querySelector('#savings-transaction-type').value;
+            const amount = parseFloat(form.querySelector('#savings-transaction-amount').value);
+            const date = form.querySelector('#savings-transaction-date').value;
+            const description = form.querySelector('#savings-transaction-description').value;
+            
+            try {
+                // Create form data
+                const formData = new FormData();
+                formData.append('account_id', accountId);
+                formData.append('transaction_type', transactionType);
+                formData.append('amount', amount);
+                formData.append('date', date);
+                if (description) formData.append('description', description);
+                
+                // Create new savings transaction
+                const response = await fetch(`${BASE_URL}/savings/transactions/`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to create savings transaction');
+                }
+                
+                const newTransaction = await response.json();
+                
+                showToast('Savings transaction added successfully!');
+                form.reset();
+                setCurrentDateInForms();
+                document.getElementById('add-savings-transaction-modal').style.display = 'none';
+                
+                // Refresh data
+                await loadSavingsData();
+                await loadDashboardData();
+            } catch (error) {
+                console.error('Error adding savings transaction:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Expenses Functions
+        async function loadExpensesData() {
+            try {
+                // Fetch expense categories
+                const categories = await fetchData('/expenses/categories/');
+                
+                // Fetch expenses
+                const expenses = await fetchData('/expenses/');
+                const expensesTable = document.querySelector('#expenses-table tbody');
+                expensesTable.innerHTML = '';
+                
+                expenses.forEach(expense => {
+                    const category = categories.find(c => c.id === expense.category_id);
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${formatDate(expense.date)}</td>
+                        <td>${expense.description || 'No description'}</td>
+                        <td>${category ? category.name : 'Unknown'}</td>
+                        <td>${formatCurrency(expense.amount)}</td>
+                        <td>${expense.payment_method.replace('_', ' ')}</td>
+                        <td>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem; background-color: var(--danger);">Delete</button>
+                        </td>
+                    `;
+                    expensesTable.appendChild(row);
+                });
+                
+                // Update expense categories table in settings
+                const categoriesTable = document.querySelector('#expense-categories-table tbody');
+                categoriesTable.innerHTML = '';
+                
+                categories.forEach(category => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${category.name}</td>
+                        <td>${category.monthly_budget ? formatCurrency(category.monthly_budget) : 'None'}</td>
+                        <td>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem; background-color: var(--danger);">Delete</button>
+                        </td>
+                    `;
+                    categoriesTable.appendChild(row);
+                });
+                
+                // Update category cards
+                updateExpenseCategories(expenses, categories);
+                
+                // Update dropdowns that need expense categories
+                updateExpenseCategoryDropdowns(categories);
+                
+                return categories;
+            } catch (error) {
+                console.error('Error loading expenses data:', error);
+                return [];
+            }
+        }
+
+        function updateExpenseCategories(expenses, categories) {
+            const categoriesContainer = document.getElementById('expense-categories');
+            categoriesContainer.innerHTML = '';
+            
+            // Calculate totals for each category
+            const categoryTotals = {};
+            categories.forEach(category => {
+                categoryTotals[category.id] = {
+                    name: category.name,
+                    total: 0,
+                    budget: category.monthly_budget || 0
+                };
+            });
+            
+            // Add "Other" category for expenses without a matching category
+            categoryTotals['other'] = {
+                name: 'Other',
+                total: 0,
+                budget: 0
+            };
+            
+            // Sum expenses by category
+            expenses.forEach(expense => {
+                if (categoryTotals[expense.category_id]) {
+                    categoryTotals[expense.category_id].total += expense.amount;
+                } else {
+                    categoryTotals['other'].total += expense.amount;
+                }
+            });
+            
+            // Create category cards
+            for (const [id, category] of Object.entries(categoryTotals)) {
+                if (category.total > 0 || id !== 'other') {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    
+                    // Calculate percentage of budget used
+                    const percentage = category.budget > 0 ? 
+                        Math.round((category.total / category.budget) * 100) : 0;
+                    
+                    // Determine color based on percentage
+                    let colorClass = 'primary';
+                    if (category.budget > 0) {
+                        if (percentage > 100) {
+                            colorClass = 'danger';
+                        } else if (percentage > 75) {
+                            colorClass = 'warning';
+                        } else {
+                            colorClass = 'success';
+                        }
+                    }
+                    
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <h3 class="card-title">${category.name}</h3>
+                            <div class="card-icon ${colorClass}">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">${formatCurrency(category.total)}</div>
+                        <div class="card-description">
+                            ${category.budget > 0 ? 
+                                `${percentage}% of ${formatCurrency(category.budget)} budget` : 
+                                'No budget set'}
+                        </div>
+                    `;
+                    categoriesContainer.appendChild(card);
+                }
+            }
+        }
+
+        function updateExpenseCategoryDropdowns(categories) {
+            const dropdowns = [
+                document.getElementById('expense-category'),
+                document.getElementById('target-category'),
+                document.getElementById('expenses-report-category')
+            ];
+            
+            dropdowns.forEach(dropdown => {
+                if (dropdown) {
+                    // Save the current value
+                    const currentValue = dropdown.value;
+                    
+                    // Clear and repopulate options
+                    dropdown.innerHTML = '';
+                    
+                    // Add default option
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = dropdown.id.includes('report') ? 'All Categories' : 'Select category';
+                    dropdown.appendChild(defaultOption);
+                    
+                    // Add category options
+                    categories.forEach(category => {
+                        const option = document.createElement('option');
+                        option.value = category.id;
+                        option.textContent = category.name;
+                        dropdown.appendChild(option);
+                    });
+                    
+                    // For target category dropdown, add special options
+                    if (dropdown.id === 'target-category') {
+                        const specialOptions = [
+                            { value: 'all_non_essential', text: 'All Non-Essential' },
+                            { value: 'entertainment', text: 'Entertainment' },
+                            { value: 'shopping', text: 'Shopping' },
+                            { value: 'dining_out', text: 'Dining Out' }
+                        ];
+                        
+                        specialOptions.forEach(opt => {
+                            const option = document.createElement('option');
+                            option.value = opt.value;
+                            option.textContent = opt.text;
+                            dropdown.appendChild(option);
+                        });
+                    }
+                    
+                    // Restore the previous value if it still exists
+                    if (currentValue && categories.some(c => c.id.toString() === currentValue)) {
+                        dropdown.value = currentValue;
+                    }
+                }
+            });
+        }
+
+        function showAddExpenseModal() {
+            document.getElementById('add-expense-modal').style.display = 'flex';
+            document.getElementById('expense-amount').focus();
+        }
+
+        async function handleAddExpense(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const categoryId = form.querySelector('#expense-category').value;
+            const amount = parseFloat(form.querySelector('#expense-amount').value);
+            const paymentMethod = form.querySelector('#expense-payment-method').value;
+            const date = form.querySelector('#expense-date').value;
+            const description = form.querySelector('#expense-description').value;
+            
+            try {
+                // Create form data
+                const formData = new FormData();
+                formData.append('category_id', categoryId);
+                formData.append('amount', amount);
+                formData.append('payment_method', paymentMethod);
+                formData.append('date', date);
+                if (description) formData.append('description', description);
+                
+                // Create new expense
+                const response = await fetch(`${BASE_URL}/expenses/`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to create expense');
+                }
+                
+                const newExpense = await response.json();
+                
+                showToast('Expense added successfully!');
+                form.reset();
+                setCurrentDateInForms();
+                document.getElementById('add-expense-modal').style.display = 'none';
+                
+                // Refresh data
+                await loadExpensesData();
+                await loadDashboardData();
+            } catch (error) {
+                console.error('Error adding expense:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        function showAddExpenseCategoryModal() {
+            document.getElementById('add-expense-category-modal').style.display = 'flex';
+            document.getElementById('expense-category-name').focus();
+        }
+
+        async function handleAddExpenseCategory(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const name = form.querySelector('#expense-category-name').value;
+            const budget = form.querySelector('#expense-category-budget').value;
+            const description = form.querySelector('#expense-category-description').value;
+            
+            try {
+                // Create form data
+                const formData = new FormData();
+                formData.append('name', name);
+                if (budget) formData.append('monthly_budget', budget);
+                if (description) formData.append('description', description);
+                
+                // Create new expense category
+                const response = await fetch(`${BASE_URL}/expenses/categories/`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to create expense category');
+                }
+                
+                const newCategory = await response.json();
+                
+                showToast('Expense category created successfully!');
+                form.reset();
+                document.getElementById('add-expense-category-modal').style.display = 'none';
+                
+                // Refresh data
+                await loadExpensesData();
+            } catch (error) {
+                console.error('Error adding expense category:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Cold Turkey Functions
+        async function loadColdTurkeyData() {
+            try {
+                // Fetch active challenge
+                const activeChallenge = await fetchData(`/cold-turkey/challenges/${CURRENT_USER_ID}/active`);
+                
+                if (activeChallenge) {
+                    const startDate = new Date(activeChallenge.start_date);
+                    const today = new Date();
+                    const days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+                    
+                    // Update cards
+                    document.getElementById('current-streak').textContent = `${days} days`;
+                    document.getElementById('cold-turkey-days').textContent = `${days} days`;
+                    document.getElementById('money-saved').textContent = formatCurrency(activeChallenge.money_saved || 0);
+                    document.getElementById('target-days').textContent = `${activeChallenge.target_days} days`;
+                    
+                    // Calculate progress
+                    const progress = Math.min(Math.round((days / activeChallenge.target_days) * 100), 100);
+                    
+                    const progressBar = document.getElementById('streak-progress');
+                    progressBar.style.width = `${progress}%`;
+                    progressBar.textContent = `${progress}%`;
+                    
+                    // Update message
+                    const message = document.getElementById('streak-message');
+                    if (days >= activeChallenge.target_days) {
+                        message.textContent = `Congratulations! You've completed your ${activeChallenge.target_days}-day challenge!`;
+                    } else {
+                        message.textContent = `Keep going! You're ${days} days into your ${activeChallenge.target_days}-day challenge.`;
+                    }
+                    
+                    // Update milestones
+                    updateMilestones(activeChallenge.milestones || [], days);
+                }
+            } catch (error) {
+                console.error('Error loading cold turkey data:', error);
+            }
+        }
+
+        function updateMilestones(milestones, currentDays) {
+            const milestonesList = document.getElementById('milestones-list');
+            milestonesList.innerHTML = '';
+            
+            milestones.forEach(milestone => {
+                const milestoneElement = document.createElement('div');
+                milestoneElement.className = 'milestone';
+                
+                if (milestone.achieved) {
+                    milestoneElement.innerHTML = `
+                        <i class="fas fa-check-circle milestone-check"></i>
+                        <span>${milestone.days} days - Milestone achieved!</span>
+                        <span class="milestone-date">${formatDate(milestone.achieved_date)}</span>
+                    `;
+                } else if (currentDays >= milestone.days) {
+                    milestoneElement.innerHTML = `
+                        <i class="fas fa-check-circle milestone-check"></i>
+                        <span>${milestone.days} days - Milestone achieved!</span>
+                        <span class="milestone-date">Today</span>
+                    `;
+                } else {
+                    milestoneElement.innerHTML = `
+                        <i class="far fa-circle"></i>
+                        <span>${milestone.days} days - Keep going!</span>
+                        <span class="milestone-date">-</span>
+                    `;
+                }
+                
+                milestonesList.appendChild(milestoneElement);
+            });
+        }
+
+        async function handleStartChallenge(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const targetDays = form.querySelector('#target-duration').value;
+            const targetCategory = form.querySelector('#target-category').value;
+            const startDate = form.querySelector('#start-date').value;
+            
+            try {
+                // Create form data
+                const formData = new FormData();
+                formData.append('user_id', CURRENT_USER_ID);
+                formData.append('target_days', targetDays);
+                formData.append('target_category', targetCategory);
+                formData.append('start_date', startDate);
+                
+                // Create new cold turkey challenge
+                const response = await fetch(`${BASE_URL}/cold-turkey/challenges/`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to start challenge');
+                }
+                
+                const newChallenge = await response.json();
+                
+                showToast('Cold turkey challenge started!');
+                form.reset();
+                setCurrentDateInForms();
+                
+                // Refresh data
+                await loadColdTurkeyData();
+                await loadDashboardData();
+            } catch (error) {
+                console.error('Error starting cold turkey challenge:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        // User Settings Functions
+        async function loadUserSettings() {
+            try {
+                const settings = await fetchData(`/user/settings/${CURRENT_USER_ID}`);
+                
+                // Update form fields
+                document.getElementById('user-name').value = 'John Doe'; // In a real app, this would come from user data
+                document.getElementById('user-email').value = 'john.doe@example.com'; // In a real app, this would come from user data
+                document.getElementById('user-currency').value = settings.currency || 'USD';
+                document.getElementById('savings-notifications').checked = settings.savings_goals_notifications;
+                document.getElementById('expense-alerts').checked = settings.expense_alerts;
+                document.querySelector(`input[name="theme"][value="${settings.dark_mode ? 'dark' : 'light'}"]`).checked = true;
+            } catch (error) {
+                console.error('Error loading user settings:', error);
+            }
+        }
+
+        async function saveAccountSettings(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const currency = form.querySelector('#user-currency').value;
+            const savingsNotifications = form.querySelector('#savings-notifications').checked;
+            const expenseAlerts = form.querySelector('#expense-alerts').checked;
+            const darkMode = form.querySelector('input[name="theme"]:checked').value === 'dark';
+            
+            try {
+                // Create form data
+                const formData = new FormData();
+                formData.append('currency', currency);
+                formData.append('savings_goals_notifications', savingsNotifications);
+                formData.append('expense_alerts', expenseAlerts);
+                formData.append('dark_mode', darkMode);
+                
+                // Update user settings
+                const response = await fetch(`${BASE_URL}/user/settings/${CURRENT_USER_ID}`, {
+                    method: 'PUT',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to save settings');
+                }
+                
+                const updatedSettings = await response.json();
+                
+                showToast('Account settings saved successfully!');
+                
+                // Apply theme if changed
+                if (darkMode) {
+                    document.body.style.backgroundColor = '#212529';
+                    document.body.style.color = '#f8f9fa';
+                } else {
+                    document.body.style.backgroundColor = '#f5f7fa';
+                    document.body.style.color = '#212529';
+                }
+            } catch (error) {
+                console.error('Error saving account settings:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Report Functions
+        async function generateSavingsReport(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const period = form.querySelector('#savings-period').value;
+            const accountId = form.querySelector('#savings-report-account').value;
+            
+            try {
+                // Build query parameters
+                const params = new URLSearchParams();
+                params.append('user_id', CURRENT_USER_ID);
+                
+                if (period === 'custom') {
+                    const startDate = form.querySelector('#savings-start-date').value;
+                    const endDate = form.querySelector('#savings-end-date').value;
+                    params.append('start_date', startDate);
+                    params.append('end_date', endDate);
+                } else {
+                    // Calculate date range based on period
+                    const today = new Date();
+                    let startDate = new Date();
+                    
+                    switch (period) {
+                        case 'week':
+                            startDate.setDate(today.getDate() - 7);
+                            break;
+                        case 'month':
+                            startDate.setMonth(today.getMonth() - 1);
+                            break;
+                        case 'quarter':
+                            startDate.setMonth(today.getMonth() - 3);
+                            break;
+                        case 'year':
+                            startDate.setFullYear(today.getFullYear() - 1);
+                            break;
+                    }
+                    
+                    params.append('start_date', startDate.toISOString().split('T')[0]);
+                    params.append('end_date', today.toISOString().split('T')[0]);
+                }
+                
+                if (accountId && accountId !== 'all') {
+                    params.append('account_id', accountId);
+                }
+                
+                // Fetch savings transactions for report
+                const transactions = await fetchData(`/savings/transactions/?${params.toString()}`);
+                
+                // Show results section
+                document.getElementById('savings-report-results').style.display = 'block';
+                
+                // Update report table
+                const tableBody = document.querySelector('#savings-report-table tbody');
+                tableBody.innerHTML = '';
+                
+                // Also fetch accounts to get names
+                const accounts = await fetchData('/savings/accounts/');
+                
+                transactions.forEach(transaction => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${formatDate(transaction.date)}</td>
+                        <td>${getAccountName(transaction.account_id, accounts)}</td>
+                        <td>${formatCurrency(transaction.amount)}</td>
+                        <td>${transaction.description || 'No description'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+                // Create chart
+                createSavingsChart(transactions, accounts);
+                
+                showToast('Savings report generated successfully!');
+            } catch (error) {
+                console.error('Error generating savings report:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        function createSavingsChart(transactions, accounts) {
+            const ctx = document.getElementById('savings-chart').getContext('2d');
+            
+            // Destroy previous chart if it exists
+            if (window.savingsChart) {
+                window.savingsChart.destroy();
+            }
+            
+            // Group transactions by account
+            const accountData = {};
+            accounts.forEach(account => {
+                accountData[account.id] = {
+                    name: account.name,
+                    deposits: 0,
+                    withdrawals: 0
+                };
+            });
+            
+            transactions.forEach(transaction => {
+                if (accountData[transaction.account_id]) {
+                    if (transaction.transaction_type === 'deposit') {
+                        accountData[transaction.account_id].deposits += transaction.amount;
+                    } else {
+                        accountData[transaction.account_id].withdrawals += transaction.amount;
+                    }
+                }
+            });
+            
+            // Prepare data for chart
+            const accountNames = [];
+            const depositData = [];
+            const withdrawalData = [];
+            
+            for (const [id, data] of Object.entries(accountData)) {
+                if (data.deposits > 0 || data.withdrawals > 0) {
+                    accountNames.push(data.name);
+                    depositData.push(data.deposits);
+                    withdrawalData.push(-data.withdrawals); // Negative for chart
+                }
+            }
+            
+            window.savingsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: accountNames,
+                    datasets: [
+                        {
+                            label: 'Deposits',
+                            data: depositData,
+                            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Withdrawals',
+                            data: withdrawalData,
+                            backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+
+        async function generateExpensesReport(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const period = form.querySelector('#expenses-period').value;
+            const categoryId = form.querySelector('#expenses-report-category').value;
+            
+            try {
+                // Build query parameters
+                const params = new URLSearchParams();
+                params.append('user_id', CURRENT_USER_ID);
+                
+                if (period === 'custom') {
+                    const startDate = form.querySelector('#expenses-start-date').value;
+                    const endDate = form.querySelector('#expenses-end-date').value;
+                    params.append('start_date', startDate);
+                    params.append('end_date', endDate);
+                } else {
+                    // Calculate date range based on period
+                    const today = new Date();
+                    let startDate = new Date();
+                    
+                    switch (period) {
+                        case 'week':
+                            startDate.setDate(today.getDate() - 7);
+                            break;
+                        case 'month':
+                            startDate.setMonth(today.getMonth() - 1);
+                            break;
+                        case 'quarter':
+                            startDate.setMonth(today.getMonth() - 3);
+                            break;
+                        case 'year':
+                            startDate.setFullYear(today.getFullYear() - 1);
+                            break;
+                    }
+                    
+                    params.append('start_date', startDate.toISOString().split('T')[0]);
+                    params.append('end_date', today.toISOString().split('T')[0]);
+                }
+                
+                if (categoryId && categoryId !== 'all') {
+                    params.append('category_id', categoryId);
+                }
+                
+                // Fetch expenses for report
+                const expenses = await fetchData(`/expenses/?${params.toString()}`);
+                
+                // Show results section
+                document.getElementById('expenses-report-results').style.display = 'block';
+                
+                // Update report table
+                const tableBody = document.querySelector('#expenses-report-table tbody');
+                tableBody.innerHTML = '';
+                
+                // Also fetch categories to get names
+                const categories = await fetchData('/expenses/categories/');
+                
+                expenses.forEach(expense => {
+                    const category = categories.find(c => c.id === expense.category_id);
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${formatDate(expense.date)}</td>
+                        <td>${category ? category.name : 'Unknown'}</td>
+                        <td>${formatCurrency(expense.amount)}</td>
+                        <td>${expense.description || 'No description'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+                // Create chart
+                createExpensesChart(expenses, categories);
+                
+                showToast('Expenses report generated successfully!');
+            } catch (error) {
+                console.error('Error generating expenses report:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        function createExpensesChart(expenses, categories) {
+            const ctx = document.getElementById('expenses-chart').getContext('2d');
+            
+            // Destroy previous chart if it exists
+            if (window.expensesChart) {
+                window.expensesChart.destroy();
+            }
+            
+            // Group expenses by category
+            const categoryData = {};
+            categories.forEach(category => {
+                categoryData[category.id] = {
+                    name: category.name,
+                    total: 0
+                };
+            });
+            
+            // Add "Other" category
+            categoryData['other'] = {
+                name: 'Other',
+                total: 0
+            };
+            
+            expenses.forEach(expense => {
+                if (categoryData[expense.category_id]) {
+                    categoryData[expense.category_id].total += expense.amount;
+                } else {
+                    categoryData['other'].total += expense.amount;
+                }
+            });
+            
+            // Prepare data for chart
+            const categoryNames = [];
+            const expenseData = [];
+            const backgroundColors = [];
+            
+            const colors = [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)',
+                'rgba(255, 159, 64, 0.7)',
+                'rgba(199, 199, 199, 0.7)'
+            ];
+            
+            let colorIndex = 0;
+            for (const [id, data] of Object.entries(categoryData)) {
+                if (data.total > 0 || id !== 'other') {
+                    categoryNames.push(data.name);
+                    expenseData.push(data.total);
+                    backgroundColors.push(colors[colorIndex % colors.length]);
+                    colorIndex++;
+                }
+            }
+            
+            window.expensesChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: categoryNames,
+                    datasets: [{
+                        data: expenseData,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        async function generateColdTurkeyReport(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const period = form.querySelector('#cold-turkey-period').value;
+            
+            try {
+                // Build query parameters
+                const params = new URLSearchParams();
+                params.append('user_id', CURRENT_USER_ID);
+                
+                if (period === 'custom') {
+                    const startDate = form.querySelector('#cold-turkey-start-date').value;
+                    const endDate = form.querySelector('#cold-turkey-end-date').value;
+                    params.append('start_date', startDate);
+                    params.append('end_date', endDate);
+                } else if (period !== 'all') {
+                    // Calculate date range based on period
+                    const today = new Date();
+                    let startDate = new Date();
+                    
+                    switch (period) {
+                        case 'month':
+                            startDate.setMonth(today.getMonth() - 1);
+                            break;
+                        case 'year':
+                            startDate.setFullYear(today.getFullYear() - 1);
+                            break;
+                    }
+                    
+                    params.append('start_date', startDate.toISOString().split('T')[0]);
+                    params.append('end_date', today.toISOString().split('T')[0]);
+                }
+                
+                // Fetch cold turkey challenges for report
+                const challenges = await fetchData(`https://backend-jz65.onrender.com/cold-turkey/challenges/?${params.toString()}`);
+                
+                // Show results section
+                document.getElementById('cold-turkey-report-results').style.display = 'block';
+                
+                // Update report table
+                const tableBody = document.querySelector('#cold-turkey-report-table tbody');
+                tableBody.innerHTML = '';
+                
+                challenges.forEach(challenge => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${formatDate(challenge.start_date)}</td>
+                        <td>${challenge.end_date ? formatDate(challenge.end_date) : 'Ongoing'}</td>
+                        <td>${challenge.end_date ? 
+                            Math.floor((new Date(challenge.end_date) - new Date(challenge.start_date)) / (1000 * 60 * 60 * 24) : 
+                            Math.floor((new Date() - new Date(challenge.start_date)) / (1000 * 60 * 60 * 24)} days</td>
+                        <td>${challenge.target_category}</td>
+                        <td>
+                            <span class="badge ${challenge.status === 'active' ? 'badge-success' : 'badge-warning'}">
+                                ${challenge.status}
+                            </span>
+                        </td>
+                        <td>${formatCurrency(challenge.money_saved || 0)}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+                // Create chart
+                createColdTurkeyChart(challenges);
+                
+                showToast('Cold turkey report generated successfully!');
+            } catch (error) {
+                console.error('Error generating cold turkey report:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        function createColdTurkeyChart(challenges) {
+            const ctx = document.getElementById('cold-turkey-chart').getContext('2d');
+            
+            // Destroy previous chart if it exists
+            if (window.coldTurkeyChart) {
+                window.coldTurkeyChart.destroy();
+            }
+            
+            // Prepare data for chart
+            const labels = challenges.map(challenge => 
+                `${formatDate(challenge.start_date)} - ${challenge.target_category}`
+            );
+            const moneySaved = challenges.map(challenge => challenge.money_saved || 0);
+            const durations = challenges.map(challenge => 
+                challenge.end_date ? 
+                Math.floor((new Date(challenge.end_date) - new Date(challenge.start_date)) / (1000 * 60 * 60 * 24)) :
+                Math.floor((new Date() - new Date(challenge.start_date)) / (1000 * 60 * 60 * 24))
+            );
+            
+            window.coldTurkeyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Money Saved',
+                            data: moneySaved,
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Duration (days)',
+                            data: durations,
+                            backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                            borderColor: 'rgba(255, 206, 86, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y1',
+                            type: 'line'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Money Saved'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Duration (days)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Utility Functions
+        function formatCurrency(amount) {
+            if (isNaN(amount)) amount = 0;
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: document.getElementById('user-currency')?.value || 'USD'
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
     </script>
 </body>
 </html>
