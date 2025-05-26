@@ -473,21 +473,24 @@
             background: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            padding: 20px;
-            max-width: 90%;
-            max-height: 90%;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
             overflow-y: auto;
         }
 
         .close-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
+            top: 15px;
+            right: 15px;
             font-size: 1.5rem;
             cursor: pointer;
             color: #6c757d;
+        }
+
+        .close-btn:hover {
+            color: var(--dark);
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -638,7 +641,7 @@
                 <!-- Add Savings Account Modal -->
                 <div id="add-savings-account-modal" class="modal" style="display: none;">
                     <div class="modal-content">
-                        <button class="close-btn" id="close-savings-account-modal">&times;</button>
+                        <span class="close-btn" onclick="closeModal('add-savings-account-modal')">&times;</span>
                         <h2>Add Savings Account</h2>
                         <form id="savings-account-form">
                             <div class="form-group">
@@ -661,7 +664,7 @@
                 <!-- Add Savings Transaction Modal -->
                 <div id="add-savings-transaction-modal" class="modal" style="display: none;">
                     <div class="modal-content">
-                        <button class="close-btn" id="close-savings-transaction-modal">&times;</button>
+                        <span class="close-btn" onclick="closeModal('add-savings-transaction-modal')">&times;</span>
                         <h2>Add Savings Transaction</h2>
                         <form id="savings-transaction-form">
                             <div class="form-group">
@@ -702,15 +705,11 @@
                     <button class="btn" id="add-expense-btn">
                         <i class="fas fa-plus"></i> Add Expense
                     </button>
-                    <button class="btn" id="add-expense-category-btn">
-                        <i class="fas fa-plus"></i> Add Category
-                    </button>
                 </div>
 
                 <div class="tabs">
                     <div class="tab active" data-tab="all">All Expenses</div>
                     <div class="tab" data-tab="categories">By Category</div>
-                    <div class="tab" data-tab="monthly">Monthly View</div>
                 </div>
 
                 <div class="tab-content active" id="all-expenses-tab">
@@ -739,28 +738,10 @@
                     </div>
                 </div>
 
-                <div class="tab-content" id="monthly-expenses-tab">
-                    <div class="table-container">
-                        <table id="monthly-expenses-table">
-                            <thead>
-                                <tr>
-                                    <th>Month</th>
-                                    <th>Total Expenses</th>
-                                    <th>Average Daily</th>
-                                    <th>Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Monthly expenses will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
                 <!-- Add Expense Modal -->
                 <div id="add-expense-modal" class="modal" style="display: none;">
                     <div class="modal-content">
-                        <button class="close-btn" id="close-expense-modal">&times;</button>
+                        <span class="close-btn" onclick="closeModal('add-expense-modal')">&times;</span>
                         <h2>Add Expense</h2>
                         <form id="expense-form">
                             <div class="form-group">
@@ -789,33 +770,10 @@
                                 <input type="date" class="form-control" id="expense-date" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Description</label>
+                                <label class="form-label">Description (optional)</label>
                                 <input type="text" class="form-control" id="expense-description">
                             </div>
                             <button type="submit" class="btn btn-block">Save Expense</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Add Expense Category Modal -->
-                <div id="add-expense-category-modal" class="modal" style="display: none;">
-                    <div class="modal-content">
-                        <button class="close-btn" id="close-expense-category-modal">&times;</button>
-                        <h2>Add Expense Category</h2>
-                        <form id="expense-category-form">
-                            <div class="form-group">
-                                <label class="form-label">Category Name</label>
-                                <input type="text" class="form-control" id="expense-category-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Monthly Budget (optional)</label>
-                                <input type="number" class="form-control" id="expense-category-budget" step="0.01" min="0">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Description (optional)</label>
-                                <textarea class="form-control" id="expense-category-description"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-block">Create Category</button>
                         </form>
                     </div>
                 </div>
@@ -851,7 +809,7 @@
                                 <i class="fas fa-bullseye"></i>
                             </div>
                         </div>
-                        <div class="card-value" id="target-days">30 days</div>
+                        <div class="card-value" id="target-days">0 days</div>
                         <div class="card-description">Current goal</div>
                     </div>
                 </div>
@@ -882,7 +840,7 @@
                             <label class="form-label">Target Category</label>
                             <select class="form-control" id="target-category" required>
                                 <option value="">Select category</option>
-                                <!-- Expense categories will be loaded here -->
+                                <!-- Categories will be loaded here -->
                             </select>
                         </div>
                         <div class="form-group">
@@ -927,7 +885,7 @@
                                 <label class="form-label">Account</label>
                                 <select class="form-control" id="savings-report-account">
                                     <option value="all">All Accounts</option>
-                                    <!-- Savings accounts will be loaded here -->
+                                    <!-- Accounts will be loaded here -->
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-block">Generate Report</button>
@@ -943,6 +901,7 @@
                                     <th>Date</th>
                                     <th>Account</th>
                                     <th>Amount</th>
+                                    <th>Type</th>
                                     <th>Description</th>
                                 </tr>
                             </thead>
@@ -978,7 +937,7 @@
                                 <label class="form-label">Category</label>
                                 <select class="form-control" id="expenses-report-category">
                                     <option value="all">All Categories</option>
-                                    <!-- Expense categories will be loaded here -->
+                                    <!-- Categories will be loaded here -->
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-block">Generate Report</button>
@@ -994,6 +953,7 @@
                                     <th>Date</th>
                                     <th>Category</th>
                                     <th>Amount</th>
+                                    <th>Payment Method</th>
                                     <th>Description</th>
                                 </tr>
                             </thead>
@@ -1053,52 +1013,36 @@
             <!-- Settings Section -->
             <section id="settings-section" class="content-section">
                 <div class="form-container">
-                    <h2>Account Settings</h2>
-                    <form id="account-settings-form">
-                        <div class="form-group">
-                            <label class="form-label">Name</label>
-                            <input type="text" class="form-control" id="user-name" value="John Doe" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" id="user-email" value="john.doe@example.com" required>
-                        </div>
+                    <h2>User Settings</h2>
+                    <form id="user-settings-form">
                         <div class="form-group">
                             <label class="form-label">Currency</label>
                             <select class="form-control" id="user-currency">
-                                <option value="USD" selected>US Dollar ($)</option>
+                                <option value="USD">US Dollar ($)</option>
                                 <option value="EUR">Euro (€)</option>
                                 <option value="GBP">British Pound (£)</option>
                                 <option value="JPY">Japanese Yen (¥)</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Notifications</label>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <label style="display: flex; align-items: center; gap: 10px;">
-                                    <input type="checkbox" id="savings-notifications" checked>
-                                    <span>Savings goals notifications</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 10px;">
-                                    <input type="checkbox" id="expense-alerts" checked>
-                                    <span>Expense alerts</span>
-                                </label>
-                            </div>
+                            <label class="form-label">
+                                <input type="checkbox" id="savings-notifications" checked>
+                                Savings Goals Notifications
+                            </label>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Theme</label>
-                            <div style="display: flex; gap: 10px;">
-                                <label style="display: flex; align-items: center; gap: 5px;">
-                                    <input type="radio" name="theme" value="light" checked>
-                                    <span>Light</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 5px;">
-                                    <input type="radio" name="theme" value="dark">
-                                    <span>Dark</span>
-                                </label>
-                            </div>
+                            <label class="form-label">
+                                <input type="checkbox" id="expense-alerts" checked>
+                                Expense Alerts
+                            </label>
                         </div>
-                        <button type="submit" class="btn btn-block">Save Changes</button>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <input type="checkbox" id="dark-mode">
+                                Dark Mode
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-block">Save Settings</button>
                     </form>
                 </div>
 
@@ -1110,11 +1054,12 @@
                                 <th>Account Name</th>
                                 <th>Balance</th>
                                 <th>Target</th>
+                                <th>Description</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Savings accounts will be loaded here -->
+                            <!-- Accounts will be loaded here -->
                         </tbody>
                     </table>
                     <button class="btn" id="add-account-btn" style="margin-top: 15px;">
@@ -1129,16 +1074,40 @@
                             <tr>
                                 <th>Category Name</th>
                                 <th>Monthly Budget</th>
+                                <th>Description</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Expense categories will be loaded here -->
+                            <!-- Categories will be loaded here -->
                         </tbody>
                     </table>
                     <button class="btn" id="add-category-btn" style="margin-top: 15px;">
                         <i class="fas fa-plus"></i> Add Category
                     </button>
+                </div>
+
+                <!-- Add Expense Category Modal -->
+                <div id="add-category-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="closeModal('add-category-modal')">&times;</span>
+                        <h2>Add Expense Category</h2>
+                        <form id="category-form">
+                            <div class="form-group">
+                                <label class="form-label">Category Name</label>
+                                <input type="text" class="form-control" id="category-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Monthly Budget (optional)</label>
+                                <input type="number" class="form-control" id="category-budget" step="0.01" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description (optional)</label>
+                                <textarea class="form-control" id="category-description"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-block">Create Category</button>
+                        </form>
+                    </div>
                 </div>
             </section>
         </main>
@@ -1153,15 +1122,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Base URL for API
-        const BASE_URL = 'https://backend-jz65.onrender.com'; // Change this to your backend URL
+        const BASE_URL = 'https://backend-jz65.onrender.com';
+        let currentUserId = 1; // Assuming user ID 1 for demo purposes
 
         // DOM Elements
         const navLinks = document.querySelectorAll('.nav-link');
         const contentSections = document.querySelectorAll('.content-section');
         const pageTitle = document.getElementById('page-title');
-        
-        // Current user ID (in a real app, this would come from authentication)
-        const CURRENT_USER_ID = 1;
         
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
@@ -1218,30 +1185,27 @@
         // Setup event listeners for forms and buttons
         function setupEventListeners() {
             // Savings
-            document.getElementById('add-savings-btn').addEventListener('click', showAddSavingsAccountModal);
-            document.getElementById('add-savings-transaction-btn').addEventListener('click', showAddSavingsTransactionModal);
-            document.getElementById('add-account-btn').addEventListener('click', showAddSavingsAccountModal);
+            document.getElementById('add-savings-btn').addEventListener('click', () => {
+                document.getElementById('add-savings-account-modal').style.display = 'flex';
+            });
+            document.getElementById('add-savings-transaction-btn').addEventListener('click', () => {
+                document.getElementById('add-savings-transaction-modal').style.display = 'flex';
+            });
+            document.getElementById('add-account-btn').addEventListener('click', () => {
+                document.getElementById('add-savings-account-modal').style.display = 'flex';
+            });
             document.getElementById('savings-account-form').addEventListener('submit', handleAddSavingsAccount);
             document.getElementById('savings-transaction-form').addEventListener('submit', handleAddSavingsTransaction);
-            document.getElementById('close-savings-account-modal').addEventListener('click', () => {
-                document.getElementById('add-savings-account-modal').style.display = 'none';
-            });
-            document.getElementById('close-savings-transaction-modal').addEventListener('click', () => {
-                document.getElementById('add-savings-transaction-modal').style.display = 'none';
-            });
             
             // Expenses
-            document.getElementById('add-expense-btn').addEventListener('click', showAddExpenseModal);
-            document.getElementById('add-expense-category-btn').addEventListener('click', showAddExpenseCategoryModal);
-            document.getElementById('add-category-btn').addEventListener('click', showAddExpenseCategoryModal);
+            document.getElementById('add-expense-btn').addEventListener('click', () => {
+                document.getElementById('add-expense-modal').style.display = 'flex';
+            });
+            document.getElementById('add-category-btn').addEventListener('click', () => {
+                document.getElementById('add-category-modal').style.display = 'flex';
+            });
             document.getElementById('expense-form').addEventListener('submit', handleAddExpense);
-            document.getElementById('expense-category-form').addEventListener('submit', handleAddExpenseCategory);
-            document.getElementById('close-expense-modal').addEventListener('click', () => {
-                document.getElementById('add-expense-modal').style.display = 'none';
-            });
-            document.getElementById('close-expense-category-modal').addEventListener('click', () => {
-                document.getElementById('add-expense-category-modal').style.display = 'none';
-            });
+            document.getElementById('category-form').addEventListener('submit', handleAddCategory);
             
             // Tabs
             document.querySelectorAll('.tab').forEach(tab => {
@@ -1269,12 +1233,12 @@
             document.getElementById('cold-turkey-report-form').addEventListener('submit', generateColdTurkeyReport);
             
             // Settings
-            document.getElementById('account-settings-form').addEventListener('submit', saveAccountSettings);
+            document.getElementById('user-settings-form').addEventListener('submit', saveUserSettings);
             
             // Cold Turkey
             document.getElementById('cold-turkey-form').addEventListener('submit', handleStartChallenge);
             
-            // Custom date range toggles
+            // Period select changes
             document.getElementById('savings-period').addEventListener('change', function() {
                 document.getElementById('savings-custom-range').style.display = 
                     this.value === 'custom' ? 'block' : 'none';
@@ -1287,6 +1251,11 @@
                 document.getElementById('cold-turkey-custom-range').style.display = 
                     this.value === 'custom' ? 'block' : 'none';
             });
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
 
         // Show toast notification
@@ -1336,7 +1305,7 @@
         async function loadDashboardData() {
             try {
                 // Fetch summary data
-                const summary = await fetchData(`https://backend-jz65.onrender.com/fintrack/dashboard-summary/?user_id=${CURRENT_USER_ID}`);
+                const summary = await fetchData(`/fintrack/dashboard-summary/?user_id=${currentUserId}`);
                 
                 // Update dashboard cards
                 document.getElementById('total-savings').textContent = formatCurrency(summary.total_savings);
@@ -1352,11 +1321,11 @@
                     row.innerHTML = `
                         <td>${formatDate(transaction.date)}</td>
                         <td>${transaction.description || 'No description'}</td>
-                        <td>${transaction.category || 'General'}</td>
+                        <td>${transaction.category}</td>
                         <td>${formatCurrency(transaction.amount)}</td>
                         <td>
-                            <span class="badge ${transaction.type === 'expense' ? 'badge-danger' : 'badge-success'}">
-                                ${transaction.type === 'expense' ? 'Expense' : 'Savings'}
+                            <span class="badge ${transaction.type === 'savings' ? 'badge-success' : 'badge-danger'}">
+                                ${transaction.type === 'savings' ? 'Savings' : 'Expense'}
                             </span>
                         </td>
                     `;
@@ -1371,9 +1340,9 @@
         async function loadSavingsData() {
             try {
                 // Fetch savings accounts
-                const accounts = await fetchData('https://backend-jz65.onrender.com/savings/accounts/');
+                const accounts = await fetchData('/savings/accounts/');
                 
-                // Update account cards
+                // Update accounts cards
                 const accountsContainer = document.getElementById('savings-accounts-cards');
                 accountsContainer.innerHTML = '';
                 
@@ -1396,7 +1365,7 @@
                 });
                 
                 // Fetch savings transactions
-                const transactions = await fetchData('https://backend-jz65.onrender.com/savings/transactions/');
+                const transactions = await fetchData('/savings/transactions/');
                 const transactionsTable = document.querySelector('#savings-transactions tbody');
                 transactionsTable.innerHTML = '';
                 
@@ -1408,7 +1377,7 @@
                         <td>${formatCurrency(transaction.amount)}</td>
                         <td>
                             <span class="badge ${transaction.transaction_type === 'deposit' ? 'badge-success' : 'badge-danger'}">
-                                ${transaction.transaction_type === 'deposit' ? 'Deposit' : 'Withdrawal'}
+                                ${transaction.transaction_type}
                             </span>
                         </td>
                         <td>${transaction.description || 'No description'}</td>
@@ -1420,31 +1389,10 @@
                     transactionsTable.appendChild(row);
                 });
                 
-                // Update savings accounts table in settings
-                const accountsTable = document.querySelector('#savings-accounts-table tbody');
-                accountsTable.innerHTML = '';
-                
-                accounts.forEach(account => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${account.name}</td>
-                        <td>${formatCurrency(account.balance)}</td>
-                        <td>${account.target ? formatCurrency(account.target) : 'None'}</td>
-                        <td>
-                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
-                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem; background-color: var(--danger);">Delete</button>
-                        </td>
-                    `;
-                    accountsTable.appendChild(row);
-                });
-                
-                // Update dropdowns that need savings accounts
-                updateSavingsAccountDropdowns(accounts);
-                
-                return accounts;
+                // Update account dropdowns
+                updateAccountDropdowns(accounts);
             } catch (error) {
                 console.error('Error loading savings data:', error);
-                return [];
             }
         }
 
@@ -1453,45 +1401,28 @@
             return account ? account.name : 'Unknown Account';
         }
 
-        function updateSavingsAccountDropdowns(accounts) {
-            const dropdowns = [
+        function updateAccountDropdowns(accounts) {
+            const accountSelects = [
                 document.getElementById('savings-transaction-account'),
                 document.getElementById('savings-report-account')
             ];
             
-            dropdowns.forEach(dropdown => {
-                if (dropdown) {
-                    // Save the current value
-                    const currentValue = dropdown.value;
-                    
-                    // Clear and repopulate options
-                    dropdown.innerHTML = '';
-                    
-                    // Add default option
-                    const defaultOption = document.createElement('option');
-                    defaultOption.value = '';
-                    defaultOption.textContent = dropdown.id.includes('report') ? 'All Accounts' : 'Select account';
-                    dropdown.appendChild(defaultOption);
-                    
-                    // Add account options
-                    accounts.forEach(account => {
-                        const option = document.createElement('option');
-                        option.value = account.id;
-                        option.textContent = account.name;
-                        dropdown.appendChild(option);
-                    });
-                    
-                    // Restore the previous value if it still exists
-                    if (currentValue && accounts.some(a => a.id.toString() === currentValue)) {
-                        dropdown.value = currentValue;
-                    }
+            accountSelects.forEach(select => {
+                if (!select) return;
+                
+                // Clear existing options except the first one
+                while (select.options.length > 1) {
+                    select.remove(1);
                 }
+                
+                // Add new options
+                accounts.forEach(account => {
+                    const option = document.createElement('option');
+                    option.value = account.id;
+                    option.textContent = account.name;
+                    select.appendChild(option);
+                });
             });
-        }
-
-        function showAddSavingsAccountModal() {
-            document.getElementById('add-savings-account-modal').style.display = 'flex';
-            document.getElementById('savings-account-name').focus();
         }
 
         async function handleAddSavingsAccount(e) {
@@ -1520,24 +1451,17 @@
                     throw new Error(errorData.detail || 'Failed to create savings account');
                 }
                 
-                const newAccount = await response.json();
-                
                 showToast('Savings account created successfully!');
                 form.reset();
-                document.getElementById('add-savings-account-modal').style.display = 'none';
+                closeModal('add-savings-account-modal');
                 
                 // Refresh data
-                await loadSavingsData();
-                await loadDashboardData();
+                loadSavingsData();
+                loadDashboardData();
             } catch (error) {
                 console.error('Error adding savings account:', error);
                 showToast(error.message, 'error');
             }
-        }
-
-        function showAddSavingsTransactionModal() {
-            document.getElementById('add-savings-transaction-modal').style.display = 'flex';
-            document.getElementById('savings-transaction-amount').focus();
         }
 
         async function handleAddSavingsTransaction(e) {
@@ -1570,16 +1494,14 @@
                     throw new Error(errorData.detail || 'Failed to create savings transaction');
                 }
                 
-                const newTransaction = await response.json();
-                
                 showToast('Savings transaction added successfully!');
                 form.reset();
                 setCurrentDateInForms();
-                document.getElementById('add-savings-transaction-modal').style.display = 'none';
+                closeModal('add-savings-transaction-modal');
                 
                 // Refresh data
-                await loadSavingsData();
-                await loadDashboardData();
+                loadSavingsData();
+                loadDashboardData();
             } catch (error) {
                 console.error('Error adding savings transaction:', error);
                 showToast(error.message, 'error');
@@ -1598,12 +1520,11 @@
                 expensesTable.innerHTML = '';
                 
                 expenses.forEach(expense => {
-                    const category = categories.find(c => c.id === expense.category_id);
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${formatDate(expense.date)}</td>
                         <td>${expense.description || 'No description'}</td>
-                        <td>${category ? category.name : 'Unknown'}</td>
+                        <td>${getCategoryName(expense.category_id, categories)}</td>
                         <td>${formatCurrency(expense.amount)}</td>
                         <td>${expense.payment_method.replace('_', ' ')}</td>
                         <td>
@@ -1614,34 +1535,19 @@
                     expensesTable.appendChild(row);
                 });
                 
-                // Update expense categories table in settings
-                const categoriesTable = document.querySelector('#expense-categories-table tbody');
-                categoriesTable.innerHTML = '';
-                
-                categories.forEach(category => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${category.name}</td>
-                        <td>${category.monthly_budget ? formatCurrency(category.monthly_budget) : 'None'}</td>
-                        <td>
-                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
-                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem; background-color: var(--danger);">Delete</button>
-                        </td>
-                    `;
-                    categoriesTable.appendChild(row);
-                });
-                
                 // Update category cards
                 updateExpenseCategories(expenses, categories);
                 
-                // Update dropdowns that need expense categories
-                updateExpenseCategoryDropdowns(categories);
-                
-                return categories;
+                // Update category dropdowns
+                updateCategoryDropdowns(categories);
             } catch (error) {
                 console.error('Error loading expenses data:', error);
-                return [];
             }
+        }
+
+        function getCategoryName(categoryId, categories) {
+            const category = categories.find(c => c.id === categoryId);
+            return category ? category.name : 'Unknown Category';
         }
 
         function updateExpenseCategories(expenses, categories) {
@@ -1658,128 +1564,66 @@
                 };
             });
             
-            // Add "Other" category for expenses without a matching category
-            categoryTotals['other'] = {
-                name: 'Other',
-                total: 0,
-                budget: 0
-            };
-            
-            // Sum expenses by category
             expenses.forEach(expense => {
                 if (categoryTotals[expense.category_id]) {
                     categoryTotals[expense.category_id].total += expense.amount;
-                } else {
-                    categoryTotals['other'].total += expense.amount;
                 }
             });
             
             // Create category cards
-            for (const [id, category] of Object.entries(categoryTotals)) {
-                if (category.total > 0 || id !== 'other') {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    
-                    // Calculate percentage of budget used
-                    const percentage = category.budget > 0 ? 
-                        Math.round((category.total / category.budget) * 100) : 0;
-                    
-                    // Determine color based on percentage
-                    let colorClass = 'primary';
-                    if (category.budget > 0) {
-                        if (percentage > 100) {
-                            colorClass = 'danger';
-                        } else if (percentage > 75) {
-                            colorClass = 'warning';
-                        } else {
-                            colorClass = 'success';
-                        }
-                    }
-                    
-                    card.innerHTML = `
-                        <div class="card-header">
-                            <h3 class="card-title">${category.name}</h3>
-                            <div class="card-icon ${colorClass}">
-                                <i class="fas fa-tag"></i>
-                            </div>
+            for (const [categoryId, data] of Object.entries(categoryTotals)) {
+                const percentage = data.budget > 0 ? Math.round((data.total / data.budget) * 100) : 0;
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <h3 class="card-title">${data.name}</h3>
+                        <div class="card-icon ${getRandomColorClass()}">
+                            <i class="fas fa-tag"></i>
                         </div>
-                        <div class="card-value">${formatCurrency(category.total)}</div>
-                        <div class="card-description">
-                            ${category.budget > 0 ? 
-                                `${percentage}% of ${formatCurrency(category.budget)} budget` : 
-                                'No budget set'}
-                        </div>
-                    `;
-                    categoriesContainer.appendChild(card);
-                }
+                    </div>
+                    <div class="card-value">${formatCurrency(data.total)}</div>
+                    <div class="card-description">
+                        ${data.budget > 0 ? 
+                            `${percentage}% of ${formatCurrency(data.budget)} budget` : 
+                            'No budget set'}
+                    </div>
+                `;
+                categoriesContainer.appendChild(card);
             }
         }
 
-        function updateExpenseCategoryDropdowns(categories) {
-            const dropdowns = [
+        function updateCategoryDropdowns(categories) {
+            const categorySelects = [
                 document.getElementById('expense-category'),
-                document.getElementById('target-category'),
-                document.getElementById('expenses-report-category')
+                document.getElementById('expenses-report-category'),
+                document.getElementById('target-category')
             ];
             
-            dropdowns.forEach(dropdown => {
-                if (dropdown) {
-                    // Save the current value
-                    const currentValue = dropdown.value;
-                    
-                    // Clear and repopulate options
-                    dropdown.innerHTML = '';
-                    
-                    // Add default option
-                    const defaultOption = document.createElement('option');
-                    defaultOption.value = '';
-                    defaultOption.textContent = dropdown.id.includes('report') ? 'All Categories' : 'Select category';
-                    dropdown.appendChild(defaultOption);
-                    
-                    // Add category options
-                    categories.forEach(category => {
-                        const option = document.createElement('option');
-                        option.value = category.id;
-                        option.textContent = category.name;
-                        dropdown.appendChild(option);
-                    });
-                    
-                    // For target category dropdown, add special options
-                    if (dropdown.id === 'target-category') {
-                        const specialOptions = [
-                            { value: 'all_non_essential', text: 'All Non-Essential' },
-                            { value: 'entertainment', text: 'Entertainment' },
-                            { value: 'shopping', text: 'Shopping' },
-                            { value: 'dining_out', text: 'Dining Out' }
-                        ];
-                        
-                        specialOptions.forEach(opt => {
-                            const option = document.createElement('option');
-                            option.value = opt.value;
-                            option.textContent = opt.text;
-                            dropdown.appendChild(option);
-                        });
-                    }
-                    
-                    // Restore the previous value if it still exists
-                    if (currentValue && categories.some(c => c.id.toString() === currentValue)) {
-                        dropdown.value = currentValue;
-                    }
+            categorySelects.forEach(select => {
+                if (!select) return;
+                
+                // Clear existing options except the first one
+                while (select.options.length > 1) {
+                    select.remove(1);
                 }
+                
+                // Add new options
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    option.textContent = category.name;
+                    select.appendChild(option);
+                });
             });
-        }
-
-        function showAddExpenseModal() {
-            document.getElementById('add-expense-modal').style.display = 'flex';
-            document.getElementById('expense-amount').focus();
         }
 
         async function handleAddExpense(e) {
             e.preventDefault();
             
             const form = e.target;
-            const categoryId = form.querySelector('#expense-category').value;
             const amount = parseFloat(form.querySelector('#expense-amount').value);
+            const categoryId = form.querySelector('#expense-category').value;
             const paymentMethod = form.querySelector('#expense-payment-method').value;
             const date = form.querySelector('#expense-date').value;
             const description = form.querySelector('#expense-description').value;
@@ -1804,34 +1648,27 @@
                     throw new Error(errorData.detail || 'Failed to create expense');
                 }
                 
-                const newExpense = await response.json();
-                
                 showToast('Expense added successfully!');
                 form.reset();
                 setCurrentDateInForms();
-                document.getElementById('add-expense-modal').style.display = 'none';
+                closeModal('add-expense-modal');
                 
                 // Refresh data
-                await loadExpensesData();
-                await loadDashboardData();
+                loadExpensesData();
+                loadDashboardData();
             } catch (error) {
                 console.error('Error adding expense:', error);
                 showToast(error.message, 'error');
             }
         }
 
-        function showAddExpenseCategoryModal() {
-            document.getElementById('add-expense-category-modal').style.display = 'flex';
-            document.getElementById('expense-category-name').focus();
-        }
-
-        async function handleAddExpenseCategory(e) {
+        async function handleAddCategory(e) {
             e.preventDefault();
             
             const form = e.target;
-            const name = form.querySelector('#expense-category-name').value;
-            const budget = form.querySelector('#expense-category-budget').value;
-            const description = form.querySelector('#expense-category-description').value;
+            const name = form.querySelector('#category-name').value;
+            const budget = form.querySelector('#category-budget').value;
+            const description = form.querySelector('#category-description').value;
             
             try {
                 // Create form data
@@ -1848,42 +1685,45 @@
                 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.detail || 'Failed to create expense category');
+                    throw new Error(errorData.detail || 'Failed to create category');
                 }
                 
-                const newCategory = await response.json();
-                
-                showToast('Expense category created successfully!');
+                showToast('Category created successfully!');
                 form.reset();
-                document.getElementById('add-expense-category-modal').style.display = 'none';
+                closeModal('add-category-modal');
                 
                 // Refresh data
-                await loadExpensesData();
+                loadExpensesData();
             } catch (error) {
-                console.error('Error adding expense category:', error);
+                console.error('Error adding category:', error);
                 showToast(error.message, 'error');
             }
+        }
+
+        function getRandomColorClass() {
+            const colors = ['primary', 'success', 'warning', 'danger'];
+            return colors[Math.floor(Math.random() * colors.length)];
         }
 
         // Cold Turkey Functions
         async function loadColdTurkeyData() {
             try {
                 // Fetch active challenge
-                const activeChallenge = await fetchData(`/cold-turkey/challenges/${CURRENT_USER_ID}/active`);
+                const challenge = await fetchData(`/cold-turkey/challenges/${currentUserId}/active`);
                 
-                if (activeChallenge) {
-                    const startDate = new Date(activeChallenge.start_date);
+                if (challenge) {
+                    // Calculate days since start
+                    const startDate = new Date(challenge.start_date);
                     const today = new Date();
                     const days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
                     
-                    // Update cards
+                    // Update UI
                     document.getElementById('current-streak').textContent = `${days} days`;
-                    document.getElementById('cold-turkey-days').textContent = `${days} days`;
-                    document.getElementById('money-saved').textContent = formatCurrency(activeChallenge.money_saved || 0);
-                    document.getElementById('target-days').textContent = `${activeChallenge.target_days} days`;
+                    document.getElementById('money-saved').textContent = formatCurrency(challenge.money_saved || 0);
+                    document.getElementById('target-days').textContent = `${challenge.target_days} days`;
                     
                     // Calculate progress
-                    const progress = Math.min(Math.round((days / activeChallenge.target_days) * 100), 100);
+                    const progress = Math.min(Math.round((days / challenge.target_days) * 100), 100);
                     
                     const progressBar = document.getElementById('streak-progress');
                     progressBar.style.width = `${progress}%`;
@@ -1891,21 +1731,29 @@
                     
                     // Update message
                     const message = document.getElementById('streak-message');
-                    if (days >= activeChallenge.target_days) {
-                        message.textContent = `Congratulations! You've completed your ${activeChallenge.target_days}-day challenge!`;
+                    if (days >= challenge.target_days) {
+                        message.textContent = `Congratulations! You've completed your ${challenge.target_days}-day challenge!`;
                     } else {
-                        message.textContent = `Keep going! You're ${days} days into your ${activeChallenge.target_days}-day challenge.`;
+                        message.textContent = `Keep going! You're ${days} days into your ${challenge.target_days}-day challenge.`;
                     }
                     
                     // Update milestones
-                    updateMilestones(activeChallenge.milestones || [], days);
+                    updateMilestones(challenge.milestones);
                 }
             } catch (error) {
                 console.error('Error loading cold turkey data:', error);
+                // If no active challenge found, reset UI
+                document.getElementById('current-streak').textContent = '0 days';
+                document.getElementById('money-saved').textContent = formatCurrency(0);
+                document.getElementById('target-days').textContent = '0 days';
+                document.getElementById('streak-progress').style.width = '0%';
+                document.getElementById('streak-progress').textContent = '0%';
+                document.getElementById('streak-message').textContent = 'You haven\'t started your cold turkey challenge yet.';
+                document.getElementById('milestones-list').innerHTML = '';
             }
         }
 
-        function updateMilestones(milestones, currentDays) {
+        function updateMilestones(milestones) {
             const milestonesList = document.getElementById('milestones-list');
             milestonesList.innerHTML = '';
             
@@ -1919,16 +1767,10 @@
                         <span>${milestone.days} days - Milestone achieved!</span>
                         <span class="milestone-date">${formatDate(milestone.achieved_date)}</span>
                     `;
-                } else if (currentDays >= milestone.days) {
-                    milestoneElement.innerHTML = `
-                        <i class="fas fa-check-circle milestone-check"></i>
-                        <span>${milestone.days} days - Milestone achieved!</span>
-                        <span class="milestone-date">Today</span>
-                    `;
                 } else {
                     milestoneElement.innerHTML = `
                         <i class="far fa-circle"></i>
-                        <span>${milestone.days} days - Keep going!</span>
+                        <span>${milestone.days} days - Milestone</span>
                         <span class="milestone-date">-</span>
                     `;
                 }
@@ -1948,9 +1790,9 @@
             try {
                 // Create form data
                 const formData = new FormData();
-                formData.append('user_id', CURRENT_USER_ID);
-                formData.append('target_days', targetDays);
+                formData.append('user_id', currentUserId);
                 formData.append('target_category', targetCategory);
+                formData.append('target_days', targetDays);
                 formData.append('start_date', startDate);
                 
                 // Create new cold turkey challenge
@@ -1964,15 +1806,13 @@
                     throw new Error(errorData.detail || 'Failed to start challenge');
                 }
                 
-                const newChallenge = await response.json();
-                
                 showToast('Cold turkey challenge started!');
                 form.reset();
                 setCurrentDateInForms();
                 
                 // Refresh data
-                await loadColdTurkeyData();
-                await loadDashboardData();
+                loadColdTurkeyData();
+                loadDashboardData();
             } catch (error) {
                 console.error('Error starting cold turkey challenge:', error);
                 showToast(error.message, 'error');
@@ -1982,28 +1822,26 @@
         // User Settings Functions
         async function loadUserSettings() {
             try {
-                const settings = await fetchData(`/user/settings/${CURRENT_USER_ID}`);
+                const settings = await fetchData(`/user/settings/${currentUserId}`);
                 
-                // Update form fields
-                document.getElementById('user-name').value = 'John Doe'; // In a real app, this would come from user data
-                document.getElementById('user-email').value = 'john.doe@example.com'; // In a real app, this would come from user data
+                // Update UI with settings
                 document.getElementById('user-currency').value = settings.currency || 'USD';
                 document.getElementById('savings-notifications').checked = settings.savings_goals_notifications;
                 document.getElementById('expense-alerts').checked = settings.expense_alerts;
-                document.querySelector(`input[name="theme"][value="${settings.dark_mode ? 'dark' : 'light'}"]`).checked = true;
+                document.getElementById('dark-mode').checked = settings.dark_mode;
             } catch (error) {
                 console.error('Error loading user settings:', error);
             }
         }
 
-        async function saveAccountSettings(e) {
+        async function saveUserSettings(e) {
             e.preventDefault();
             
             const form = e.target;
             const currency = form.querySelector('#user-currency').value;
             const savingsNotifications = form.querySelector('#savings-notifications').checked;
             const expenseAlerts = form.querySelector('#expense-alerts').checked;
-            const darkMode = form.querySelector('input[name="theme"]:checked').value === 'dark';
+            const darkMode = form.querySelector('#dark-mode').checked;
             
             try {
                 // Create form data
@@ -2014,7 +1852,7 @@
                 formData.append('dark_mode', darkMode);
                 
                 // Update user settings
-                const response = await fetch(`${BASE_URL}/user/settings/${CURRENT_USER_ID}`, {
+                const response = await fetch(`${BASE_URL}/user/settings/${currentUserId}`, {
                     method: 'PUT',
                     body: formData
                 });
@@ -2024,11 +1862,9 @@
                     throw new Error(errorData.detail || 'Failed to save settings');
                 }
                 
-                const updatedSettings = await response.json();
+                showToast('Settings saved successfully!');
                 
-                showToast('Account settings saved successfully!');
-                
-                // Apply theme if changed
+                // Apply dark mode if enabled
                 if (darkMode) {
                     document.body.style.backgroundColor = '#212529';
                     document.body.style.color = '#f8f9fa';
@@ -2037,7 +1873,7 @@
                     document.body.style.color = '#212529';
                 }
             } catch (error) {
-                console.error('Error saving account settings:', error);
+                console.error('Error saving user settings:', error);
                 showToast(error.message, 'error');
             }
         }
@@ -2046,149 +1882,118 @@
         async function generateSavingsReport(e) {
             e.preventDefault();
             
-            const form = e.target;
-            const period = form.querySelector('#savings-period').value;
-            const accountId = form.querySelector('#savings-report-account').value;
-            
             try {
-                // Build query parameters
-                const params = new URLSearchParams();
-                params.append('user_id', CURRENT_USER_ID);
+                const period = document.getElementById('savings-period').value;
+                const accountId = document.getElementById('savings-report-account').value;
+                
+                let startDate, endDate;
                 
                 if (period === 'custom') {
-                    const startDate = form.querySelector('#savings-start-date').value;
-                    const endDate = form.querySelector('#savings-end-date').value;
-                    params.append('start_date', startDate);
-                    params.append('end_date', endDate);
+                    startDate = document.getElementById('savings-start-date').value;
+                    endDate = document.getElementById('savings-end-date').value;
                 } else {
-                    // Calculate date range based on period
+                    // Calculate dates based on period
                     const today = new Date();
-                    let startDate = new Date();
+                    endDate = today.toISOString().split('T')[0];
                     
-                    switch (period) {
-                        case 'week':
-                            startDate.setDate(today.getDate() - 7);
-                            break;
-                        case 'month':
-                            startDate.setMonth(today.getMonth() - 1);
-                            break;
-                        case 'quarter':
-                            startDate.setMonth(today.getMonth() - 3);
-                            break;
-                        case 'year':
-                            startDate.setFullYear(today.getFullYear() - 1);
-                            break;
+                    if (period === 'week') {
+                        startDate = new Date(today);
+                        startDate.setDate(today.getDate() - 7);
+                    } else if (period === 'month') {
+                        startDate = new Date(today);
+                        startDate.setMonth(today.getMonth() - 1);
+                    } else if (period === 'quarter') {
+                        startDate = new Date(today);
+                        startDate.setMonth(today.getMonth() - 3);
+                    } else if (period === 'year') {
+                        startDate = new Date(today);
+                        startDate.setFullYear(today.getFullYear() - 1);
                     }
                     
-                    params.append('start_date', startDate.toISOString().split('T')[0]);
-                    params.append('end_date', today.toISOString().split('T')[0]);
+                    startDate = startDate.toISOString().split('T')[0];
                 }
                 
-                if (accountId && accountId !== 'all') {
-                    params.append('account_id', accountId);
+                // Fetch savings transactions for the report
+                let endpoint = '/savings/transactions/';
+                if (accountId !== 'all') {
+                    endpoint += `?account_id=${accountId}`;
                 }
                 
-                // Fetch savings transactions for report
-                const transactions = await fetchData(`/savings/transactions/?${params.toString()}`);
+                const transactions = await fetchData(endpoint);
                 
-                // Show results section
-                document.getElementById('savings-report-results').style.display = 'block';
+                // Filter by date range
+                const filteredTransactions = transactions.filter(transaction => {
+                    return transaction.date >= startDate && transaction.date <= endDate;
+                });
                 
-                // Update report table
+                // Update report results
                 const tableBody = document.querySelector('#savings-report-table tbody');
                 tableBody.innerHTML = '';
                 
-                // Also fetch accounts to get names
-                const accounts = await fetchData('/savings/accounts/');
-                
-                transactions.forEach(transaction => {
+                filteredTransactions.forEach(transaction => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${formatDate(transaction.date)}</td>
-                        <td>${getAccountName(transaction.account_id, accounts)}</td>
+                        <td>${transaction.account_name || 'Unknown Account'}</td>
                         <td>${formatCurrency(transaction.amount)}</td>
+                        <td>${transaction.transaction_type}</td>
                         <td>${transaction.description || 'No description'}</td>
                     `;
                     tableBody.appendChild(row);
                 });
                 
                 // Create chart
-                createSavingsChart(transactions, accounts);
+                createSavingsChart(filteredTransactions);
                 
-                showToast('Savings report generated successfully!');
+                // Show results
+                document.getElementById('savings-report-results').style.display = 'block';
+                showToast('Savings report generated!');
             } catch (error) {
                 console.error('Error generating savings report:', error);
                 showToast(error.message, 'error');
             }
         }
 
-        function createSavingsChart(transactions, accounts) {
+        function createSavingsChart(transactions) {
             const ctx = document.getElementById('savings-chart').getContext('2d');
             
-            // Destroy previous chart if it exists
+            // Group transactions by account
+            const accounts = {};
+            transactions.forEach(transaction => {
+                const accountName = transaction.account_name || 'Unknown Account';
+                if (!accounts[accountName]) {
+                    accounts[accountName] = 0;
+                }
+                
+                if (transaction.transaction_type === 'deposit') {
+                    accounts[accountName] += transaction.amount;
+                } else {
+                    accounts[accountName] -= transaction.amount;
+                }
+            });
+            
+            // Destroy previous chart if exists
             if (window.savingsChart) {
                 window.savingsChart.destroy();
-            }
-            
-            // Group transactions by account
-            const accountData = {};
-            accounts.forEach(account => {
-                accountData[account.id] = {
-                    name: account.name,
-                    deposits: 0,
-                    withdrawals: 0
-                };
-            });
-            
-            transactions.forEach(transaction => {
-                if (accountData[transaction.account_id]) {
-                    if (transaction.transaction_type === 'deposit') {
-                        accountData[transaction.account_id].deposits += transaction.amount;
-                    } else {
-                        accountData[transaction.account_id].withdrawals += transaction.amount;
-                    }
-                }
-            });
-            
-            // Prepare data for chart
-            const accountNames = [];
-            const depositData = [];
-            const withdrawalData = [];
-            
-            for (const [id, data] of Object.entries(accountData)) {
-                if (data.deposits > 0 || data.withdrawals > 0) {
-                    accountNames.push(data.name);
-                    depositData.push(data.deposits);
-                    withdrawalData.push(-data.withdrawals); // Negative for chart
-                }
             }
             
             window.savingsChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: accountNames,
-                    datasets: [
-                        {
-                            label: 'Deposits',
-                            data: depositData,
-                            backgroundColor: 'rgba(75, 192, 192, 0.7)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Withdrawals',
-                            data: withdrawalData,
-                            backgroundColor: 'rgba(255, 99, 132, 0.7)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 1
-                        }
-                    ]
+                    labels: Object.keys(accounts),
+                    datasets: [{
+                        label: 'Net Savings',
+                        data: Object.values(accounts),
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
                 },
                 options: {
                     responsive: true,
                     scales: {
                         y: {
-                            beginAtZero: false
+                            beginAtZero: true
                         }
                     }
                 }
@@ -2198,146 +2003,110 @@
         async function generateExpensesReport(e) {
             e.preventDefault();
             
-            const form = e.target;
-            const period = form.querySelector('#expenses-period').value;
-            const categoryId = form.querySelector('#expenses-report-category').value;
-            
             try {
-                // Build query parameters
-                const params = new URLSearchParams();
-                params.append('user_id', CURRENT_USER_ID);
+                const period = document.getElementById('expenses-period').value;
+                const categoryId = document.getElementById('expenses-report-category').value;
+                
+                let startDate, endDate;
                 
                 if (period === 'custom') {
-                    const startDate = form.querySelector('#expenses-start-date').value;
-                    const endDate = form.querySelector('#expenses-end-date').value;
-                    params.append('start_date', startDate);
-                    params.append('end_date', endDate);
+                    startDate = document.getElementById('expenses-start-date').value;
+                    endDate = document.getElementById('expenses-end-date').value;
                 } else {
-                    // Calculate date range based on period
+                    // Calculate dates based on period
                     const today = new Date();
-                    let startDate = new Date();
+                    endDate = today.toISOString().split('T')[0];
                     
-                    switch (period) {
-                        case 'week':
-                            startDate.setDate(today.getDate() - 7);
-                            break;
-                        case 'month':
-                            startDate.setMonth(today.getMonth() - 1);
-                            break;
-                        case 'quarter':
-                            startDate.setMonth(today.getMonth() - 3);
-                            break;
-                        case 'year':
-                            startDate.setFullYear(today.getFullYear() - 1);
-                            break;
+                    if (period === 'week') {
+                        startDate = new Date(today);
+                        startDate.setDate(today.getDate() - 7);
+                    } else if (period === 'month') {
+                        startDate = new Date(today);
+                        startDate.setMonth(today.getMonth() - 1);
+                    } else if (period === 'quarter') {
+                        startDate = new Date(today);
+                        startDate.setMonth(today.getMonth() - 3);
+                    } else if (period === 'year') {
+                        startDate = new Date(today);
+                        startDate.setFullYear(today.getFullYear() - 1);
                     }
                     
-                    params.append('start_date', startDate.toISOString().split('T')[0]);
-                    params.append('end_date', today.toISOString().split('T')[0]);
+                    startDate = startDate.toISOString().split('T')[0];
                 }
                 
-                if (categoryId && categoryId !== 'all') {
-                    params.append('category_id', categoryId);
+                // Fetch expenses for the report
+                let endpoint = '/expenses/';
+                if (categoryId !== 'all') {
+                    endpoint += `?category_id=${categoryId}`;
                 }
                 
-                // Fetch expenses for report
-                const expenses = await fetchData(`/expenses/?${params.toString()}`);
+                const expenses = await fetchData(endpoint);
                 
-                // Show results section
-                document.getElementById('expenses-report-results').style.display = 'block';
+                // Filter by date range
+                const filteredExpenses = expenses.filter(expense => {
+                    return expense.date >= startDate && expense.date <= endDate;
+                });
                 
-                // Update report table
+                // Update report results
                 const tableBody = document.querySelector('#expenses-report-table tbody');
                 tableBody.innerHTML = '';
                 
-                // Also fetch categories to get names
-                const categories = await fetchData('/expenses/categories/');
-                
-                expenses.forEach(expense => {
-                    const category = categories.find(c => c.id === expense.category_id);
+                filteredExpenses.forEach(expense => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${formatDate(expense.date)}</td>
-                        <td>${category ? category.name : 'Unknown'}</td>
+                        <td>${expense.category_name || 'Unknown Category'}</td>
                         <td>${formatCurrency(expense.amount)}</td>
+                        <td>${expense.payment_method.replace('_', ' ')}</td>
                         <td>${expense.description || 'No description'}</td>
                     `;
                     tableBody.appendChild(row);
                 });
                 
                 // Create chart
-                createExpensesChart(expenses, categories);
+                createExpensesChart(filteredExpenses);
                 
-                showToast('Expenses report generated successfully!');
+                // Show results
+                document.getElementById('expenses-report-results').style.display = 'block';
+                showToast('Expenses report generated!');
             } catch (error) {
                 console.error('Error generating expenses report:', error);
                 showToast(error.message, 'error');
             }
         }
 
-        function createExpensesChart(expenses, categories) {
+        function createExpensesChart(expenses) {
             const ctx = document.getElementById('expenses-chart').getContext('2d');
             
-            // Destroy previous chart if it exists
+            // Group expenses by category
+            const categories = {};
+            expenses.forEach(expense => {
+                const categoryName = expense.category_name || 'Unknown Category';
+                if (!categories[categoryName]) {
+                    categories[categoryName] = 0;
+                }
+                categories[categoryName] += expense.amount;
+            });
+            
+            // Destroy previous chart if exists
             if (window.expensesChart) {
                 window.expensesChart.destroy();
-            }
-            
-            // Group expenses by category
-            const categoryData = {};
-            categories.forEach(category => {
-                categoryData[category.id] = {
-                    name: category.name,
-                    total: 0
-                };
-            });
-            
-            // Add "Other" category
-            categoryData['other'] = {
-                name: 'Other',
-                total: 0
-            };
-            
-            expenses.forEach(expense => {
-                if (categoryData[expense.category_id]) {
-                    categoryData[expense.category_id].total += expense.amount;
-                } else {
-                    categoryData['other'].total += expense.amount;
-                }
-            });
-            
-            // Prepare data for chart
-            const categoryNames = [];
-            const expenseData = [];
-            const backgroundColors = [];
-            
-            const colors = [
-                'rgba(255, 99, 132, 0.7)',
-                'rgba(54, 162, 235, 0.7)',
-                'rgba(255, 206, 86, 0.7)',
-                'rgba(75, 192, 192, 0.7)',
-                'rgba(153, 102, 255, 0.7)',
-                'rgba(255, 159, 64, 0.7)',
-                'rgba(199, 199, 199, 0.7)'
-            ];
-            
-            let colorIndex = 0;
-            for (const [id, data] of Object.entries(categoryData)) {
-                if (data.total > 0 || id !== 'other') {
-                    categoryNames.push(data.name);
-                    expenseData.push(data.total);
-                    backgroundColors.push(colors[colorIndex % colors.length]);
-                    colorIndex++;
-                }
             }
             
             window.expensesChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: categoryNames,
+                    labels: Object.keys(categories),
                     datasets: [{
-                        data: expenseData,
-                        backgroundColor: backgroundColors,
+                        data: Object.values(categories),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(255, 159, 64, 0.7)'
+                        ],
                         borderWidth: 1
                     }]
                 },
@@ -2355,58 +2124,53 @@
         async function generateColdTurkeyReport(e) {
             e.preventDefault();
             
-            const form = e.target;
-            const period = form.querySelector('#cold-turkey-period').value;
-            
             try {
-                // Build query parameters
-                const params = new URLSearchParams();
-                params.append('user_id', CURRENT_USER_ID);
+                const period = document.getElementById('cold-turkey-period').value;
+                
+                let startDate, endDate;
                 
                 if (period === 'custom') {
-                    const startDate = form.querySelector('#cold-turkey-start-date').value;
-                    const endDate = form.querySelector('#cold-turkey-end-date').value;
-                    params.append('start_date', startDate);
-                    params.append('end_date', endDate);
-                } else if (period !== 'all') {
-                    // Calculate date range based on period
+                    startDate = document.getElementById('cold-turkey-start-date').value;
+                    endDate = document.getElementById('cold-turkey-end-date').value;
+                } else {
+                    // Calculate dates based on period
                     const today = new Date();
-                    let startDate = new Date();
+                    endDate = today.toISOString().split('T')[0];
                     
-                    switch (period) {
-                        case 'month':
-                            startDate.setMonth(today.getMonth() - 1);
-                            break;
-                        case 'year':
-                            startDate.setFullYear(today.getFullYear() - 1);
-                            break;
+                    if (period === 'month') {
+                        startDate = new Date(today);
+                        startDate.setMonth(today.getMonth() - 1);
+                    } else if (period === 'year') {
+                        startDate = new Date(today);
+                        startDate.setFullYear(today.getFullYear() - 1);
+                    } else {
+                        // All time - no date filter
+                        startDate = '1970-01-01';
                     }
-                    
-                    params.append('start_date', startDate.toISOString().split('T')[0]);
-                    params.append('end_date', today.toISOString().split('T')[0]);
                 }
                 
-                // Fetch cold turkey challenges for report
-                const challenges = await fetchData(`https://backend-jz65.onrender.com/cold-turkey/challenges/?${params.toString()}`);
+                // Fetch all challenges (in a real app, we would filter by user_id)
+                const challenges = await fetchData('/cold-turkey/challenges/');
                 
-                // Show results section
-                document.getElementById('cold-turkey-report-results').style.display = 'block';
+                // Filter by date range
+                const filteredChallenges = challenges.filter(challenge => {
+                    return challenge.start_date >= startDate && 
+                          (challenge.end_date ? challenge.end_date <= endDate : true);
+                });
                 
-                // Update report table
+                // Update report results
                 const tableBody = document.querySelector('#cold-turkey-report-table tbody');
                 tableBody.innerHTML = '';
                 
-                challenges.forEach(challenge => {
+                filteredChallenges.forEach(challenge => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${formatDate(challenge.start_date)}</td>
-                        <td>${challenge.end_date ? formatDate(challenge.end_date) : 'Ongoing'}</td>
-                        <td>${challenge.end_date ? 
-                            Math.floor((new Date(challenge.end_date) - new Date(challenge.start_date)) / (1000 * 60 * 60 * 24) : 
-                            Math.floor((new Date() - new Date(challenge.start_date)) / (1000 * 60 * 60 * 24)} days</td>
+                        <td>${challenge.end_date ? formatDate(challenge.end_date) : '-'}</td>
+                        <td>${challenge.days_completed || 0} days</td>
                         <td>${challenge.target_category}</td>
                         <td>
-                            <span class="badge ${challenge.status === 'active' ? 'badge-success' : 'badge-warning'}">
+                            <span class="badge ${challenge.status === 'completed' ? 'badge-success' : 'badge-warning'}">
                                 ${challenge.status}
                             </span>
                         </td>
@@ -2416,9 +2180,11 @@
                 });
                 
                 // Create chart
-                createColdTurkeyChart(challenges);
+                createColdTurkeyChart(filteredChallenges);
                 
-                showToast('Cold turkey report generated successfully!');
+                // Show results
+                document.getElementById('cold-turkey-report-results').style.display = 'block';
+                showToast('Cold turkey report generated!');
             } catch (error) {
                 console.error('Error generating cold turkey report:', error);
                 showToast(error.message, 'error');
@@ -2428,69 +2194,34 @@
         function createColdTurkeyChart(challenges) {
             const ctx = document.getElementById('cold-turkey-chart').getContext('2d');
             
-            // Destroy previous chart if it exists
-            if (window.coldTurkeyChart) {
-                window.coldTurkeyChart.destroy();
-            }
-            
             // Prepare data for chart
             const labels = challenges.map(challenge => 
                 `${formatDate(challenge.start_date)} - ${challenge.target_category}`
             );
-            const moneySaved = challenges.map(challenge => challenge.money_saved || 0);
-            const durations = challenges.map(challenge => 
-                challenge.end_date ? 
-                Math.floor((new Date(challenge.end_date) - new Date(challenge.start_date)) / (1000 * 60 * 60 * 24)) :
-                Math.floor((new Date() - new Date(challenge.start_date)) / (1000 * 60 * 60 * 24))
-            );
+            const data = challenges.map(challenge => challenge.money_saved || 0);
+            
+            // Destroy previous chart if exists
+            if (window.coldTurkeyChart) {
+                window.coldTurkeyChart.destroy();
+            }
             
             window.coldTurkeyChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
-                    datasets: [
-                        {
-                            label: 'Money Saved',
-                            data: moneySaved,
-                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1,
-                            yAxisID: 'y'
-                        },
-                        {
-                            label: 'Duration (days)',
-                            data: durations,
-                            backgroundColor: 'rgba(255, 206, 86, 0.7)',
-                            borderColor: 'rgba(255, 206, 86, 1)',
-                            borderWidth: 1,
-                            yAxisID: 'y1',
-                            type: 'line'
-                        }
-                    ]
+                    datasets: [{
+                        label: 'Money Saved',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
                 },
                 options: {
                     responsive: true,
                     scales: {
                         y: {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            title: {
-                                display: true,
-                                text: 'Money Saved'
-                            }
-                        },
-                        y1: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            title: {
-                                display: true,
-                                text: 'Duration (days)'
-                            },
-                            grid: {
-                                drawOnChartArea: false
-                            }
+                            beginAtZero: true
                         }
                     }
                 }
@@ -2499,10 +2230,9 @@
 
         // Utility Functions
         function formatCurrency(amount) {
-            if (isNaN(amount)) amount = 0;
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: document.getElementById('user-currency')?.value || 'USD'
+                currency: 'USD'
             }).format(amount);
         }
 
